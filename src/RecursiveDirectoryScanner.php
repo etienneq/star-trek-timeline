@@ -5,12 +5,24 @@ class RecursiveDirectoryScanner
 {
     public function getFiles(string $dir, string $ending):array
     {
+        $files = [];
+        foreach ($this->getFilesRecursively($dir, $ending) as $file) {
+            $key = trim(substr($file, strlen($dir)), '/\\');
+            $files[$key] = $file;
+        }
+
+        return $files;
+    }
+    
+    protected function getFilesRecursively(string $dir, string $ending):array
+    {
         $listing = scandir($dir);
         if ($listing === false) {
             throw new \Exception("Error scanning directory {$dir}");
         }
         
         $foundFiles = [];
+        $foundInSubdirectory = [];
         
         foreach ($listing as $name) {
             if ($name === '.' || $name === '..') {
@@ -26,10 +38,10 @@ class RecursiveDirectoryScanner
                 
                 $foundFiles[] = $fullPath;
             } elseif (is_dir($fullPath) === true) {
-                $foundFiles = array_merge($foundFiles, $this->getFiles($fullPath, $ending));
+                $foundInSubdirectory = array_merge($foundInSubdirectory, $this->getFilesRecursively($fullPath, $ending));
             }
         }
         
-        return $foundFiles;
+        return array_merge($foundFiles, $foundInSubdirectory);
     }
 }

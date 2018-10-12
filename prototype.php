@@ -6,6 +6,7 @@
 use League\Csv\Reader;
 use EtienneQ\Stardate\Calculator;
 use EtienneQ\StarTrekTimeline\RecursiveDirectoryScanner;
+use EtienneQ\StarTrekTimeline\MetaDataFactory;
 
 require_once __DIR__.'/vendor/autoload.php';
 
@@ -26,23 +27,21 @@ $tngEraSeries = [
     'tv/voy',
 ];
 
-$endingDataFile = 'csv';
-$endingMetaDataFile = 'json';
-
 $scanner = new RecursiveDirectoryScanner();
-$dataFiles = $scanner->getFiles($resourcesDir, $endingDataFile);
-// @todo meta daten verarbeiten
-// $metaDataFiles = $scanner->getFiles($resourcesDir, $endingMetaDataFile);
+
+// Load meta data
+$metaDataFiles = $scanner->getFiles($resourcesDir, 'json');
+$metaDataFactory = new MetaDataFactory($metaDataFiles);
+
+// Load all data files
+$dataFiles = $scanner->getFiles($resourcesDir, 'csv');
 
 $fileHeaders = ['number', 'title', 'startDate', 'endDate', 'startStardate', 'endStardate', 'publicationDate', 'after', 'details'];
 
 $items = [];
 $itemsManualSort = [];
 
-// Load all files
-foreach ($dataFiles as $file) {
-    $simpleFileName = str_replace($resourcesDir.'/', '', $file);
-    
+foreach ($dataFiles as $simpleFileName => $file) {
     $reader = Reader::createFromPath($file, 'r');
     
 	$reader->setHeaderOffset(0);
@@ -51,13 +50,14 @@ foreach ($dataFiles as $file) {
 	    throw new \Exception("Headers in {$simpleFileName} do not match expectations.");
 	}
 	
-	$headers = array_merge(['package', 'key', 'file'], $headers);
+	$headers = array_merge(['package', 'key'], $headers);
 
 	$lastParentRecord = null;
-	
+
 	foreach($reader->getRecords() as $record) {
-	    $record['package'] = substr($simpleFileName, 0, strrpos($simpleFileName, '/'));
-	    $record['file'] = substr($simpleFileName, strrpos($simpleFileName, '/') + 1);
+	    $pathInfo = pathinfo($simpleFileName);
+	    $packageName = $pathInfo['dirname'].'/'.$pathInfo['filename'];
+	    $record['package'] = $metaDataFactory->getMetaData($packageName);
 	    
 	    if (empty($record['number']) === true || $record['number'] === '--') {
 	        $words = preg_split("/\s+/", trim(preg_replace('/[^a-z0-9]/i', ' ', $record['title'])));
@@ -69,10 +69,10 @@ foreach ($dataFiles as $file) {
 	        $acronym = $record['number'];
 	    }
 	    
-	    $record['key'] = $record['package'].'-'.$record['file'].'-'.$acronym;
+	    $record['key'] = $record['package']->id.'-'.$acronym;
 		
 	    // Overwrites startDate and endDate when stardate is given
-		if (in_array($record['package'], $tngEraSeries) === true) {
+	    if (in_array($record['package']->id, $tngEraSeries) === true) {
 		    if (empty($record['startStardate']) === false) {
 		        $record['startDate'] = $calculator->toGregorianDate($record['startStardate'])->format('Y-m-d');
 		    }
@@ -149,8 +149,8 @@ $sort = function($a, $b) use ($tngEraSeries, $datePattern, $datePositions) {
 	
 	// TNG-era series or same package AND pub date defined -> sort by pub date
 	if ((
-	       (in_array($a['package'], $tngEraSeries) === true && in_array($b['package'], $tngEraSeries) === true) ||
-	       $a['package'] === $b['package']
+	       (in_array($a['package']->id, $tngEraSeries) === true && in_array($b['package']->id, $tngEraSeries) === true) ||
+	       $a['package']->id === $b['package']->id
 	    ) &&
 	    empty($a['publicationDate']) === false &&
 	    empty($b['publicationDate']) === false
@@ -163,7 +163,7 @@ $sort = function($a, $b) use ($tngEraSeries, $datePattern, $datePositions) {
 	}
 	
 	// Same package -> sort by number
-	if ($a['package'] === $b['package']) {
+	if ($a['package']->id === $b['package']->id) {
 	    $result = $a['number'] <=> $b['number'];
 	}
 
@@ -220,7 +220,8 @@ foreach ($items as $item) {
     }
     
     echo '<div class="item">';
-    echo "({$item['package']})";
+    echo "[{$item['package']->media}] ";
+    echo $item['package']->symbol;
     
     if ($item['number'] === '--') {
         echo " \"{$item['parent']['title']}\"";
