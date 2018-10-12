@@ -33,7 +33,10 @@ $files = [
 	'novels/pocket/ent/rise-of-the-federation.csv',
     'novels/pocket/ent/pre-relaunch.csv',
     'novels/pocket/tng/pre-relaunch.csv',
+    'novels/pocket/tales-from-the-captains-table.csv',
 ];
+
+$fileHeaders = ['number', 'title', 'startDate', 'endDate', 'startStardate', 'endStardate', 'publicationDate', 'after', 'details'];
 
 $items = [];
 $itemsManualSort = [];
@@ -41,14 +44,22 @@ $itemsManualSort = [];
 // Load all files
 foreach ($files as $file) {
     $reader = Reader::createFromPath($resourcesDir.$file, 'r');
+    
 	$reader->setHeaderOffset(0);
 	$headers = $reader->getHeader(); 
+	if ($headers != $fileHeaders) {
+	    throw new \Exception("Headers in {$file} do not match expectations.");
+	}
+	
 	$headers = array_merge(['package', 'key', 'file'], $headers);
+
+	$lastParentRecord = null;
+	
 	foreach($reader->getRecords() as $record) {
 	    $record['package'] = substr($file, 0, strrpos($file, '/'));
 	    $record['file'] = substr($file, strrpos($file, '/') + 1);
 	    
-	    if (empty($record['number']) === true) {
+	    if (empty($record['number']) === true || $record['number'] === '--') {
 	        $words = preg_split("/\s+/", trim(preg_replace('/[^a-z0-9]/i', ' ', $record['title'])));
 	        $acronym = '';
 	        foreach ($words as $word) {
@@ -73,6 +84,20 @@ foreach ($files as $file) {
 		if (empty($record['startDate']) === true) {
 		    throw new \Exception("Either start date must be set. Missing for {$record['key']}");
 		}
+		
+		if ($record['number'] !== '--') {
+		    $lastParentRecord = $record;
+		}
+		
+		if ($record['number'] === '--') {
+		    if ($lastParentRecord === null) {
+		        throw new \Exception("Parent record not found for {$record['key']}.");
+		    }
+		    
+		    $record['publicationDate'] = $lastParentRecord['publicationDate'];
+		    $record['parent'] = $lastParentRecord;
+		} 
+		
 		
 		if (empty($record['after']) === true) {
 		    $items[$record['key']] = $record;
@@ -196,8 +221,18 @@ foreach ($items as $item) {
     
     echo '<div class="item">';
     echo "({$item['package']})";
-    echo " {$item['number']}";
-    echo " \"{$item['title']}\"";
+    
+    if ($item['number'] === '--') {
+        echo " \"{$item['parent']['title']}\"";
+        if (empty($item['details']) === false) {
+            echo " ({$item['details']})";
+        }
+        echo " <i>- {$item['title']}</i> (see primary entry in ".substr($item['parent']['startDate'], 0, 4).")";
+    } else {
+        echo " {$item['number']}";
+        echo " \"{$item['title']}\"";
+    }
+    
     if (empty($item['startStardate']) === false) {
         echo " - Stardate {$item['startStardate']}";
         if (empty($item['endStardate']) === false) {
@@ -222,6 +257,11 @@ foreach ($items as $item) {
         echo ' - ';
         echo (new \DateTime($item['startDate'].'-01'))->format('F Y');
     }
+    
+    if ($item['number'] !== '--' && empty($item['details']) === false) {
+        echo "<i> - {$item['details']}</i>";
+    }
+    
     echo '</div>';
     
     $previousYear = $year;
