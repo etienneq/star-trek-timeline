@@ -1,19 +1,19 @@
 ## 2151
-* [TV] ENT 1x01/02 "Broken Bow" - April 16, 2151
-* [TV] ENT 1x05 "Unexpected" - May 1, 2151
-* [TV] ENT 1x03 "Fight or Flight" - May 6, 2151
+* [TV] ENT 1x01/02 "Broken Bow" - April 16
+* [TV] ENT 1x05 "Unexpected" - May 1
+* [TV] ENT 1x03 "Fight or Flight" - May 6
 * [TV] ENT 1x04 "Strange New World"
 * [TV] ENT 1x06 "Terra Nova"
-* [TV] ENT 1x07 "The Andorian Incident" - June 19, 2151
+* [TV] ENT 1x07 "The Andorian Incident" - June 19
 * [TV] ENT 1x08 "Breaking the Ice"
-* [TV] ENT 1x09 "Civilization" - July 31, 2151
+* [TV] ENT 1x09 "Civilization" - July 31
 * [TV] ENT 1x10 "Fortunate Son"
 * [TV] ENT 1x11 "Cold Front"
-* [TV] ENT 1x12 "Silent Enemy" - September 1, 2151
+* [TV] ENT 1x12 "Silent Enemy" - September 1
 * [TV] ENT 1x13 "Dear Doctor"
 * [TV] ENT 1x14 "Sleeping Dogs"
 * [TV] ENT 1x15 "Shadows of P'Jem"
-* [TV] ENT 1x16 "Shuttlepod One" - November 9, 2151
+* [TV] ENT 1x16 "Shuttlepod One" - November 9
 * [TV] ENT 1x17 "Fusion"
 * [TV] ENT 1x18 "Rogue Planet"
 * [TV] ENT 1x19 "Acquisition"
@@ -23,9 +23,9 @@
 * [TV] ENT 1x22 "Vox Sola"
 
 ## 2152
-* [TV] ENT 1x23 "Fallen Hero" - February 9, 2152
-* [TV] ENT 1x24 "Desert Crossing" - February 12, 2152
-* [TV] ENT 1x25 "Two Days and Two Nights" - February 18, 2152
+* [TV] ENT 1x23 "Fallen Hero" - February 9
+* [TV] ENT 1x24 "Desert Crossing" - February 12
+* [TV] ENT 1x25 "Two Days and Two Nights" - February 18
 * [TV] ENT 1x26 "Shockwave, Part I"
 
 ## 2162
@@ -35,20 +35,20 @@
 * [novel] ROTF "Tower of Babel" - October 19, 2163 to November 18, 2164
 
 ## 2165
-* [novel] ROTF "Uncertain Logic" - January 6 to June 29, 2165
-* [novel] ROTF "Live by the Code" - July 8 to December 29, 2165
+* [novel] ROTF "Uncertain Logic" - January 6 to June 29
+* [novel] ROTF "Live by the Code" - July 8 to December 29
 * [novel] ROTF "Patterns of Interference" - December 9, 2165 to March 18, 2166
 
 ## 2256
-* [TV] DSC 1x01 "The Vulcan Hello" - May 11, 2256
-* [TV] DSC 1x02 "Battle at the Binary Stars" - May 2256
-* [TV] DSC 1x03 "Context Is for Kings" - December 2256
-* [TV] DSC 1x04 "The Butcher's Knife Cares Not for the Lamb's Cry" - December 2256
-* [TV] DSC 1x05 "Choose Your Pain" - December 2256
-* [TV] DSC 1x06 "Lethe" - December 2256
+* [TV] DSC 1x01 "The Vulcan Hello" - May 11
+* [TV] DSC 1x02 "Battle at the Binary Stars" - May
+* [TV] DSC 1x03 "Context Is for Kings" - December
+* [TV] DSC 1x04 "The Butcher's Knife Cares Not for the Lamb's Cry" - December
+* [TV] DSC 1x05 "Choose Your Pain" - December
+* [TV] DSC 1x06 "Lethe" - December
 
 ## 2257
-* [TV] DSC 1x07 "Magic to Make the Sanest Man Go Mad" - January 2257
+* [TV] DSC 1x07 "Magic to Make the Sanest Man Go Mad" - January
 * [TV] DSC 1x08 "Si Vis Pacem, Para Bellum"
 * [TV] DSC 1x09 "Into the Forest I Go"
 * [TV] DSC 1x10 "Despite Yourself"
@@ -119,4 +119,4 @@
 * [TV] DS9 1x20 "In the Hands of the Prophets"
 
 ## 2373
-* [anthology] TFTCT "An Easy Fast" - September 29, 2373 - sections 1, 3, 5, 7, 9, 11, 13, 15
+* [anthology] TFTCT "An Easy Fast" - September 29 - sections 1, 3, 5, 7, 9, 11, 13, 15
