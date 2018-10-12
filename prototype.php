@@ -244,19 +244,21 @@ foreach ($items as $item) {
         $startDate = new \DateTime($item['startDate']);
         if(strlen($item['endDate']) === 10) {
             $endDate = new \DateTime($item['endDate']);
-            if ($endDate->format('Y-m') === $startDate->format('Y-m')) {
-                echo $startDate->format('F j').'-'.$endDate->format('j, Y');
-            } elseif ($endDate->format('Y') === $startDate->format('Y')) {
-                echo $startDate->format('F j').' to '.$endDate->format('F j, Y');
+            if ($endDate->format('Y-m') === $startDate->format('Y-m')) { // same year & month
+                echo $startDate->format('F j').'-'.$endDate->format('j');
+            } elseif ($endDate->format('Y') === $startDate->format('Y')) { // just same year
+                echo $startDate->format('F j').' to '.$endDate->format('F j');
             } else {
                 echo $startDate->format('F j, Y').' to '.$endDate->format('F j, Y');
             }
+        } elseif ($startDate->format('Y') == $year) {
+            echo $startDate->format('F j');
         } else {
             echo $startDate->format('F j, Y');
         }
     } elseif(strlen($item['startDate']) === 7) { // year & month
         echo ' - ';
-        echo (new \DateTime($item['startDate'].'-01'))->format('F Y');
+        echo (new \DateTime($item['startDate'].'-01'))->format('F');
     }
     
     if ($item['number'] !== '--' && empty($item['details']) === false) {
