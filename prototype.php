@@ -5,10 +5,11 @@
 
 use League\Csv\Reader;
 use EtienneQ\Stardate\Calculator;
+use EtienneQ\StarTrekTimeline\RecursiveDirectoryScanner;
 
 require_once __DIR__.'/vendor/autoload.php';
 
-$resourcesDir = __DIR__.'/resources/';
+$resourcesDir = __DIR__.'/resources';
 
 $calculator = new Calculator();
 
@@ -25,16 +26,13 @@ $tngEraSeries = [
     'tv/voy',
 ];
 
-$files = [
-	'tv/tng/season6.csv',
-	'tv/ds9/season1.csv',
-    'tv/ent/season1.csv',
-    'tv/dsc/season1.csv',
-	'novels/pocket/ent/rise-of-the-federation.csv',
-    'novels/pocket/ent/pre-relaunch.csv',
-    'novels/pocket/tng/pre-relaunch.csv',
-    'novels/pocket/tales-from-the-captains-table.csv',
-];
+$endingDataFile = 'csv';
+$endingMetaDataFile = 'json';
+
+$scanner = new RecursiveDirectoryScanner();
+$dataFiles = $scanner->getFiles($resourcesDir, $endingDataFile);
+// @todo meta daten verarbeiten
+// $metaDataFiles = $scanner->getFiles($resourcesDir, $endingMetaDataFile);
 
 $fileHeaders = ['number', 'title', 'startDate', 'endDate', 'startStardate', 'endStardate', 'publicationDate', 'after', 'details'];
 
@@ -42,13 +40,15 @@ $items = [];
 $itemsManualSort = [];
 
 // Load all files
-foreach ($files as $file) {
-    $reader = Reader::createFromPath($resourcesDir.$file, 'r');
+foreach ($dataFiles as $file) {
+    $simpleFileName = str_replace($resourcesDir.'/', '', $file);
+    
+    $reader = Reader::createFromPath($file, 'r');
     
 	$reader->setHeaderOffset(0);
 	$headers = $reader->getHeader(); 
 	if ($headers != $fileHeaders) {
-	    throw new \Exception("Headers in {$file} do not match expectations.");
+	    throw new \Exception("Headers in {$simpleFileName} do not match expectations.");
 	}
 	
 	$headers = array_merge(['package', 'key', 'file'], $headers);
@@ -56,8 +56,8 @@ foreach ($files as $file) {
 	$lastParentRecord = null;
 	
 	foreach($reader->getRecords() as $record) {
-	    $record['package'] = substr($file, 0, strrpos($file, '/'));
-	    $record['file'] = substr($file, strrpos($file, '/') + 1);
+	    $record['package'] = substr($simpleFileName, 0, strrpos($simpleFileName, '/'));
+	    $record['file'] = substr($simpleFileName, strrpos($simpleFileName, '/') + 1);
 	    
 	    if (empty($record['number']) === true || $record['number'] === '--') {
 	        $words = preg_split("/\s+/", trim(preg_replace('/[^a-z0-9]/i', ' ', $record['title'])));

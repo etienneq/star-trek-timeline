@@ -7,5 +7,15 @@
 	    "php" : "7.2.*",
         "league/csv": "^9.0",
         "etienneq/stardate-calculator": "dev-master"
+    },
+    "autoload" : {
+        "psr-4" : {
+            "EtienneQ\\StarTrekTimeline\\" : "src"
+        }
+    },
+    "autoload-dev" : {
+        "psr-4" : {
+            "Tests\\EtienneQ\\StarTrekTimeline\\" : "tests"
+        }
     }
 }
