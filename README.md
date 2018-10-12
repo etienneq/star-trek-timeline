@@ -40,4 +40,4 @@ I'm planning to launch a website which utilizes this library to make the timelin
 
 ## Data sources
 
-* Discovery Season 1 data: [https://startreklitverse.yolasite.com/discovery-chronology.php](https://startreklitverse.yolasite.com/discovery-chronology.php)
+* Discovery Season 1: [https://startreklitverse.yolasite.com/discovery-chronology.php](https://startreklitverse.yolasite.com/discovery-chronology.php)
