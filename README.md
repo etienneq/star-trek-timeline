@@ -1,6 +1,6 @@
 # Star Trek Timeline
 
-A Star Trek fiction timeline covering all media (TV, cinema, streaming, novels, comics), written in PHP.
+A Star Trek fiction timeline covering all media (TV, cinema, novels, comics), written in PHP.
 
 **At the moment this is just a prototype.**
 
@@ -27,12 +27,13 @@ An API will be provided to read the timeline in an object-oriented fashion.
 Additionally it will be possible to filter timeline entries by year, series etc.
 
 At the moment just few data is present:
+* DSC season 1
 * ENT season 1
 * ENT novel "What Price Honor?"
 * ENT Rise of the Federation novels
-* DS9 season 1
 * TNG season 6
 * TNG novel "Requiem"
+* DS9 season 1
 
  But it's enough to demonstrate the intended potential. Take a look [here](timeline_example.md).
 
