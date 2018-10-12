@@ -12,10 +12,10 @@ $resourcesDir = __DIR__.'/resources/';
 
 $calculator = new Calculator();
 
-$datePattern = '/^([0-9]{4})((-([0-9]{2}))?-([0-9]{2}))?$/';
+$datePattern = '/^([0-9]{4})(-([0-9]{2}))?(-([0-9]{2}))?$/';
 $datePositions = [
     'year' => 1,
-    'month' => 4,
+    'month' => 3,
     'day' => 5,
 ];
 
@@ -29,6 +29,7 @@ $files = [
 	'tv/tng/season6.csv',
 	'tv/ds9/season1.csv',
     'tv/ent/season1.csv',
+    'tv/dsc/season1.csv',
 	'novels/pocket/ent/rise-of-the-federation.csv',
     'novels/pocket/ent/pre-relaunch.csv',
     'novels/pocket/tng/pre-relaunch.csv',
@@ -85,14 +86,16 @@ foreach ($files as $file) {
 $sort = function($a, $b) use ($tngEraSeries, $datePattern, $datePositions) {
     $result = false;
     
+    // Sort by start stardate
 	if (empty($a['startStardate']) === false && empty($b['startStardate']) === false) {
 		$result = (float)$a['startStardate'] <=> (float)$b['startStardate'];
 	}
 	
-	if ($result !== 0 && $result !== false) { // compared but not equal
+	if ($result !== false && $result !== 0) { // compared but not equal
 	    return $result;
 	}
 	
+	// Sort by start date as exactly as possible
 	if (empty($a['startDate']) === false && empty($b['startDate']) === false) {
 	    $datePartsA = [];
 	    $datePartsB = [];
@@ -115,10 +118,11 @@ $sort = function($a, $b) use ($tngEraSeries, $datePattern, $datePositions) {
 	    }
 	}
 	
-	if ($result !== 0 && $result !== false) { // compared but not equal
+	if ($result !== false && $result !== 0) { // compared but not equal
 	    return $result;
 	}
 	
+	// TNG-era series or same package AND pub date defined -> sort by pub date
 	if ((
 	       (in_array($a['package'], $tngEraSeries) === true && in_array($b['package'], $tngEraSeries) === true) ||
 	       $a['package'] === $b['package']
@@ -127,6 +131,15 @@ $sort = function($a, $b) use ($tngEraSeries, $datePattern, $datePositions) {
 	    empty($b['publicationDate']) === false
     ) {
         $result = (new \DateTime($a['publicationDate']))->format('U') <=> (new \DateTime($b['publicationDate']))->format('U');
+	}
+	
+	if ($result !== false && $result !== 0) { // compared but not equal
+	    return $result;
+	}
+	
+	// Same package -> sort by number
+	if ($a['package'] === $b['package']) {
+	    $result = $a['number'] <=> $b['number'];
 	}
 
 	if ($result === false) {
@@ -190,7 +203,7 @@ foreach ($items as $item) {
         if (empty($item['endStardate']) === false) {
             echo " to {$item['endStardate']}";
         }
-    } elseif(strlen($item['startDate']) === 10) {
+    } elseif(strlen($item['startDate']) === 10) { // full date
         echo ' - ';
         $startDate = new \DateTime($item['startDate']);
         if(strlen($item['endDate']) === 10) {
@@ -205,6 +218,9 @@ foreach ($items as $item) {
         } else {
             echo $startDate->format('F j, Y');
         }
+    } elseif(strlen($item['startDate']) === 7) { // year & month
+        echo ' - ';
+        echo (new \DateTime($item['startDate'].'-01'))->format('F Y');
     }
     echo '</div>';
     

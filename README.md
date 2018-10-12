@@ -1,6 +1,6 @@
 # Star Trek Timeline
 
-A Star Trek timeline covering all media (TV, cinema, streaming, novels, comics) written in PHP.
+A Star Trek fiction timeline covering all media (TV, cinema, streaming, novels, comics), written in PHP.
 
 **At the moment this is just a prototype.**
 
@@ -37,3 +37,7 @@ At the moment just few data is present:
  But it's enough to demonstrate the intended potential. Take a look [here](timeline_example.md).
 
 I'm planning to launch a website which utilizes this library to make the timeline accessible for all internet users.
+
+## Data sources
+
+* Discovery Season 1 data: [https://startreklitverse.yolasite.com/discovery-chronology.php](https://startreklitverse.yolasite.com/discovery-chronology.php)
