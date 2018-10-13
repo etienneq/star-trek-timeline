@@ -93,4 +93,4 @@ To define that a section belongs to a story the number must be set to '--'. Corr
 
 Sections inherit the publication date from it's parent entry.  
 
-[back to index](../)
+[back to index](../README.md)
