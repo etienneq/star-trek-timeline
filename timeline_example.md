@@ -1,3 +1,16 @@
+## C.10,000 BC
+* [novel] TOS "Spock's World" - Vulcan: Three (see primary entry in 2275)
+
+## C.2000 BC
+* [anthology] SNW VI "The Beginning" - ST short story
+
+## 1889
+* [anthology] SNW V "The Peacemakers" (TNG short story) - section 1 (see primary entry in 2371) - July 21
+* [anthology] SNW V "The Peacemakers" (TNG short story) - section 3 (see primary entry in 2371) - July 24
+
+## 1929
+* [anthology] SNW V "The Peacemakers" (TNG short story) - section 6 (see primary entry in 2371) - June 19
+
 ## 2151
 * [TV] ENT 1x01/02 "Broken Bow" - April 16
 * [TV] ENT 1x03 "Fight or Flight" - May 6
@@ -57,6 +70,9 @@
 * [TV] DSC 1x13 "What's Past Is Prologue"
 * [TV] DSC 1x14 "The War Without, the War Within"
 * [TV] DSC 1x15 "Will You Take My Hand?"
+
+## 2275
+* [novel] TOS "Spock's World" - Hardcover
 
 ## 2324
 * [anthology] TFTCT "An Easy Fast" (Gold short story) - section 2 (see primary entry in 2373)
@@ -118,5 +134,8 @@
 * [TV] DS9 1x20 "In the Hands of the Prophets"
 * [TV] TNG 6x26 "Descent" - Stardate 46982.1
 
+## 2371
+* [anthology] SNW V "The Peacemakers" - TNG short story; sections 2, 4-5, 7
+
 ## 2373
-* [anthology] TFTCT "An Easy Fast" - September 29 - sections 1, 3, 5, 7, 9, 11, 13, 15
+* [anthology] TFTCT "An Easy Fast" - September 29 - Gold short story; sections 1, 3, 5, 7, 9, 11, 13, 15

@@ -14,11 +14,16 @@ $resourcesDir = __DIR__.'/resources';
 
 $calculator = new Calculator();
 
-$datePattern = '/^([0-9]{4})(-([0-9]{2}))?(-([0-9]{2}))?$/';
+$fullDatePattern = '/^[0-9]+-[0-9]{2}-[0-9]{2}$/'; // YYYY-MM-DD
+$monthDatePattern = '/^[0-9]+-[0-9]{2}$/'; // YYYY-MM
+
+$datePattern = '/^(~)?(-)?([0-9]+)(-([0-9]{2}))?(-([0-9]{2}))?$/'; // valid date expression
 $datePositions = [
-    'year' => 1,
-    'month' => 3,
-    'day' => 5,
+    'about' => 1,
+    'bc' => 2,
+    'year' => 3,
+    'month' => 5,
+    'day' => 7,
 ];
 
 $tngEraSeries = [
@@ -62,85 +67,85 @@ $itemsManualSort = [];
 foreach ($dataFiles as $simpleFileName => $file) {
     $reader = Reader::createFromPath($file, 'r');
     
-	$reader->setHeaderOffset(0);
-	$headers = $reader->getHeader(); 
-	if ($headers != $fileHeaders) {
-	    throw new \Exception("Headers in {$simpleFileName} do not match expectations.");
-	}
-	
-	$headers = array_merge(['package', 'key'], $headers);
+    $reader->setHeaderOffset(0);
+    $headers = $reader->getHeader(); 
+    if ($headers != $fileHeaders) {
+        throw new \Exception("Headers in {$simpleFileName} do not match expectations.");
+    }
+    
+    $headers = array_merge(['package', 'key'], $headers);
 
-	$lastParentRecord = null;
+    $lastParentRecord = null;
 
-	foreach($reader->getRecords() as $record) {
-	    $pathInfo = pathinfo($simpleFileName);
-	    $packageName = $pathInfo['dirname'].'/'.$pathInfo['filename'];
-	    $record['package'] = $metaDataFactory->getMetaData($packageName);
-	    
-	    if (empty($record['number']) === true || $record['number'] === '--') {
-	        $words = preg_split("/\s+/", trim(preg_replace('/[^a-z0-9]/i', ' ', $record['title'])));
-	        $acronym = '';
-	        foreach ($words as $word) {
-	            $acronym .= $word[0];
-	        }
-	        $acronym = strtoupper($acronym);
-	    } else {
-	        $acronym = $record['number'];
-	    }
-	    
-	    $record['key'] = $record['package']->id.'-'.$acronym;
-	    
-	    if (empty($record['title']) === true) {
-	        throw new \Exception("Title must not be empty. Missing for {$record['key']}");
-	    }
-	    
-	    $datePartsStartDate = [];
-	    $datePartsEndDate = [];
-	    
-	    if (empty($record['startDate']) === false && preg_match($datePattern, $record['startDate'], $datePartsStartDate) !== 1) {
-	        throw new \Exception("Invalid startdate given for {$record['key']}: {$record['startDate']}");
-	    }
-	    if (empty($record['endDate']) === false && preg_match($datePattern, $record['endDate'], $datePartsEndDate) !== 1) {
-	        throw new \Exception("Invalid endDate given for {$record['key']}: {$record['endDate']}");
-	    }
-	    
-		
-	    // Overwrites startDate and endDate when stardate is given
-	    $isTngEraTvSeries = in_array($record['package']->id, $tngEraSeries);
-	    $isStartYearDefinedAndInTngStardateEra = empty($datePartsStartDate[$datePositions['year']]) === false &&
-	        $datePartsStartDate[$datePositions['year']] >= Calculator::MIN_YEAR;
-	    if ($isTngEraTvSeries === true || $isStartYearDefinedAndInTngStardateEra === true) {
-		    if (empty($record['startStardate']) === false) {
-		        $record['startDate'] = $calculator->toGregorianDate($record['startStardate'])->format('Y-m-d');
-		    }
-		    if (empty($record['endStardate']) === false) {
-		        $record['endDate'] = $calculator->toGregorianDate($record['endStardate'])->format('Y-m-d');
-		    }
-		}
-		
-		if (empty($record['startDate']) === true) {
-		    throw new \Exception("Either start date must be set. Missing for {$record['key']}");
-		}
-		
-		if ($record['number'] !== '--') {
-		    $lastParentRecord = $record;
-		}
-		
-		if ($record['number'] === '--') {
-		    if ($lastParentRecord === null) {
-		        throw new \Exception("Parent record not found for {$record['key']}.");
-		    }
-		    
-		    $record['publicationDate'] = $lastParentRecord['publicationDate'];
-		    $record['parent'] = $lastParentRecord;
-		} 
-		
-		
-		if (empty($record['after']) === true) {
-		    $items[$record['key']] = $record;
-		} else {
-		    $itemsManualSort[$record['key']] = $record;
-		}
+    foreach($reader->getRecords() as $record) {
+        $pathInfo = pathinfo($simpleFileName);
+        $packageName = $pathInfo['dirname'].'/'.$pathInfo['filename'];
+        $record['package'] = $metaDataFactory->getMetaData($packageName);
+        
+        if (empty($record['number']) === true || $record['number'] === '--') {
+            $words = preg_split("/\s+/", trim(preg_replace('/[^a-z0-9]/i', ' ', $record['title'])));
+            $acronym = '';
+            foreach ($words as $word) {
+                $acronym .= $word[0];
+            }
+            $acronym = strtoupper($acronym);
+        } else {
+            $acronym = $record['number'];
+        }
+        
+        $record['key'] = $record['package']->id.'-'.$acronym;
+        
+        if (empty($record['title']) === true) {
+            throw new \Exception("Title must not be empty. Missing for {$record['key']}");
+        }
+        
+        $datePartsStartDate = [];
+        $datePartsEndDate = [];
+        
+        if (empty($record['startDate']) === false && preg_match($datePattern, $record['startDate'], $datePartsStartDate) !== 1) {
+            throw new \Exception("Invalid startdate given for {$record['key']}: {$record['startDate']}");
+        }
+        if (empty($record['endDate']) === false && preg_match($datePattern, $record['endDate'], $datePartsEndDate) !== 1) {
+            throw new \Exception("Invalid endDate given for {$record['key']}: {$record['endDate']}");
+        }
+        
+        
+        // Overwrites startDate and endDate when stardate is given
+        $isTngEraTvSeries = in_array($record['package']->id, $tngEraSeries);
+        $isStartYearDefinedAndInTngStardateEra = empty($datePartsStartDate[$datePositions['year']]) === false &&
+            $datePartsStartDate[$datePositions['year']] >= Calculator::MIN_YEAR;
+        if ($isTngEraTvSeries === true || $isStartYearDefinedAndInTngStardateEra === true) {
+            if (empty($record['startStardate']) === false) {
+                $record['startDate'] = $calculator->toGregorianDate($record['startStardate'])->format('Y-m-d');
+            }
+            if (empty($record['endStardate']) === false) {
+                $record['endDate'] = $calculator->toGregorianDate($record['endStardate'])->format('Y-m-d');
+            }
+        }
+        
+        if (empty($record['startDate']) === true) {
+            throw new \Exception("Either start date must be set. Missing for {$record['key']}");
+        }
+        
+        if ($record['number'] !== '--') {
+            $lastParentRecord = $record;
+        }
+        
+        if ($record['number'] === '--') {
+            if ($lastParentRecord === null) {
+                throw new \Exception("Parent record not found for {$record['key']}.");
+            }
+            
+            $record['publicationDate'] = $lastParentRecord['publicationDate'];
+            $record['parent'] = $lastParentRecord;
+        } 
+        
+        
+        if (empty($record['after']) === true) {
+            $items[$record['key']] = $record;
+        } else {
+            $itemsManualSort[$record['key']] = $record;
+        }
     }
 }
 
@@ -148,73 +153,94 @@ foreach ($dataFiles as $simpleFileName => $file) {
 $sort = function($a, $b) use ($tngEraSeries, $datePattern, $datePositions) {
     $result = false;
     
-	if (empty($a['startDate']) === false && empty($b['startDate']) === false) {
-	    $datePartsA = [];
-	    $datePartsB = [];
-	    
-	    preg_match($datePattern, $a['startDate'], $datePartsA);
-	    preg_match($datePattern, $b['startDate'], $datePartsB);
-	    
-	    // Sort by start stardate (TNG-era only)
-	    $isATngEraTvSeries = in_array($a['package']->id, $tngEraSeries);
-	    $isBTngEraTvSeries = in_array($b['package']->id, $tngEraSeries);
-	    
-	    $isAStartYearDefinedAndInTngStardateEra = empty($datePartsA[$datePositions['year']]) === false &&
-	    $datePartsA[$datePositions['year']] >= Calculator::MIN_YEAR;
-	       $isBStartYearDefinedAndInTngStardateEra = empty($datePartsB[$datePositions['year']]) === false &&
-	       $datePartsB[$datePositions['year']] >= Calculator::MIN_YEAR;
-	       
-       if ($isATngEraTvSeries === true && $isBTngEraTvSeries === true &&
-           $isAStartYearDefinedAndInTngStardateEra === true && $isBStartYearDefinedAndInTngStardateEra === true &&
-           empty($a['startStardate']) === false && empty($b['startStardate']) === false
-       ) {
-           $result = (float)$a['startStardate'] <=> (float)$b['startStardate'];
-       }
+    if (empty($a['startDate']) === false && empty($b['startDate']) === false) {
+        $datePartsA = [];
+        $datePartsB = [];
+        
+        preg_match($datePattern, $a['startDate'], $datePartsA);
+        preg_match($datePattern, $b['startDate'], $datePartsB);
+        
+        // Sort by start stardate (TNG-era only)
+        $isATngEraTvSeries = in_array($a['package']->id, $tngEraSeries);
+        $isBTngEraTvSeries = in_array($b['package']->id, $tngEraSeries);
+        
+        $isAStartYearDefinedAndInTngStardateEra = empty($datePartsA[$datePositions['year']]) === false &&
+        $datePartsA[$datePositions['year']] >= Calculator::MIN_YEAR;
+            $isBStartYearDefinedAndInTngStardateEra = empty($datePartsB[$datePositions['year']]) === false &&
+            $datePartsB[$datePositions['year']] >= Calculator::MIN_YEAR;
+           
+        if ($isATngEraTvSeries === true && $isBTngEraTvSeries === true &&
+            $isAStartYearDefinedAndInTngStardateEra === true && $isBStartYearDefinedAndInTngStardateEra === true &&
+            empty($a['startStardate']) === false && empty($b['startStardate']) === false
+        ) {
+            $result = (float)$a['startStardate'] <=> (float)$b['startStardate'];
+        }
        
-       if ($result !== false && $result !== 0) { // compared but not equal
-           return $result;
-       }
-	    
-	    // Sort by start date as exactly as possible
-	    foreach ($datePositions as $position) {
-	        if (isset($datePartsA[$position]) === true && isset($datePartsB[$position]) === true) { // both set
-	            $result = $datePartsA[$position] <=> $datePartsB[$position];
-	            if ($result !== 0) { // not equal
-	                break;
-	            }
-	        }
-	    }
-	}
-	
-	if ($result !== false && $result !== 0) { // compared but not equal
-	    return $result;
-	}
-	
-	// TNG-era series or same package AND pub date defined -> sort by pub date
-	if ((
-	       (in_array($a['package']->id, $tngEraSeries) === true && in_array($b['package']->id, $tngEraSeries) === true) ||
-	       $a['package']->id === $b['package']->id
-	    ) &&
-	    empty($a['publicationDate']) === false &&
-	    empty($b['publicationDate']) === false
+        if ($result !== false && $result !== 0) { // compared but not equal
+            return $result;
+        }
+        
+        // Sort by start date as exactly as possible
+        $bothBeforeChrist = false;
+        foreach ($datePositions as $type => $position) {
+            if ($type === 'bc') {
+                if (empty($datePartsA[$position]) === false && empty($datePartsB[$position]) === true) { // first one is B.C.
+                    $result = -1;
+                    break;
+                } elseif (empty($datePartsA[$position]) === true && empty($datePartsB[$position]) === false) { // second one is B.C.
+                    $result = 1;
+                    break;
+                } elseif (empty($datePartsA[$position]) === false && empty($datePartsB[$position]) === false) { // both are B.C.
+                    $bothBeforeChrist = true;
+                }
+            } elseif (in_array($type, ['year', 'month', 'day']) === true) {
+                if (empty($datePartsA[$position]) === false && empty($datePartsB[$position]) === false) { // both set
+//                     if ($a['title'] == 'The Beginning' || $b['title'] == 'The Beginning' || $a['title'] == 'Spock\'s World' || $b['title'] == 'Spock\'s World') {
+//                         echo "$datePartsA[$position] <=> $datePartsB[$position]<br>";
+//                     }
+                    
+                    $result = $datePartsA[$position] <=> $datePartsB[$position];
+                    if ($type === 'year' && $bothBeforeChrist === true) {
+                        $result = $result * -1;
+                    }
+                    
+                    if ($result !== 0) { // not equal
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    
+    if ($result !== false && $result !== 0) { // compared but not equal
+        return $result;
+    }
+    
+    // TNG-era series or same package AND pub date defined -> sort by pub date
+    if ((
+           (in_array($a['package']->id, $tngEraSeries) === true && in_array($b['package']->id, $tngEraSeries) === true) ||
+           $a['package']->id === $b['package']->id
+        ) &&
+        empty($a['publicationDate']) === false &&
+        empty($b['publicationDate']) === false
     ) {
         $result = (new \DateTime($a['publicationDate']))->format('U') <=> (new \DateTime($b['publicationDate']))->format('U');
-	}
-	
-	if ($result !== false && $result !== 0) { // compared but not equal
-	    return $result;
-	}
-	
-	// Same package -> sort by number
-	if ($a['package']->id === $b['package']->id) {
-	    $result = $a['number'] <=> $b['number'];
-	}
+    }
+    
+    if ($result !== false && $result !== 0) { // compared but not equal
+        return $result;
+    }
+    
+    // Same package -> sort by number
+    if ($a['package']->id === $b['package']->id) {
+        $result = $a['number'] <=> $b['number'];
+    }
 
-	if ($result === false) {
-	    throw new \Exception("Can't compare {$a['key']} and {$b['key']} due to insufficient data. First item: ".json_encode($a)." Second item: ".json_encode($b));
-	}
+    if ($result === false) {
+        throw new \Exception("Can't compare {$a['key']} and {$b['key']} due to insufficient data. First item: ".json_encode($a)." Second item: ".json_encode($b));
+    }
 
-	return $result;
+    return $result;
 };
 
 uasort($items, $sort);
@@ -242,22 +268,22 @@ do {
 // Rendering
 ?><html>
 <head>
-	<style>
-	   .year {
-	       background-color: blue;
-	       color: white;
-	       font-weight: bold;
-	   }
-	   .item {
-	   }
-	</style>
+    <style>
+       .year {
+           background-color: blue;
+           color: white;
+           font-weight: bold;
+       }
+       .item {
+       }
+    </style>
 </head>
 <body>
 <?php
 
-$previousYear = 0;
+$previousYear = false;
 foreach ($items as $item) {
-    $year = getYear($item['startDate']);
+    $year = getYear($item['startDate'], $datePattern, $datePositions);
     if ($previousYear !== $year) {
         echo "<div class=\"year\">{$year}</div>\n";
     }
@@ -271,7 +297,7 @@ foreach ($items as $item) {
         if (empty($item['details']) === false) {
             echo " ({$item['details']})";
         }
-        echo " <i>- {$item['title']}</i> (see primary entry in ".substr($item['parent']['startDate'], 0, 4).")";
+        echo " <i>- {$item['title']}</i> (see primary entry in ".getYear($item['parent']['startDate'], $datePattern, $datePositions).")";
     } else {
         echo " {$item['number']}";
         echo " \"{$item['title']}\"";
@@ -282,10 +308,10 @@ foreach ($items as $item) {
         if (empty($item['endStardate']) === false) {
             echo " to {$item['endStardate']}";
         }
-    } elseif(strlen($item['startDate']) === 10) { // full date
+    } elseif(preg_match($fullDatePattern, $item['startDate']) === 1) { // full date
         echo ' - ';
         $startDate = new \DateTime($item['startDate']);
-        if(strlen($item['endDate']) === 10) {
+        if(preg_match($fullDatePattern, $item['endDate']) === 1) {
             $endDate = new \DateTime($item['endDate']);
             if ($endDate->format('Y-m') === $startDate->format('Y-m')) { // same year & month
                 echo $startDate->format('F j').'-'.$endDate->format('j');
@@ -299,9 +325,9 @@ foreach ($items as $item) {
         } else {
             echo $startDate->format('F j, Y');
         }
-    } elseif(strlen($item['startDate']) === 7) { // year & month
+    } elseif(preg_match($monthDatePattern, $item['startDate']) === 1) { // year & month
         echo ' - ';
-        echo (new \DateTime($item['startDate'].'-01'))->format('F');
+        echo (new \DateTime($item['startDate'].'-01'))->format('F'); //
     }
     
     if ($item['number'] !== '--' && empty($item['details']) === false) {
@@ -313,11 +339,27 @@ foreach ($items as $item) {
     $previousYear = $year;
 }
 
-function getYear(string $date):int
+function getYear(string $date, string $datePattern, array $datePositions):string
 {
-    if (strlen($date) === 4) {
-        return (int)$date;
-    }  else {
-        return (int)substr($date, 0, 4);
+    $matches = [];
+    preg_match($datePattern, $date, $matches);
+    
+    $date = '';
+    
+    if (empty($matches[$datePositions['about']]) === false) {
+        $date .= 'C.';
     }
+    
+    $year = $matches[$datePositions['year']];
+    if (empty($matches[$datePositions['bc']]) === false && $year >= 10000) {
+        $year = number_format($year);
+    }
+    
+    $date .= $year;
+    
+    if (empty($matches[$datePositions['bc']]) === false) {
+        $date .= ' BC';
+    }
+    
+    return $date;
 }
