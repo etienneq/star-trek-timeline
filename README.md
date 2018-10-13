@@ -38,7 +38,7 @@ At the moment just few data is present:
 
 But it's enough to demonstrate the intended potential. Take a look [here](timeline_example.md).
 
-I'm planning to launch a website which utilizes this library to make the timeline accessible for all internet users in a dynamich fashion.
+I'm planning to launch a website which utilizes this library to make the timeline accessible for all internet users in a dynamic fashion.
 
 ## Data structure
 
