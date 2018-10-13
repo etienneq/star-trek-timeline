@@ -2,7 +2,7 @@
 
 A Star Trek fiction timeline covering all media (TV, cinema, novels, comics), written in PHP.
 
-**At the moment this is just a prototype.**
+**At the moment this is still a prototype.**
 
 When finished this library aims to provide a timeline for all published Star Trek.
 

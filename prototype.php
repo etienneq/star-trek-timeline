@@ -70,6 +70,10 @@ foreach ($dataFiles as $simpleFileName => $file) {
 	    }
 	    
 	    $record['key'] = $record['package']->id.'-'.$acronym;
+	    
+	    if (empty($record['title']) === true) {
+	        throw new \Exception("Title must not be empty. Missing for {$record['key']}");
+	    }
 		
 	    // Overwrites startDate and endDate when stardate is given
 	    if (in_array($record['package']->id, $tngEraSeries) === true) {

@@ -1,5 +1,3 @@
-[back to index](../README.md)
-
 # Meta data files
 
 Meta data files can be provided for each package.
