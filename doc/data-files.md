@@ -33,7 +33,7 @@ Only when single chapters/sections should become individual timeline entries the
 
 There are a number of criteria used to sort timeline entries in an automated fashion:
 
-* by TNG-era stardate
+* by TNG-era stardate (TOS stardates are ignored)
 * by start date (as exactly as possible), examples: 2365-10-01 is greater than 2365-09; 2365-10 can't be compared to 2365 (because second date could be less or greater than first one)
 * by publication date if both compared entries are from a TNG-era TV series or are from the same data file
 * by number if both compared entries are from the same data file
