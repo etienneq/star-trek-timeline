@@ -8,7 +8,7 @@ When finished this library aims to provide a timeline for all published Star Tre
 
 Episodes, novels etc. are organized in [CSV files](resources). This files are devided in a human readable fashion (e.g. by media or series) to be easily manageable and updateable.
 
-This library automatically sorts all entries chronologically as excactly as possible using a number of criteria (given stardate, publication date, episode number etc.).
+This library automatically sorts all entries chronologically as excactly as possible using a number of criteria (given stardate, publication date, episode number etc.). If needed entries can be placed manually at a certain place on the timeline.
 
 An API will be provided to read the timeline in an object-oriented fashion.
 Additionally it will be possible to filter timeline entries by year, series etc.
