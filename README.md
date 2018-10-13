@@ -30,11 +30,9 @@ composer require etienneq/star-trek-timeline
 At the moment just few data is present:
 * DSC season 1
 * ENT season 1
-* ENT novel "What Price Honor?"
-* ENT Rise of the Federation novels
 * TNG season 6
-* TNG novel "Requiem"
 * DS9 season 1
+* some novels
 
 But it's enough to demonstrate the intended potential. Take a look [here](timeline_example.md).
 
