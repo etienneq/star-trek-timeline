@@ -65,6 +65,7 @@ foreach ($dataFiles as $simpleFileName => $file) {
 	        foreach ($words as $word) {
 	            $acronym .= $word[0];
 	        }
+	        $acronym = strtoupper($acronym);
 	    } else {
 	        $acronym = $record['number'];
 	    }
