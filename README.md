@@ -52,4 +52,6 @@ There are two types of files: Data files (\*.csv) which contain all the episodes
 
 The following sources were used for creating the data files.
 
+* Enterprise: [http://de.memory-alpha.wikia.com/wiki/Star_Trek%3A_Enterprise](http://de.memory-alpha.wikia.com/wiki/Star_Trek%3A_Enterprise)
 * Discovery Season 1: [https://startreklitverse.yolasite.com/discovery-chronology.php](https://startreklitverse.yolasite.com/discovery-chronology.php)
+* Deep Space Nine: [http://de.memory-alpha.wikia.com/wiki/Star_Trek%3A_Deep_Space_Nine](http://de.memory-alpha.wikia.com/wiki/Star_Trek%3A_Deep_Space_Nine)
