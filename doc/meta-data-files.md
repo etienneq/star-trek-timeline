@@ -59,4 +59,4 @@ The resulting attributes will be:
 }
 ```
 
-[back to index](../README.md)
+[back to index](../)
