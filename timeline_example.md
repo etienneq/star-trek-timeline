@@ -139,3 +139,6 @@
 
 ## 2373
 * [anthology] TFTCT "An Easy Fast" - September 29 - Gold short story; sections 1, 3, 5, 7, 9, 11, 13, 15
+
+## 1012260
+* [anthology] SNW VI "Our Million-Year Mission" - Stardate 17613341.4 - Short story

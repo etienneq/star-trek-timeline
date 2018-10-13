@@ -115,10 +115,10 @@ foreach ($dataFiles as $simpleFileName => $file) {
         $isStartYearDefinedAndInTngStardateEra = empty($datePartsStartDate[$datePositions['year']]) === false &&
             $datePartsStartDate[$datePositions['year']] >= Calculator::MIN_YEAR;
         if ($isTngEraTvSeries === true || $isStartYearDefinedAndInTngStardateEra === true) {
-            if (empty($record['startStardate']) === false) {
+            if (empty($record['startStardate']) === false && $record['startStardate'] < Calculator::MAX_STARDATE) {
                 $record['startDate'] = $calculator->toGregorianDate($record['startStardate'])->format('Y-m-d');
             }
-            if (empty($record['endStardate']) === false) {
+            if (empty($record['endStardate']) === false && $record['endStardate'] < Calculator::MAX_STARDATE) {
                 $record['endDate'] = $calculator->toGregorianDate($record['endStardate'])->format('Y-m-d');
             }
         }
