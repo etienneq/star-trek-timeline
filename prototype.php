@@ -22,9 +22,27 @@ $datePositions = [
 ];
 
 $tngEraSeries = [
-    'tv/tng',
-    'tv/ds9',
-    'tv/voy',
+    'tv/tng/season1',
+    'tv/tng/season2',
+    'tv/tng/season3',
+    'tv/tng/season4',
+    'tv/tng/season5',
+    'tv/tng/season6',
+    'tv/tng/season7',
+    'tv/ds9/season1',
+    'tv/ds9/season2',
+    'tv/ds9/season3',
+    'tv/ds9/season4',
+    'tv/ds9/season5',
+    'tv/ds9/season6',
+    'tv/ds9/season7',
+    'tv/voy/season1',
+    'tv/voy/season2',
+    'tv/voy/season3',
+    'tv/voy/season4',
+    'tv/voy/season5',
+    'tv/voy/season6',
+    'tv/voy/season7',
 ];
 
 $scanner = new RecursiveDirectoryScanner();
@@ -75,9 +93,23 @@ foreach ($dataFiles as $simpleFileName => $file) {
 	    if (empty($record['title']) === true) {
 	        throw new \Exception("Title must not be empty. Missing for {$record['key']}");
 	    }
+	    
+	    $datePartsStartDate = [];
+	    $datePartsEndDate = [];
+	    
+	    if (empty($record['startDate']) === false && preg_match($datePattern, $record['startDate'], $datePartsStartDate) !== 1) {
+	        throw new \Exception("Invalid startdate given for {$record['key']}: {$record['startDate']}");
+	    }
+	    if (empty($record['endDate']) === false && preg_match($datePattern, $record['endDate'], $datePartsEndDate) !== 1) {
+	        throw new \Exception("Invalid endDate given for {$record['key']}: {$record['endDate']}");
+	    }
+	    
 		
 	    // Overwrites startDate and endDate when stardate is given
-	    if (in_array($record['package']->id, $tngEraSeries) === true) {
+	    $isTngEraTvSeries = in_array($record['package']->id, $tngEraSeries);
+	    $isStartYearDefinedAndInTngStardateEra = empty($datePartsStartDate[$datePositions['year']]) === false &&
+	        $datePartsStartDate[$datePositions['year']] >= Calculator::MIN_YEAR;
+	    if ($isTngEraTvSeries === true || $isStartYearDefinedAndInTngStardateEra === true) {
 		    if (empty($record['startStardate']) === false) {
 		        $record['startDate'] = $calculator->toGregorianDate($record['startStardate'])->format('Y-m-d');
 		    }
@@ -116,28 +148,34 @@ foreach ($dataFiles as $simpleFileName => $file) {
 $sort = function($a, $b) use ($tngEraSeries, $datePattern, $datePositions) {
     $result = false;
     
-    // Sort by start stardate
-	if (empty($a['startStardate']) === false && empty($b['startStardate']) === false) {
-		$result = (float)$a['startStardate'] <=> (float)$b['startStardate'];
-	}
-	
-	if ($result !== false && $result !== 0) { // compared but not equal
-	    return $result;
-	}
-	
-	// Sort by start date as exactly as possible
 	if (empty($a['startDate']) === false && empty($b['startDate']) === false) {
 	    $datePartsA = [];
 	    $datePartsB = [];
 	    
-	    if (preg_match($datePattern, $a['startDate'], $datePartsA) !== 1) {
-	        throw new \Exception("Invalid startdate given for {$a['key']}: {$a['startDate']}");
-	    }
+	    preg_match($datePattern, $a['startDate'], $datePartsA);
+	    preg_match($datePattern, $b['startDate'], $datePartsB);
 	    
-	    if (preg_match($datePattern, $b['startDate'], $datePartsB) !== 1) {
-	        throw new \Exception("Invalid startdate given for {$b['key']}: {$b['startDate']}");
-	    }
+	    // Sort by start stardate (TNG-era only)
+	    $isATngEraTvSeries = in_array($a['package']->id, $tngEraSeries);
+	    $isBTngEraTvSeries = in_array($b['package']->id, $tngEraSeries);
 	    
+	    $isAStartYearDefinedAndInTngStardateEra = empty($datePartsA[$datePositions['year']]) === false &&
+	    $datePartsA[$datePositions['year']] >= Calculator::MIN_YEAR;
+	       $isBStartYearDefinedAndInTngStardateEra = empty($datePartsB[$datePositions['year']]) === false &&
+	       $datePartsB[$datePositions['year']] >= Calculator::MIN_YEAR;
+	       
+       if ($isATngEraTvSeries === true && $isBTngEraTvSeries === true &&
+           $isAStartYearDefinedAndInTngStardateEra === true && $isBStartYearDefinedAndInTngStardateEra === true &&
+           empty($a['startStardate']) === false && empty($b['startStardate']) === false
+       ) {
+           $result = (float)$a['startStardate'] <=> (float)$b['startStardate'];
+       }
+       
+       if ($result !== false && $result !== 0) { // compared but not equal
+           return $result;
+       }
+	    
+	    // Sort by start date as exactly as possible
 	    foreach ($datePositions as $position) {
 	        if (isset($datePartsA[$position]) === true && isset($datePartsB[$position]) === true) { // both set
 	            $result = $datePartsA[$position] <=> $datePartsB[$position];
@@ -221,7 +259,7 @@ $previousYear = 0;
 foreach ($items as $item) {
     $year = getYear($item['startDate']);
     if ($previousYear !== $year) {
-        echo "<div class=\"year\">{$year}</div>";
+        echo "<div class=\"year\">{$year}</div>\n";
     }
     
     echo '<div class="item">';
@@ -270,7 +308,7 @@ foreach ($items as $item) {
         echo "<i> - {$item['details']}</i>";
     }
     
-    echo '</div>';
+    echo "</div>\n";
     
     $previousYear = $year;
 }

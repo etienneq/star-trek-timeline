@@ -1,8 +1,8 @@
 ## 2151
 * [TV] ENT 1x01/02 "Broken Bow" - April 16
-* [TV] ENT 1x05 "Unexpected" - May 1
 * [TV] ENT 1x03 "Fight or Flight" - May 6
 * [TV] ENT 1x04 "Strange New World"
+* [TV] ENT 1x05 "Unexpected" - May
 * [TV] ENT 1x06 "Terra Nova"
 * [TV] ENT 1x07 "The Andorian Incident" - June 19
 * [TV] ENT 1x08 "Breaking the Ice"
@@ -83,6 +83,7 @@
 * [TV] TNG 6x10 "Chain of Command, Part I" - Stardate 46357.4
 * [TV] TNG 6x11 "Chain of Command, Part II" - Stardate 46360.8
 * [TV] DS9 1x01/02 "Emissary" - Stardate 46379.1
+* [TV] DS9 1x03 "Past Prologue"
 * [TV] DS9 1x04 "A Man Alone" - Stardate 46421.5
 * [TV] DS9 1x05 "Babel" - Stardate 46423.7
 * [TV] TNG 6x12 "Ship in a Bottle" - Stardate 46424.1
@@ -91,10 +92,16 @@
 * [TV] TNG 6x14 "Face of the Enemy" - Stardate 46519.0
 * [TV] DS9 1x07 "Q-Less" - Stardate 46531.2
 * [TV] TNG 6x15 "Tapestry"
+* [TV] DS9 1x08 "Dax" - Stardate 46910.1 - mentioned stardate must be wrong
+* [TV] DS9 1x09 "The Passenger"
 * [TV] TNG 6x16 "Birthright, Part I" - Stardate 46578.4
 * [TV] TNG 6x17 "Birthright, Part II" - Stardate 46579.2
+* [TV] DS9 1x10 "Move Along Home"
+* [TV] DS9 1x11 "The Nagus"
 * [TV] TNG 6x18 "Starship Mine" - Stardate 46682.4
 * [TV] TNG 6x19 "Lessons" - Stardate 46693.1
+* [TV] DS9 1x12 "Vortex"
+* [TV] DS9 1x13 "Battle Lines"
 * [TV] DS9 1x14 "The Storyteller" - Stardate 46729.1
 * [TV] TNG 6x20 "The Chase" - Stardate 46731.5 to 46735.2
 * [TV] TNG 6x21 "Frame of Mind" - Stardate 46778.1
@@ -102,21 +109,14 @@
 * [TV] DS9 1x15 "Progress" - Stardate 46844.3
 * [TV] TNG 6x23 "Rightful Heir" - Stardate 46852.2
 * [TV] DS9 1x16 "If Wishes Were Horses" - Stardate 46853.2
-* [TV] DS9 1x08 "Dax" - Stardate 46910.1
 * [TV] TNG 6x24 "Second Chances" - Stardate 46915.2
 * [TV] DS9 1x18 "Dramatis Personae" - Stardate 46922.3
 * [novel] TNG "Requiem"
 * [TV] DS9 1x17 "The Forsaken" - Stardate 46925.1
 * [TV] TNG 6x25 "Timescape" - Stardate 46944.2
-* [TV] TNG 6x26 "Descent" - Stardate 46982.1
-* [TV] DS9 1x03 "Past Prologue"
-* [TV] DS9 1x09 "The Passenger"
-* [TV] DS9 1x10 "Move Along Home"
-* [TV] DS9 1x11 "The Nagus"
-* [TV] DS9 1x12 "Vortex"
-* [TV] DS9 1x13 "Battle Lines"
 * [TV] DS9 1x19 "Duet"
 * [TV] DS9 1x20 "In the Hands of the Prophets"
+* [TV] TNG 6x26 "Descent" - Stardate 46982.1
 
 ## 2373
 * [anthology] TFTCT "An Easy Fast" - September 29 - sections 1, 3, 5, 7, 9, 11, 13, 15
