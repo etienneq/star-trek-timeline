@@ -5,8 +5,8 @@
 
 use League\Csv\Reader;
 use EtienneQ\Stardate\Calculator;
+use EtienneQ\StarTrekTimeline\PackageFactory;
 use EtienneQ\StarTrekTimeline\RecursiveDirectoryScanner;
-use EtienneQ\StarTrekTimeline\MetaDataFactory;
 
 require_once __DIR__.'/vendor/autoload.php';
 
@@ -54,9 +54,9 @@ $tngEraSeries = [
 
 $scanner = new RecursiveDirectoryScanner();
 
-// Load meta data
+// Load meta data for all packages
 $metaDataFiles = $scanner->getFiles($resourcesDir, 'json');
-$metaDataFactory = new MetaDataFactory($metaDataFiles);
+$packageFactory = new PackageFactory($metaDataFiles);
 
 // Load all data files
 $dataFiles = $scanner->getFiles($resourcesDir, 'csv');
@@ -82,7 +82,7 @@ foreach ($dataFiles as $simpleFileName => $file) {
     foreach($reader->getRecords() as $record) {
         $pathInfo = pathinfo($simpleFileName);
         $packageName = $pathInfo['dirname'].'/'.$pathInfo['filename'];
-        $record['package'] = $metaDataFactory->getMetaData($packageName);
+        $record['package'] = $packageFactory->getPackage($packageName);
         
         if (empty($record['number']) === true || $record['number'] === '--') {
             $words = preg_split("/\s+/", trim(preg_replace('/[^a-z0-9]/i', ' ', $record['title'])));

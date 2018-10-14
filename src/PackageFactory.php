@@ -1,7 +1,7 @@
 <?php
 namespace EtienneQ\StarTrekTimeline;
 
-class MetaDataFactory
+class PackageFactory
 {
     protected const GENERAL_META_FILENAME = 'meta.json';
     
@@ -11,29 +11,29 @@ class MetaDataFactory
     protected $files = [];
     
     /**
-     * @var MetaData[]
+     * @var Package[]
      */
-    protected $metaData = [];
+    protected $packages = [];
     
     public function __construct(array $files) {
         $this->files = $files;
         uksort($this->files, [$this, 'sortGeneralMetaFilesFirst']);
     }
     
-    public function getMetaData(string $packageName):MetaData
+    public function getPackage(string $packageName):Package
     {
-        if (isset($this->metaData[$packageName]) === false) {
+        if (isset($this->packages[$packageName]) === false) {
             $attributes = $this->loadAttributes($packageName);
             
-            $metaData = new MetaData($packageName);
-            $metaData->title = $attributes['title'] ?? '';
-            $metaData->symbol = $attributes['symbol'] ?? '';
-            $metaData->media = $attributes['media'] ?? '';
+            $package = new Package($packageName);
+            $package->title = $attributes['title'] ?? '';
+            $package->symbol = $attributes['symbol'] ?? '';
+            $package->media = $attributes['media'] ?? '';
             
-            $this->metaData[$packageName] = $metaData;
+            $this->packages[$packageName] = $package;
         }
         
-        return $this->metaData[$packageName];
+        return $this->packages[$packageName];
     }
     
     protected function sortGeneralMetaFilesFirst($file1, $file2):int

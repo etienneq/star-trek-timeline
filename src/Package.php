@@ -4,7 +4,7 @@ namespace EtienneQ\StarTrekTimeline;
 /**
  * Value object representing a Package's meta data.
  */
-class MetaData
+class Package
 {
     /**
      * @var string
