@@ -80,9 +80,7 @@ foreach ($dataFiles as $simpleFileName => $file) {
     $lastParentRecord = null;
 
     foreach($reader->getRecords() as $record) {
-        $pathInfo = pathinfo($simpleFileName);
-        $packageName = $pathInfo['dirname'].'/'.$pathInfo['filename'];
-        $record['package'] = $packageFactory->getPackage($packageName);
+        $record['package'] = $packageFactory->getPackage($simpleFileName);
         
         if (empty($record['number']) === true || $record['number'] === '--') {
             $words = preg_split("/\s+/", trim(preg_replace('/[^a-z0-9]/i', ' ', $record['title'])));

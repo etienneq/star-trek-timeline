@@ -20,8 +20,10 @@ class PackageFactory
         uksort($this->files, [$this, 'sortGeneralMetaFilesFirst']);
     }
     
-    public function getPackage(string $packageName):Package
+    public function getPackage(string $filename):Package
     {
+        $packageName = $this->resolvePackageName($filename);
+        
         if (isset($this->packages[$packageName]) === false) {
             $attributes = $this->loadAttributes($packageName);
             
@@ -34,6 +36,12 @@ class PackageFactory
         }
         
         return $this->packages[$packageName];
+    }
+    
+    protected function resolvePackageName(string $filename):string
+    {
+        $pathInfo = pathinfo($filename);
+        return $pathInfo['dirname'].'/'.$pathInfo['filename'];
     }
     
     protected function sortGeneralMetaFilesFirst($file1, $file2):int
