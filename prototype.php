@@ -10,6 +10,8 @@ use EtienneQ\StarTrekTimeline\MetaDataFactory;
 
 require_once __DIR__.'/vendor/autoload.php';
 
+$startTime = microtime(true);
+
 $resourcesDir = __DIR__.'/resources';
 
 $calculator = new Calculator();
@@ -102,13 +104,13 @@ foreach ($dataFiles as $simpleFileName => $file) {
         $datePartsStartDate = [];
         $datePartsEndDate = [];
         
-        if (empty($record['startDate']) === false && preg_match($datePattern, $record['startDate'], $datePartsStartDate) !== 1) {
-            throw new \Exception("Invalid startdate given for {$record['key']}: {$record['startDate']}");
+        if (preg_match($datePattern, $record['startDate'], $datePartsStartDate) !== 1) {
+            throw new \Exception("Start date is empty or invalid for {$record['key']}");
         }
+        
         if (empty($record['endDate']) === false && preg_match($datePattern, $record['endDate'], $datePartsEndDate) !== 1) {
             throw new \Exception("Invalid endDate given for {$record['key']}: {$record['endDate']}");
         }
-        
         
         // Overwrites startDate and endDate when stardate is given
         $isTngEraTvSeries = in_array($record['package']->id, $tngEraSeries);
@@ -121,10 +123,6 @@ foreach ($dataFiles as $simpleFileName => $file) {
             if (empty($record['endStardate']) === false && $record['endStardate'] < Calculator::MAX_STARDATE) {
                 $record['endDate'] = $calculator->toGregorianDate($record['endStardate'])->format('Y-m-d');
             }
-        }
-        
-        if (empty($record['startDate']) === true) {
-            throw new \Exception("Either start date must be set. Missing for {$record['key']}");
         }
         
         if ($record['number'] !== '--') {
@@ -153,7 +151,6 @@ foreach ($dataFiles as $simpleFileName => $file) {
 $sort = function($a, $b) use ($tngEraSeries, $datePattern, $datePositions) {
     $result = false;
     
-    if (empty($a['startDate']) === false && empty($b['startDate']) === false) {
         $datePartsA = [];
         $datePartsB = [];
         
@@ -195,10 +192,6 @@ $sort = function($a, $b) use ($tngEraSeries, $datePattern, $datePositions) {
                 }
             } elseif (in_array($type, ['year', 'month', 'day']) === true) {
                 if (empty($datePartsA[$position]) === false && empty($datePartsB[$position]) === false) { // both set
-//                     if ($a['title'] == 'The Beginning' || $b['title'] == 'The Beginning' || $a['title'] == 'Spock\'s World' || $b['title'] == 'Spock\'s World') {
-//                         echo "$datePartsA[$position] <=> $datePartsB[$position]<br>";
-//                     }
-                    
                     $result = $datePartsA[$position] <=> $datePartsB[$position];
                     if ($type === 'year' && $bothBeforeChrist === true) {
                         $result = $result * -1;
@@ -210,7 +203,6 @@ $sort = function($a, $b) use ($tngEraSeries, $datePattern, $datePositions) {
                 }
             }
         }
-    }
     
     if ($result !== false && $result !== 0) { // compared but not equal
         return $result;
@@ -265,6 +257,8 @@ do {
     $itemsManualSort = array_diff_key($itemsManualSort, $itemsToInsert); // update list of remaining items to be processed
 } while (count($itemsManualSort) > 0);
 
+$runTime = microtime(true) - $startTime;
+
 // Rendering
 ?><html>
 <head>
@@ -280,6 +274,14 @@ do {
 </head>
 <body>
 <?php
+
+$runTime = round($runTime * 1000, 2);
+$memory = round(memory_get_peak_usage(true) / 1000 / 1000, 2);
+$memoryPeak = round(memory_get_usage(true) / 1000 / 1000, 2);
+
+echo "Run time: {$runTime} ms<br />";
+echo "Memory usage: {$memory} MB<br />";
+echo "Memory peak usage: {$memoryPeak} MB<br /><br />";
 
 $previousYear = false;
 foreach ($items as $item) {

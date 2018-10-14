@@ -10,7 +10,7 @@ The first line must be a header line containing the name of all fields.
 
 * number - episode or book number
 * title - title of episode or book
-* startDate - gregorian (earth) date when story begins, format: YYYY, YYYY-MM or YYYY-MM-DD
+* startDate - gregorian (earth) date when story begins
 * endDate - gregorian (earth) date when story ends, format: YYYY, YYYY-MM or YYYY-MM-DD
 * startStardate - stardate, TOS or TNG style
 * endStardate - stardate, TOS or TNG style
@@ -18,8 +18,7 @@ The first line must be a header line containing the name of all fields.
 * after - used for manuel sort order of current entry (see below)
 * details - some additional information regarding current entry
 
-All attributes are optional except for title.
-Additionally at least one start date (gregorian date or stardate) must be set. Both can be set.
+title and startDate are mandatory attributes. All other attributes are optional.
 
 The second to nth line contains the timeline entries.
 
@@ -28,6 +27,18 @@ If a field contains a coma ist must be enclosed in double quotes.
 
 The order in which entries are listed within a single data file is of no importance because all entries will be sorted automatically.
 Only when single chapters/sections should become individual timeline entries the order within the data file is important (see below).
+
+## Format of startDate and endDate
+
+Both real-world date fields may contain a full date, year/month combination or just the year.
+Additionally B.C. years are defined as negative dates, approximate years are preceded by a tilde.
+
+Examples:
+* 2369 // the year 2369
+* 2372-10 // october 2372
+* 2375-05-02 // october 2, 2375
+* -2000 // 2000 BC
+* ~-10000 // c. 10.000 B.C.
 
 ## Automated sort order
 
