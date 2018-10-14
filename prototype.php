@@ -95,7 +95,7 @@ foreach ($dataFiles as $simpleFileName => $file) {
             $acronym = $record['number'];
         }
         
-        $record['key'] = $record['package']->id.'-'.$acronym;
+        $record['key'] = $record['package']->getId().'-'.$acronym;
         
         if (empty($record['title']) === true) {
             throw new \Exception("Title must not be empty. Missing for {$record['key']}");
@@ -113,7 +113,7 @@ foreach ($dataFiles as $simpleFileName => $file) {
         }
         
         // Overwrites startDate and endDate when stardate is given
-        $isTngEraTvSeries = in_array($record['package']->id, $tngEraSeries);
+        $isTngEraTvSeries = in_array($record['package']->getId(), $tngEraSeries);
         $isStartYearDefinedAndInTngStardateEra = empty($datePartsStartDate[$datePositions['year']]) === false &&
             $datePartsStartDate[$datePositions['year']] >= Calculator::MIN_YEAR;
         if ($isTngEraTvSeries === true || $isStartYearDefinedAndInTngStardateEra === true) {
@@ -158,8 +158,8 @@ $sort = function($a, $b) use ($tngEraSeries, $datePattern, $datePositions) {
         preg_match($datePattern, $b['startDate'], $datePartsB);
         
         // Sort by start stardate (TNG-era only)
-        $isATngEraTvSeries = in_array($a['package']->id, $tngEraSeries);
-        $isBTngEraTvSeries = in_array($b['package']->id, $tngEraSeries);
+        $isATngEraTvSeries = in_array($a['package']->getId(), $tngEraSeries);
+        $isBTngEraTvSeries = in_array($b['package']->getId(), $tngEraSeries);
         
         $isAStartYearDefinedAndInTngStardateEra = empty($datePartsA[$datePositions['year']]) === false &&
         $datePartsA[$datePositions['year']] >= Calculator::MIN_YEAR;
@@ -210,8 +210,8 @@ $sort = function($a, $b) use ($tngEraSeries, $datePattern, $datePositions) {
     
     // TNG-era series or same package AND pub date defined -> sort by pub date
     if ((
-           (in_array($a['package']->id, $tngEraSeries) === true && in_array($b['package']->id, $tngEraSeries) === true) ||
-           $a['package']->id === $b['package']->id
+           (in_array($a['package']->getId(), $tngEraSeries) === true && in_array($b['package']->getId(), $tngEraSeries) === true) ||
+           $a['package']->getId() === $b['package']->getId()
         ) &&
         empty($a['publicationDate']) === false &&
         empty($b['publicationDate']) === false
@@ -224,7 +224,7 @@ $sort = function($a, $b) use ($tngEraSeries, $datePattern, $datePositions) {
     }
     
     // Same package -> sort by number
-    if ($a['package']->id === $b['package']->id) {
+    if ($a['package']->getId() === $b['package']->getId()) {
         $result = $a['number'] <=> $b['number'];
     }
 

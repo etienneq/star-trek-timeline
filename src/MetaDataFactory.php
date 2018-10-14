@@ -25,8 +25,7 @@ class MetaDataFactory
         if (isset($this->metaData[$packageName]) === false) {
             $attributes = $this->loadAttributes($packageName);
             
-            $metaData = new MetaData();
-            $metaData->id = $packageName;
+            $metaData = new MetaData($packageName);
             $metaData->title = $attributes['title'] ?? '';
             $metaData->symbol = $attributes['symbol'] ?? '';
             $metaData->media = $attributes['media'] ?? '';
