@@ -11,7 +11,7 @@ The first line must be a header line containing the name of all fields.
 * number - episode or book number
 * title - title of episode or book
 * startDate - gregorian (earth) date when story begins
-* endDate - gregorian (earth) date when story ends, format: YYYY, YYYY-MM or YYYY-MM-DD
+* endDate - gregorian (earth) date when story ends, format
 * startStardate - stardate, TOS or TNG style
 * endStardate - stardate, TOS or TNG style
 * publicationDate - format: YYYY-MM-DD
@@ -31,14 +31,16 @@ Only when single chapters/sections should become individual timeline entries the
 ## Format of startDate and endDate
 
 Both real-world date fields may contain a full date, year/month combination or just the year.
-Additionally B.C. years are defined as negative dates, approximate years are preceded by a tilde.
+Additionally B.C. dates are defined as negative dates, approximate years are preceded by a tilde.
 
 Examples:
 * 2369 // the year 2369
-* 2372-10 // october 2372
-* 2375-05-02 // october 2, 2375
+* 2372-10 // October 2372
+* 2375-05-02 // October 2, 2375
 * -2000 // 2000 BC
 * ~-10000 // c. 10.000 B.C.
+* ~-10000-05 // c. May 10.000 B.C.
+* -10000-05-09 // May 9, 10.000 B.C.
 
 ## Automated sort order
 
