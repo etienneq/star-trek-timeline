@@ -35,10 +35,10 @@ $fileHeaders = ['number', 'title', 'startDate', 'endDate', 'startStardate', 'end
 $itemFactory = new ItemFactory();
 
 $automatedSort = new AutomatedSort();
-$automatedSort->addCompator(new StartStardate());
-$automatedSort->addCompator(new StartDate());
-$automatedSort->addCompator(new PublicationDate());
-$automatedSort->addCompator(new Number());
+$automatedSort->addComparator(new StartStardate());
+$automatedSort->addComparator(new StartDate());
+$automatedSort->addComparator(new PublicationDate());
+$automatedSort->addComparator(new Number());
 
 $manualSort = new ManualSort();
 
@@ -77,7 +77,7 @@ foreach ($dataFiles as $simpleFileName => $file) {
 }
 
 $items = $automatedSort->sort();
-$manualSort->injectInfo($items);
+$manualSort->injectInto($items);
 
 $runTime = microtime(true) - $startTime;
 

@@ -14,7 +14,7 @@ class ManualSort extends AbstractSort
      * Injects all items into target list.
      * @param Item[] $targetList
      */
-    public function injectInfo(array &$targetList):void
+    public function injectInto(array &$targetList):void
     {
         if (empty($this->items) === true) {
             throw new NoItemsException('No items were added to be injected into target list.');

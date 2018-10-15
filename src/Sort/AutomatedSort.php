@@ -12,7 +12,7 @@ class AutomatedSort extends AbstractSort
      */
     protected $comparators =[];
     
-    public function addCompator(ComparatorInterface $comparator):void
+    public function addComparator(ComparatorInterface $comparator):void
     {
         $this->comparators[] = $comparator;
     }
