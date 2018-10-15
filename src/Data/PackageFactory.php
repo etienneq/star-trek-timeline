@@ -1,5 +1,5 @@
 <?php
-namespace EtienneQ\StarTrekTimeline;
+namespace EtienneQ\StarTrekTimeline\Data;
 
 class PackageFactory
 {
