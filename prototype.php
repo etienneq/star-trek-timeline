@@ -128,9 +128,9 @@ foreach ($items as $item) {
     }
     
     if (empty($item->getStartStardate()) === false) {
-        echo " - Stardate {$item->getStartStardate()}";
+        echo ' - Stardate '.number_format($item->getStartStardate(), 1, '.', '');
         if (empty($item->getEndStardate()) === false) {
-            echo " to {$item->getEndStardate()}";
+            echo ' to '.number_format($item->getEndStardate(), 1, '.', '');
         }
     } elseif(preg_match(DateFormat::PATTERN_FULL_DATE, $item->getStartDate()) === 1) {
         echo ' - ';

@@ -5,7 +5,7 @@ use EtienneQ\StarTrekTimeline\Data\Item;
 use EtienneQ\StarTrekTimeline\DateFormat;
 
 /**
- * Compares by start date as exactly as possible. 
+ * Compares by start date as exactly as possible.
  */
 class StartDate implements ComparatorInterface
 {
@@ -16,7 +16,7 @@ class StartDate implements ComparatorInterface
         
         preg_match(DateFormat::PATTERN_DATE, $item1->getStartDate(), $datePartsA);
         preg_match(DateFormat::PATTERN_DATE, $item2->getStartDate(), $datePartsB);
-
+        
         $bothBeforeChrist = false;
         foreach (DateFormat::DATE_POSITIONS as $type => $position) {
             if ($type === 'bc') {
@@ -29,12 +29,23 @@ class StartDate implements ComparatorInterface
                 } else {
                     $bothBeforeChrist = false;
                 }
-            } elseif (in_array($type, ['year', 'month', 'day']) === true) {
+            } elseif ($type === 'year') {
+                if (
+                    ($datePartsA[$position] === '0' || empty($datePartsA[$position]) === false) &&
+                    ($datePartsB[$position] === '0' || empty($datePartsB[$position]) === false)
+                    ) { // both set
+                        $result = $datePartsA[$position] <=> $datePartsB[$position];
+                        if ($bothBeforeChrist === true) {
+                            $result = $result * -1;
+                        }
+                        
+                        if ($result !== 0) { // not equal
+                            return $result;
+                        }
+                }
+            }elseif (in_array($type, ['month', 'day']) === true) {
                 if (empty($datePartsA[$position]) === false && empty($datePartsB[$position]) === false) { // both set
                     $result = $datePartsA[$position] <=> $datePartsB[$position];
-                    if ($type === 'year' && $bothBeforeChrist === true) {
-                        $result = $result * -1;
-                    }
                     
                     if ($result !== 0) { // not equal
                         return $result;
@@ -44,7 +55,7 @@ class StartDate implements ComparatorInterface
                 continue;
             }
         }
-
+        
         return 0;
     }
 }

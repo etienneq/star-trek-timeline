@@ -24,7 +24,7 @@ class AutomatedSort extends AbstractSort
         }
         
         if (empty($this->comparators) === true) {
-            throw new NoComparatorsException('Add at least one comparator.');
+            throw new NoComparatorException('Add at least one comparator.');
         }
         
         uasort($this->items, [$this, 'comparatorStack']);

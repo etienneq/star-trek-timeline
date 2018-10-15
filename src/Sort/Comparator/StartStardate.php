@@ -18,6 +18,14 @@ class StartStardate implements ComparatorInterface
             throw new NotApplicableException('StartDate of item 2 does not lie within TNG stardate era.');
         }
         
+        if (empty($item1->getStartStardate()) === true) {
+            throw new NotApplicableException('StartStardate of item 1 is not set.');
+        }
+        
+        if (empty($item2->getStartStardate()) === true) {
+            throw new NotApplicableException('StartStardate of item 2 is not set.');
+        }
+        
         return $item1->getStartStardate() <=> $item2->getStartStardate();
     }
 }
