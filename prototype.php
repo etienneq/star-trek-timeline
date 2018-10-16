@@ -1,84 +1,12 @@
 <?php
 
-// Prototype
-// Will be rewritten to proper OO code.
-
-use League\Csv\Reader;
-use EtienneQ\StarTrekTimeline\Data\ItemFactory;
-use EtienneQ\StarTrekTimeline\Data\PackageFactory;
-use EtienneQ\StarTrekTimeline\RecursiveDirectoryScanner;
-use EtienneQ\StarTrekTimeline\Sort\AutomatedSort;
-use EtienneQ\StarTrekTimeline\Sort\ManualSort;
-use EtienneQ\StarTrekTimeline\Sort\Comparator\StartStardate;
-use EtienneQ\StarTrekTimeline\Sort\Comparator\StartDate;
-use EtienneQ\StarTrekTimeline\Sort\Comparator\PublicationDate;
-use EtienneQ\StarTrekTimeline\Sort\Comparator\Number;
 use EtienneQ\StarTrekTimeline\DateFormat;
+use EtienneQ\StarTrekTimeline\Timeline;
 
 require_once __DIR__.'/vendor/autoload.php';
 
 $startTime = microtime(true);
-
-$resourcesDir = __DIR__.'/resources';
-
-$scanner = new RecursiveDirectoryScanner();
-
-// Load meta data for all packages
-$metaDataFiles = $scanner->getFiles($resourcesDir, 'json');
-$packageFactory = new PackageFactory($metaDataFiles);
-
-// Load all data files
-$dataFiles = $scanner->getFiles($resourcesDir, 'csv');
-
-$fileHeaders = ['number', 'title', 'startDate', 'endDate', 'startStardate', 'endStardate', 'publicationDate', 'after', 'details'];
-
-$itemFactory = new ItemFactory();
-
-$automatedSort = new AutomatedSort();
-$automatedSort->addComparator(new StartStardate());
-$automatedSort->addComparator(new StartDate());
-$automatedSort->addComparator(new PublicationDate());
-$automatedSort->addComparator(new Number());
-
-$manualSort = new ManualSort();
-
-foreach ($dataFiles as $simpleFileName => $file) {
-    $reader = Reader::createFromPath($file, 'r');
-    
-    $reader->setHeaderOffset(0);
-    $headers = $reader->getHeader(); 
-    if ($headers != $fileHeaders) {
-        throw new \Exception("Headers in {$simpleFileName} do not match expectations.");
-    }
-    
-    $headers = array_merge(['package', 'key'], $headers);
-
-    $lastParent = null;
-
-    foreach($reader->getRecords() as $record) {
-        $item = $itemFactory->createItem($record, $packageFactory->getPackage($simpleFileName));
-
-        if ($item->number  !== '--') {
-            $lastParent = $item;
-        } else {
-            if ($lastParent === null) {
-                throw new \Exception("Parent record not found for {$item->getId()}.");
-            }
-            
-            $item->setParent($lastParent);
-        } 
-        
-        if (empty($item->after) === true) {
-            $automatedSort->addItem($item);
-        } else {
-            $manualSort->addItem($item);
-        }
-    }
-}
-
-$items = $automatedSort->sort();
-$manualSort->injectInto($items);
-
+$items = (new Timeline())->findAll();
 $runTime = microtime(true) - $startTime;
 
 // Rendering
@@ -102,8 +30,7 @@ $memory = round(memory_get_peak_usage(true) / 1000 / 1000, 2);
 $memoryPeak = round(memory_get_usage(true) / 1000 / 1000, 2);
 
 echo "Run time: {$runTime} ms<br />";
-echo "Memory usage: {$memory} MB<br />";
-echo "Memory peak usage: {$memoryPeak} MB<br /><br />";
+echo "Memory usage: {$memory} MB (peak: {$memoryPeak} MB)<br /><br />";
 
 $previousYear = false;
 foreach ($items as $item) {
