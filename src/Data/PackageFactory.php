@@ -28,9 +28,9 @@ class PackageFactory
             $attributes = $this->loadAttributes($packageName);
             
             $package = new Package($packageName);
-            $package->title = $attributes['title'] ?? '';
-            $package->symbol = $attributes['symbol'] ?? '';
-            $package->media = $attributes['media'] ?? '';
+            $package->title = $attributes[MetaDataFile::TITLE] ?? '';
+            $package->symbol = $attributes[MetaDataFile::SYMBOL] ?? '';
+            $package->media = $attributes[MetaDataFile::MEDIA] ?? '';
             
             $this->packages[$packageName] = $package;
         }

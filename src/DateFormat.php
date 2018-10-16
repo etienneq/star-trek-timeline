@@ -12,13 +12,21 @@ class DateFormat
     public const PATTERN_FULL_DATE = '/^[0-9]+-[0-9]{2}-[0-9]{2}$/'; // YYYY-MM-DD
     public const PATTERN_YEAR_MONTH = '/^[0-9]+-[0-9]{2}$/'; // YYYY-MM
     
+    public const FORMAT_FULL_DATE = 'Y-m-d';
+    
     public const DATE_POSITIONS = [
-        'about' => 1,
-        'bc' => 2,
-        'year' => 3,
-        'month' => 5,
-        'day' => 7,
+        self::POS_CIRCA => 1,
+        self::POS_BEFORE_CHRIST => 2,
+        self::POS_YEAR => 3,
+        self::POS_MONTH => 5,
+        self::POS_DAY => 7,
     ];
+    
+    public const POS_CIRCA = 0;
+    public const POS_BEFORE_CHRIST = 1;
+    public const POS_YEAR = 2;
+    public const POS_MONTH = 3;
+    public const POS_DAY = 4;
     
     public static function getYear(string $date):string
     {
@@ -27,18 +35,18 @@ class DateFormat
         
         $date = '';
         
-        if (empty($matches[self::DATE_POSITIONS['about']]) === false) {
+        if (empty($matches[self::DATE_POSITIONS[self::POS_CIRCA]]) === false) {
             $date .= 'C.';
         }
         
-        $year = $matches[self::DATE_POSITIONS['year']];
-        if (empty($matches[self::DATE_POSITIONS['bc']]) === false && $year >= 10000) {
+        $year = $matches[self::DATE_POSITIONS[self::POS_YEAR]];
+        if (empty($matches[self::DATE_POSITIONS[self::POS_BEFORE_CHRIST]]) === false && $year >= 10000) {
             $year = number_format($year);
         }
         
         $date .= $year;
         
-        if (empty($matches[self::DATE_POSITIONS['bc']]) === false) {
+        if (empty($matches[self::DATE_POSITIONS[self::POS_BEFORE_CHRIST]]) === false) {
             $date .= ' BC';
         }
         

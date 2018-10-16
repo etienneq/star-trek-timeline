@@ -7,27 +7,27 @@ class ItemFactory
 {
     public function createItem(array $attributes, Package $package):Item
     {
-        $id = $this->generateItemId($attributes['number'] ?? '', $attributes['title'], $package);
+        $id = $this->generateItemId($attributes[DataFile::NUMBER] ?? '', $attributes[DataFile::TITLE], $package);
         $item = new Item(
             $id,
-            $attributes['title'] ?? '',
-            $attributes['startDate'] ?? '',
+            $attributes[DataFile::TITLE] ?? '',
+            $attributes[DataFile::START_DATE] ?? '',
             new Calculator()
         );
 
         $item->setPackage($package);
-        $item->number = $attributes['number'] ?? '';
-        $item->setEndDate($attributes['endDate'] ?? '');
-        $item->publicationDate = $attributes['publicationDate'] ?? '';
-        $item->after = $attributes['after'] ?? '';
-        $item->details = $attributes['details'] ?? '';
+        $item->number = $attributes[DataFile::NUMBER] ?? '';
+        $item->setEndDate($attributes[DataFile::END_DATE] ?? '');
+        $item->publicationDate = $attributes[DataFile::PUBLICATION_DATE] ?? '';
+        $item->after = $attributes[DataFile::PREDECESSOR_ID] ?? '';
+        $item->details = $attributes[DataFile::DESCRIPTION] ?? '';
         
-        if (empty($attributes['startStardate']) === false) {
-            $item->setStartStardate($attributes['startStardate']);
+        if (empty($attributes[DataFile::START_STARDATE]) === false) {
+            $item->setStartStardate($attributes[DataFile::START_STARDATE]);
         }
         
-        if (empty($attributes['endStardate']) === false) {
-            $item->setEndStardate($attributes['endStardate']);
+        if (empty($attributes[DataFile::END_STARDATE]) === false) {
+            $item->setEndStardate($attributes[DataFile::END_STARDATE]);
         }
 
         return $item;

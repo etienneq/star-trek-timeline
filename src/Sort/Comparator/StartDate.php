@@ -19,7 +19,7 @@ class StartDate implements ComparatorInterface
         
         $bothBeforeChrist = false;
         foreach (DateFormat::DATE_POSITIONS as $type => $position) {
-            if ($type === 'bc') {
+            if ($type === DateFormat::POS_BEFORE_CHRIST) {
                 if (empty($datePartsA[$position]) === false && empty($datePartsB[$position]) === true) { // first one is B.C.
                     return -1;
                 } elseif (empty($datePartsA[$position]) === true && empty($datePartsB[$position]) === false) { // second one is B.C.
@@ -29,7 +29,7 @@ class StartDate implements ComparatorInterface
                 } else {
                     $bothBeforeChrist = false;
                 }
-            } elseif ($type === 'year') {
+            } elseif ($type === DateFormat::POS_YEAR) {
                 if (
                     ($datePartsA[$position] === '0' || empty($datePartsA[$position]) === false) &&
                     ($datePartsB[$position] === '0' || empty($datePartsB[$position]) === false)
@@ -43,7 +43,7 @@ class StartDate implements ComparatorInterface
                             return $result;
                         }
                 }
-            }elseif (in_array($type, ['month', 'day']) === true) {
+            }elseif (in_array($type, [DateFormat::POS_MONTH, DateFormat::POS_DAY]) === true) {
                 if (empty($datePartsA[$position]) === false && empty($datePartsB[$position]) === false) { // both set
                     $result = $datePartsA[$position] <=> $datePartsB[$position];
                     

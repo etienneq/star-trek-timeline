@@ -183,7 +183,7 @@ class Item
         }
         
         if ($this->isInTngStardateEra($date) === true && $stardate < $this->calculator::MAX_STARDATE) {
-            return $this->calculator->toGregorianDate($stardate)->format('Y-m-d');
+            return $this->calculator->toGregorianDate($stardate)->format(DateFormat::FORMAT_FULL_DATE);
         }
         
         return $date;
@@ -193,7 +193,7 @@ class Item
     {
         $dateParts = [];
         preg_match(DateFormat::PATTERN_DATE, $date, $dateParts);
-        $year = $dateParts[DateFormat::DATE_POSITIONS['bc']].$dateParts[DateFormat::DATE_POSITIONS['year']];
+        $year = $dateParts[DateFormat::DATE_POSITIONS[DateFormat::POS_BEFORE_CHRIST]].$dateParts[DateFormat::DATE_POSITIONS[DateFormat::POS_YEAR]];
         return $year >= $this->calculator::MIN_YEAR;
     }
 }

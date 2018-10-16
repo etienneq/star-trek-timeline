@@ -11,6 +11,7 @@ use EtienneQ\StarTrekTimeline\Sort\Comparator\StartDate;
 use EtienneQ\StarTrekTimeline\Sort\Comparator\PublicationDate;
 use EtienneQ\StarTrekTimeline\Sort\Comparator\Number;
 use EtienneQ\StarTrekTimeline\Data\Item;
+use EtienneQ\StarTrekTimeline\Data\DataFile;
 
 class Timeline
 {
@@ -21,15 +22,15 @@ class Timeline
     protected const META_DATA_FILE_ENDING = 'json';
     
     protected const DATA_FILE_HEADERS = [
-        'number',
-        'title',
-        'startDate',
-        'endDate',
-        'startStardate',
-        'endStardate',
-        'publicationDate',
-        'after',
-        'details',
+        DataFile::NUMBER,
+        DataFile::TITLE,
+        DataFile::START_DATE,
+        DataFile::END_DATE,
+        DataFile::START_STARDATE,
+        DataFile::END_STARDATE,
+        DataFile::PUBLICATION_DATE,
+        DataFile::PREDECESSOR_ID,
+        DataFile::DESCRIPTION,
     ];
     
     /**
@@ -111,7 +112,7 @@ class Timeline
             foreach($reader->getRecords(self::DATA_FILE_HEADERS) as $record) {
                 $item = $this->itemFactory->createItem($record, $this->packageFactory->getPackage($simpleFileName));
                 
-                if ($item->number  !== '--') {
+                if ($item->number  !== DataFile::NUMBER_CHILD) {
                     $lastParent = $item;
                 } else {
                     if ($lastParent === null) {
