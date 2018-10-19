@@ -35,7 +35,7 @@ class ItemFactory
     
     protected function generateItemId(string $number, string $title, Package $package):string
     {
-        if (empty($number) === true || $number === '--') {
+        if (empty($number) === true || $number === DataFile::NUMBER_CHILD) {
             $words = preg_split("/\s+/", trim(preg_replace('/[^a-z0-9]/i', ' ', $title)));
             $itemHash = '';
             foreach ($words as $word) {

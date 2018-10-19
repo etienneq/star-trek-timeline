@@ -6,7 +6,7 @@ A Star Trek fiction timeline covering all media (TV, cinema, novels, comics), wr
 
 When finished this library aims to provide a timeline for all published Star Trek.
 
-Episodes, novels etc. are organized in [CSV files](resources). This files are devided in a human readable fashion (e.g. by media or series) to be easily manageable and updateable.
+Episodes, novels etc. are organized in CSV files. This files are devided in a human readable fashion (e.g. by media or series) to be easily manageable and updateable.
 
 This library automatically sorts all entries chronologically as excactly as possible using a number of criteria (given stardate, publication date, episode number etc.). If needed entries can be placed manually at a certain place on the timeline.
 
@@ -41,7 +41,7 @@ I'm planning to launch a website which utilizes this library to make the timelin
 ## Data structure
 
 Data files are located in the [resources](resources) directory.
-There are two types of files: Data files (\*.csv) which contain all the episodes and books and meta data (\*.json) files which give additional information about a particular series or season.
+There are two types of files: Data files (\*.csv) which contain all the episodes and books and meta data (\*.ini) files which give additional information about a particular series or season.
 
 * [Defining data files](doc/data-files.md)
 * [Defining meta data files](doc/meta-data-files.md)

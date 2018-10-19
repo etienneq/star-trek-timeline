@@ -12,14 +12,11 @@ use EtienneQ\StarTrekTimeline\Sort\Comparator\PublicationDate;
 use EtienneQ\StarTrekTimeline\Sort\Comparator\Number;
 use EtienneQ\StarTrekTimeline\Data\Item;
 use EtienneQ\StarTrekTimeline\Data\DataFile;
+use EtienneQ\StarTrekTimeline\Data\MetaDataFile;
 
 class Timeline
 {
     protected const RESOURCES_DIR = __DIR__.'/../resources';
-    
-    protected const DATA_FILE_ENDING = 'csv';
-    
-    protected const META_DATA_FILE_ENDING = 'json';
     
     protected const DATA_FILE_HEADERS = [
         DataFile::NUMBER,
@@ -69,10 +66,10 @@ class Timeline
     {
         $directoryScanner = new RecursiveDirectoryScanner();
         
-        $metaDataFiles = $directoryScanner->getFiles(self::RESOURCES_DIR, self::META_DATA_FILE_ENDING);
+        $metaDataFiles = $directoryScanner->getFiles(self::RESOURCES_DIR, MetaDataFile::FILE_ENDING);
         $this->packageFactory = new PackageFactory($metaDataFiles);
         
-        $this->dataFiles = $directoryScanner->getFiles(self::RESOURCES_DIR, self::DATA_FILE_ENDING);
+        $this->dataFiles = $directoryScanner->getFiles(self::RESOURCES_DIR, DataFile::FILE_ENDING);
         
         $this->itemFactory = new ItemFactory();
         

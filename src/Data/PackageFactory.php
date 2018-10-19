@@ -3,8 +3,6 @@ namespace EtienneQ\StarTrekTimeline\Data;
 
 class PackageFactory
 {
-    protected const GENERAL_META_FILENAME = 'meta.json';
-    
     /**
      * @var array
      */
@@ -54,9 +52,9 @@ class PackageFactory
         
         // Put general meta data files always first if both files are in same directory
         if ($path1 === $path2) {
-            if ($filename1 === self::GENERAL_META_FILENAME) {
+            if ($filename1 === MetaDataFile::GENERAL_FILE_NAME) {
                 return -1;
-            } elseif ($filename2 === self::GENERAL_META_FILENAME) {
+            } elseif ($filename2 === MetaDataFile::GENERAL_FILE_NAME) {
                 return -1;
             }
         }
@@ -85,8 +83,8 @@ class PackageFactory
         foreach (array_keys($this->files) as $file) {
             $pathInfo = pathinfo($file);
             // A parent's general meta data or meta data for this specific package
-            if ((strpos($packageName, $pathInfo['dirname']) === 0 && $pathInfo['basename'] === self::GENERAL_META_FILENAME) ||
-                $file === $packageName.'.json'
+            if ((strpos($packageName, $pathInfo['dirname']) === 0 && $pathInfo['basename'] === MetaDataFile::GENERAL_FILE_NAME) ||
+                $file === $packageName.'.'.MetaDataFile::FILE_ENDING
             ) {
                 $files[] = $file;
             }
@@ -103,6 +101,11 @@ class PackageFactory
             throw new \Exception("Could not read from meta data file {$filename}.");
         }
         
-        return json_decode($content, true);
+        $attributes = parse_ini_file($filename);
+        if ($attributes === false) {
+            throw new \Exception("Could not parse content of meta data file {$filename}.");
+        }
+        
+        return $attributes;
     }
 }

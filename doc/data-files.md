@@ -2,6 +2,8 @@
 
 Data files can be organized in a hierarchical directory structure. Each sub directory and each CSV file is called a package thus allowing to create a hierarchy of packages (parent and child packages). There are no naming conventions for data files except the file ending csv.
 
+CSV stands for comma separated values.
+
 The first line must be a header line containing the name of all fields.
 
 ```
@@ -27,6 +29,8 @@ If a field contains a coma ist must be enclosed in double quotes.
 
 The order in which entries are listed within a single data file is of no importance because all entries will be sorted automatically.
 Only when single chapters/sections should become individual timeline entries the order within the data file is important (see below).
+
+Data files may be edited with a text editor or your favorite spreadsheet application.
 
 ## Format of startDate and endDate
 

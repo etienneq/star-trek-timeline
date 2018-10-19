@@ -3,6 +3,8 @@ namespace EtienneQ\StarTrekTimeline\Data;
 
 class DataFile
 {
+    public const FILE_ENDING = 'csv';
+    
     // CSV column names
     public const NUMBER = 'number';
     public const TITLE = 'title';
