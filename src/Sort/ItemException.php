@@ -1,6 +1,6 @@
 <?php
 namespace EtienneQ\StarTrekTimeline\Sort;
 
-class NoItemsException extends \RuntimeException
+class ItemException extends \RuntimeException
 {
 }

@@ -1,8 +1,6 @@
-# Data files
+# Items files
 
-Data files can be organized in a hierarchical directory structure. Each sub directory and each CSV file is called a package thus allowing to create a hierarchy of packages (parent and child packages). There are no naming conventions for data files except the file ending csv.
-
-CSV stands for comma separated values.
+Items files can be organized in a hierarchical directory structure. Each sub directory and each CSV file is called a package thus allowing to create a hierarchy of packages (parent and child packages). There are no naming conventions for items files except the file ending csv. CSV stands for comma separated values.
 
 The first line must be a header line containing the name of all fields.
 
@@ -27,10 +25,10 @@ The second to nth line contains the timeline entries.
 Use a coma as field separator. If necessary fields can be enclosed in double quotes. It's best practice to enclose at least the title field.
 If a field contains a coma ist must be enclosed in double quotes.
 
-The order in which entries are listed within a single data file is of no importance because all entries will be sorted automatically.
-Only when single chapters/sections should become individual timeline entries the order within the data file is important (see below).
+The order in which entries are listed within a single items file is of no importance because all entries will be sorted automatically.
+Only when single chapters/sections should become individual timeline entries the order within the items file is important (see below).
 
-Data files may be edited with a text editor or your favorite spreadsheet application.
+Items files may be edited with a text editor or your favorite spreadsheet application.
 
 ## Format of startDate and endDate
 
@@ -52,8 +50,8 @@ There are a number of criteria used to sort timeline entries in an automated fas
 
 * by TNG-era stardate (TOS stardates are ignored)
 * by start date (as exactly as possible), examples: 2365-10-01 is greater than 2365-09; 2365-10 can't be compared to 2365 (because second date could be less or greater than first one)
-* by publication date if both compared entries are from a TNG-era TV series or are from the same data file
-* by number if both compared entries are from the same data file
+* by publication date if both compared entries are from a TNG-era TV series or are from the same items file
+* by number if both compared entries are from the same items file
 
 If automated sorting doesn't yield the desired results it's possible to define an entry's predecessor manually.
 
@@ -69,7 +67,7 @@ Example: tv/ds9/my-package.csv -> tv/ds9/my-package
 The acronym is generated from an entry's title and is always upper-case.
 Example: Rise of the Federation -> ROTF
 
-Examplary data file tv/ds9/my-package.csv:
+Examplary items file tv/ds9/my-package.csv:
 
 
 ```
@@ -90,7 +88,7 @@ This would become the following timeline:
 ## Anthologies
 
 Anthologies consist of multiple independent stories.
-The anthology must be defined as a data file while each story is defined as a single entry in that data file.
+The anthology must be defined as a items file while each story is defined as a single entry in that items file.
 
 ## Making chapters/sections individual timeline entries
 

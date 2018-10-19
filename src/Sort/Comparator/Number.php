@@ -10,7 +10,7 @@ class Number implements ComparatorInterface
 {
     public function compare(Item $item1, Item $item2):int
     {
-        if ($item1->getPackage()->getId() !== $item2->getPackage()->getId()) {
+        if ($item1->getMetaData()->getId() !== $item2->getMetaData()->getId()) {
             throw new NotApplicableException('Both items are not from the same package.');
         }
         

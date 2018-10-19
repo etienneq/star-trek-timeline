@@ -3,7 +3,7 @@ namespace EtienneQ\StarTrekTimeline;
 
 use League\Csv\Reader;
 use EtienneQ\StarTrekTimeline\Data\ItemFactory;
-use EtienneQ\StarTrekTimeline\Data\PackageFactory;
+use EtienneQ\StarTrekTimeline\Data\MetaDataFactory;
 use EtienneQ\StarTrekTimeline\Sort\AutomatedSort;
 use EtienneQ\StarTrekTimeline\Sort\ManualSort;
 use EtienneQ\StarTrekTimeline\Sort\Comparator\StartStardate;
@@ -11,29 +11,31 @@ use EtienneQ\StarTrekTimeline\Sort\Comparator\StartDate;
 use EtienneQ\StarTrekTimeline\Sort\Comparator\PublicationDate;
 use EtienneQ\StarTrekTimeline\Sort\Comparator\Number;
 use EtienneQ\StarTrekTimeline\Data\Item;
-use EtienneQ\StarTrekTimeline\Data\DataFile;
+use EtienneQ\StarTrekTimeline\Data\ItemsFile;
 use EtienneQ\StarTrekTimeline\Data\MetaDataFile;
+use EtienneQ\StarTrekTimeline\Data\ItemException;
+use EtienneQ\StarTrekTimeline\Filesystem\RecursiveDirectoryScanner;
 
 class Timeline
 {
     protected const RESOURCES_DIR = __DIR__.'/../resources';
     
     protected const DATA_FILE_HEADERS = [
-        DataFile::NUMBER,
-        DataFile::TITLE,
-        DataFile::START_DATE,
-        DataFile::END_DATE,
-        DataFile::START_STARDATE,
-        DataFile::END_STARDATE,
-        DataFile::PUBLICATION_DATE,
-        DataFile::PREDECESSOR_ID,
-        DataFile::DESCRIPTION,
+        ItemsFile::NUMBER,
+        ItemsFile::TITLE,
+        ItemsFile::START_DATE,
+        ItemsFile::END_DATE,
+        ItemsFile::START_STARDATE,
+        ItemsFile::END_STARDATE,
+        ItemsFile::PUBLICATION_DATE,
+        ItemsFile::PREDECESSOR_ID,
+        ItemsFile::DESCRIPTION,
     ];
     
     /**
-     * @var PackageFactory
+     * @var MetaDataFactory
      */
-    protected $packageFactory;
+    protected $metaDataFactory;
     
     /**
      * @var ItemFactory
@@ -67,9 +69,9 @@ class Timeline
         $directoryScanner = new RecursiveDirectoryScanner();
         
         $metaDataFiles = $directoryScanner->getFiles(self::RESOURCES_DIR, MetaDataFile::FILE_ENDING);
-        $this->packageFactory = new PackageFactory($metaDataFiles);
+        $this->metaDataFactory = new MetaDataFactory($metaDataFiles);
         
-        $this->dataFiles = $directoryScanner->getFiles(self::RESOURCES_DIR, DataFile::FILE_ENDING);
+        $this->dataFiles = $directoryScanner->getFiles(self::RESOURCES_DIR, ItemsFile::FILE_ENDING);
         
         $this->itemFactory = new ItemFactory();
         
@@ -107,13 +109,13 @@ class Timeline
             $lastParent = null;
             
             foreach($reader->getRecords(self::DATA_FILE_HEADERS) as $record) {
-                $item = $this->itemFactory->createItem($record, $this->packageFactory->getPackage($simpleFileName));
+                $item = $this->itemFactory->createItem($record, $this->metaDataFactory->getMetaData($simpleFileName));
                 
-                if ($item->number  !== DataFile::NUMBER_CHILD) {
+                if ($item->number  !== ItemsFile::NUMBER_CHILD) {
                     $lastParent = $item;
                 } else {
                     if ($lastParent === null) {
-                        throw new \Exception("Parent record not found for {$item->getId()}.");
+                        throw new ItemException("Parent record not found for {$item->getId()}.");
                     }
                     
                     $item->setParent($lastParent);

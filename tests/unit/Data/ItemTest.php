@@ -1,9 +1,9 @@
 <?php
 namespace Tests\EtienneQ\StarTrekTimeline\Data;
 
-use EtienneQ\StarTrekTimeline\Data\InvalidItemAttributeException;
+use EtienneQ\StarTrekTimeline\Data\ItemException;
 use EtienneQ\StarTrekTimeline\Data\Item;
-use EtienneQ\StarTrekTimeline\Data\Package;
+use EtienneQ\StarTrekTimeline\Data\MetaData;
 use PHPUnit\Framework\TestCase;
 use EtienneQ\Stardate\Calculator;
 
@@ -26,21 +26,21 @@ class ItemTest extends TestCase
     
     public function testConstructWithEmptyTitleShouldThrowException()
     {
-        $this->expectException(InvalidItemAttributeException::class);
+        $this->expectException(ItemException::class);
         
         new Item('id', '', 'startDate', self::$calculator);
     }
     
     public function testConstructWithEmptyStartDateShouldThrowException()
     {
-        $this->expectException(InvalidItemAttributeException::class);
+        $this->expectException(ItemException::class);
         
         new Item('id', 'title', '', self::$calculator);
     }
     
     public function testConstructWithInvalidStartDateShouldThrowException()
     {
-        $this->expectException(InvalidItemAttributeException::class);
+        $this->expectException(ItemException::class);
         
         new Item('id', 'title', 'invalid startDate', self::$calculator);
     }
@@ -84,16 +84,16 @@ class ItemTest extends TestCase
         $this->assertEquals($expectedId, $id);
     }
     
-    public function testSetGetPackage()
+    public function testSetGetMetaData()
     {
         $item = new Item('id', 'title', '2364', self::$calculator);
         $expectedPackageId = 'packageId';
-        $item->setPackage(new Package($expectedPackageId));
+        $item->setMetaData(new MetaData($expectedPackageId));
         
-        $package = $item->getPackage();
+        $metaData = $item->getMetaData();
         
-        $this->assertInstanceOf(Package::class, $package);
-        $this->assertEquals($expectedPackageId, $package->getId());
+        $this->assertInstanceOf(MetaData::class, $metaData);
+        $this->assertEquals($expectedPackageId, $metaData->getId());
     }
     
     public function testSetGetParent()
@@ -115,7 +115,7 @@ class ItemTest extends TestCase
     
     public function testSetEndDateWithInvalidDateShouldThrowException()
     {
-        $this->expectException(InvalidItemAttributeException::class);
+        $this->expectException(ItemException::class);
         
         $item = new Item('id', 'title', '2364', self::$calculator);
         
@@ -160,8 +160,8 @@ class ItemTest extends TestCase
     public function dataProviderInvalidStardates():array
     {
         return [
-            [-1000, InvalidItemAttributeException::class],
-            [-0.1, InvalidItemAttributeException::class],
+            [-1000, ItemException::class],
+            [-0.1, ItemException::class],
             ['invalid stardate', \TypeError::class],
         ];
     }

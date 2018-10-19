@@ -3,7 +3,7 @@ namespace Tests\EtienneQ\StarTrekTimeline\Data;
 
 use EtienneQ\StarTrekTimeline\Data\Item;
 use EtienneQ\StarTrekTimeline\Data\ItemFactory;
-use EtienneQ\StarTrekTimeline\Data\Package;
+use EtienneQ\StarTrekTimeline\Data\MetaData;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -16,7 +16,7 @@ class ItemFactoryTest extends TestCase
      */
     public function testCreateItemShouldGenerateValidItemId(string $number, string $expectedItemId)
     {
-        $package = new Package('packageId');
+        $metaData = new MetaData('packageId');
         $attributes = [
             'number' => $number,
             'title' => 'Crazy Episode',
@@ -27,7 +27,7 @@ class ItemFactoryTest extends TestCase
         
         $factory = new ItemFactory();
         
-        $item = $factory->createItem($attributes, $package);
+        $item = $factory->createItem($attributes, $metaData);
         
         $this->assertInstanceOf(Item::class, $item);
         $this->assertEquals($expectedItemId, $item->getId());

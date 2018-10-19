@@ -41,9 +41,9 @@ I'm planning to launch a website which utilizes this library to make the timelin
 ## Data structure
 
 Data files are located in the [resources](resources) directory.
-There are two types of files: Data files (\*.csv) which contain all the episodes and books and meta data (\*.ini) files which give additional information about a particular series or season.
+There are two types of files: Items files (\*.csv) which contain all the episodes, books etc. and meta data (\*.ini) files which give additional information about a particular series or season.
 
-* [Defining data files](doc/data-files.md)
+* [Defining items files](doc/items-files.md)
 * [Defining meta data files](doc/meta-data-files.md)
 
 ## Data sources

@@ -2,7 +2,7 @@
 
 use EtienneQ\StarTrekTimeline\DateFormat;
 use EtienneQ\StarTrekTimeline\Timeline;
-use EtienneQ\StarTrekTimeline\Data\DataFile;
+use EtienneQ\StarTrekTimeline\Data\ItemsFile;
 
 require_once __DIR__.'/vendor/autoload.php';
 
@@ -41,10 +41,10 @@ foreach ($items as $item) {
     }
     
     echo '<div class="item">';
-    echo "[{$item->getPackage()->media}] ";
-    echo $item->getPackage()->symbol;
+    echo "[{$item->getMetaData()->media}] ";
+    echo $item->getMetaData()->symbol;
     
-    if ($item->number === DataFile::NUMBER_CHILD) {
+    if ($item->number === ItemsFile::NUMBER_CHILD) {
         echo " \"{$item->getParent()->getTitle()}\"";
         if (empty($item->details) === false) {
             echo " ({$item->details})";
@@ -82,7 +82,7 @@ foreach ($items as $item) {
         echo (new \DateTime($item->getStartDate().'-01'))->format('F'); //
     }
     
-    if ($item->number !== DataFile::NUMBER_CHILD && empty($item->details) === false) {
+    if ($item->number !== ItemsFile::NUMBER_CHILD && empty($item->details) === false) {
         echo "<i> - {$item->details}</i>";
     }
     

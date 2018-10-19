@@ -17,7 +17,7 @@ class ManualSort extends AbstractSort
     public function injectInto(array &$targetList):void
     {
         if (empty($this->items) === true) {
-            throw new NoItemsException('No items were added to be injected into target list.');
+            throw new ItemException('No items were added to be injected into target list.');
         }
         
         do {
@@ -25,7 +25,7 @@ class ManualSort extends AbstractSort
             foreach ($itemsToInsert as $key => $item) {
                 $offset = array_search($item->after, array_keys($targetList));
                 if ($offset === false) {
-                    throw new \Exception("Predecessor item {$item->after} not found for {$key}.");
+                    throw new ItemException("Predecessor item {$item->after} not found for {$key}.");
                 }
                 
                 $offset++;

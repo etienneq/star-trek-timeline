@@ -1,5 +1,5 @@
 <?php
-namespace EtienneQ\StarTrekTimeline;
+namespace EtienneQ\StarTrekTimeline\Filesystem;
 
 class RecursiveDirectoryScanner
 {
@@ -18,7 +18,7 @@ class RecursiveDirectoryScanner
     {
         $listing = scandir($dir);
         if ($listing === false) {
-            throw new \Exception("Error scanning directory {$dir}");
+            throw new DirectoryException("Error scanning directory {$dir}");
         }
         
         $foundFiles = [];
@@ -33,7 +33,7 @@ class RecursiveDirectoryScanner
             $matches = [];
             if (is_file($fullPath) === true && preg_match("/^.+\.{$ending}$/i", $fullPath, $matches) === 1) {
                 if (is_readable($fullPath) === false) {
-                    throw new \Exception("File {$fullPath} is not readable.");
+                    throw new FileException("File {$fullPath} is not readable.");
                 }
                 
                 $foundFiles[] = $fullPath;

@@ -1,7 +1,10 @@
 <?php
 namespace EtienneQ\StarTrekTimeline\Data;
 
-class PackageFactory
+/**
+ * Factory to create a meta data object.
+ */
+class MetaDataFactory
 {
     /**
      * @var array
@@ -9,31 +12,31 @@ class PackageFactory
     protected $files = [];
     
     /**
-     * @var Package[]
+     * @var MetaData[]
      */
-    protected $packages = [];
+    protected $metaData = [];
     
     public function __construct(array $files) {
         $this->files = $files;
         uksort($this->files, [$this, 'sortGeneralMetaFilesFirst']);
     }
     
-    public function getPackage(string $filename):Package
+    public function getMetaData(string $filename):MetaData
     {
         $packageName = $this->resolvePackageName($filename);
         
-        if (isset($this->packages[$packageName]) === false) {
+        if (isset($this->metaData[$packageName]) === false) {
             $attributes = $this->loadAttributes($packageName);
             
-            $package = new Package($packageName);
-            $package->title = $attributes[MetaDataFile::TITLE] ?? '';
-            $package->symbol = $attributes[MetaDataFile::SYMBOL] ?? '';
-            $package->media = $attributes[MetaDataFile::MEDIA] ?? '';
+            $metaData = new MetaData($packageName);
+            $metaData->title = $attributes[MetaDataFile::TITLE] ?? '';
+            $metaData->symbol = $attributes[MetaDataFile::SYMBOL] ?? '';
+            $metaData->media = $attributes[MetaDataFile::MEDIA] ?? '';
             
-            $this->packages[$packageName] = $package;
+            $this->metaData[$packageName] = $metaData;
         }
         
-        return $this->packages[$packageName];
+        return $this->metaData[$packageName];
     }
     
     protected function resolvePackageName(string $filename):string
@@ -66,7 +69,7 @@ class PackageFactory
     {
         $files = $this->getFiles($packageName);
         if (count($files) === 0) {
-            throw new \Exception("No meta data found for package {$packageName}.");
+            throw new MetaDataException("No meta data found for package {$packageName}.");
         }
 
         $attributes = [];
@@ -98,12 +101,12 @@ class PackageFactory
     {
         $content = file_get_contents($filename);
         if ($content === false) {
-            throw new \Exception("Could not read from meta data file {$filename}.");
+            throw new MetaDataException("Could not read from meta data file {$filename}.");
         }
         
         $attributes = parse_ini_file($filename);
         if ($attributes === false) {
-            throw new \Exception("Could not parse content of meta data file {$filename}.");
+            throw new MetaDataException("Could not parse content of meta data file {$filename}.");
         }
         
         return $attributes;

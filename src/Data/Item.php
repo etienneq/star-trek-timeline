@@ -35,9 +35,9 @@ class Item
     protected $id = '';
     
     /**
-     * @var Package
+     * @var MetaData
      */
-    protected $package;
+    protected $metaData;
     
     /**
      * @var Item
@@ -77,11 +77,11 @@ class Item
     public function __construct(string $id, string $title, string $startDate, Calculator $calculator)
     {
         if (empty($title) === true) {
-            throw new InvalidItemAttributeException('Title must not be empty.');
+            throw new ItemException('Title must not be empty.');
         }
         
         if (preg_match(DateFormat::PATTERN_DATE, $startDate) !== 1) {
-            throw new InvalidItemAttributeException('StartDate is empty or invalid.');
+            throw new ItemException('StartDate is empty or invalid.');
         }
         
         $this->id = $id;
@@ -96,14 +96,14 @@ class Item
         return $this->id;
     }
     
-    public function setPackage(Package $package):void
+    public function setMetaData(MetaData $metaData):void
     {
-        $this->package = $package;
+        $this->metaData = $metaData;
     }
     
-    public function getPackage():Package
+    public function getMetaData():MetaData
     {
-        return $this->package;
+        return $this->metaData;
     }
     
     public function setParent(Item $parent):void
@@ -130,7 +130,7 @@ class Item
     public function setEndDate(string $date):void
     {
         if (empty($date) === false && preg_match(DateFormat::PATTERN_DATE, $date) !== 1) {
-            throw new InvalidItemAttributeException('EndDate is invalid.');
+            throw new ItemException('EndDate is invalid.');
         }
         
         $this->endDate = $date;
@@ -144,7 +144,7 @@ class Item
     public function setStartStardate(float $stardate):void
     {
         if ($stardate < 0) {
-            throw new InvalidItemAttributeException('Stardate must be greater than 0.');
+            throw new ItemException('Stardate must be greater than 0.');
         }
         
         $this->startStardate = $stardate;
@@ -159,7 +159,7 @@ class Item
     public function setEndStardate(float $stardate):void
     {
         if ($stardate < 0) {
-            throw new InvalidItemAttributeException('Stardate must be greater than 0.');
+            throw new ItemException('Stardate must be greater than 0.');
         }
         
         $this->endStardate = $stardate;

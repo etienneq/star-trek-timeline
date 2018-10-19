@@ -1,20 +1,20 @@
 <?php
 namespace Tests\EtienneQ\StarTrekTimeline\Data;
 
-use EtienneQ\StarTrekTimeline\Data\Package;
+use EtienneQ\StarTrekTimeline\Data\MetaData;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \EtienneQ\StarTrekTimeline\Data\Package
+ * @covers \EtienneQ\StarTrekTimeline\Data\MetaData
  */
-class PackageTest extends TestCase
+class MetaDataTest extends TestCase
 {
     public function testGetIdShouldReturnId()
     {
         $expectedId = 'id';
-        $package = new Package($expectedId);
+        $metaData = new MetaData($expectedId);
         
-        $this->assertEquals($expectedId, $package->getId());
+        $this->assertEquals($expectedId, $metaData->getId());
     }
     
     /**
@@ -22,9 +22,9 @@ class PackageTest extends TestCase
      */
     public function testIsInTngEraShouldReturnBool(string $id, bool $result)
     {
-        $package = new Package($id);
+        $metaData = new MetaData($id);
         
-        $this->assertEquals($result, $package->isInTngEra());
+        $this->assertEquals($result, $metaData->isInTngEra());
     }
     
     public function dataProviderPackageId():array

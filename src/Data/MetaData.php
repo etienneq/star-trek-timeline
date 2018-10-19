@@ -4,7 +4,7 @@ namespace EtienneQ\StarTrekTimeline\Data;
 /**
  * Value object representing a Package's meta data.
  */
-class Package
+class MetaData
 {
     protected const TNG_ERA_PACKAGES = [
         '/^tv\/tng\/season[1-7]$/',

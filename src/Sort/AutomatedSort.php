@@ -20,7 +20,7 @@ class AutomatedSort extends AbstractSort
     public function sort():array
     {
         if (empty($this->items) === true || count($this->items) <= 1) {
-            throw new NoItemsException('At least two items must be added to sort.');
+            throw new ItemException('At least two items must be added to sort.');
         }
         
         if (empty($this->comparators) === true) {

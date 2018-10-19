@@ -1,7 +1,7 @@
 <?php
 namespace EtienneQ\StarTrekTimeline\Data;
 
-class DataFile
+class ItemsFile
 {
     public const FILE_ENDING = 'csv';
     
