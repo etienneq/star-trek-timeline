@@ -17,14 +17,14 @@ class PublicationDate implements ComparatorInterface
             throw new NotApplicableException('At least on item is not from TNG era and both items are not from the same package.');
         }
         
-        if (empty($item1->publicationDate) === true) {
+        if (empty($item1->getPublicationDate()) === true) {
             throw new NotApplicableException('No publication date defined for item 1.');
         }
         
-        if (empty($item2->publicationDate) === true) {
+        if (empty($item2->getPublicationDate()) === true) {
             throw new NotApplicableException('No publication date defined for item 2.');
         }
         
-        return (new \DateTime($item1->publicationDate))->format('U') <=> (new \DateTime($item2->publicationDate))->format('U');
+        return (new \DateTime($item1->getPublicationDate()))->format('U') <=> (new \DateTime($item2->getPublicationDate()))->format('U');
     }
 }

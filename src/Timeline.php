@@ -30,6 +30,8 @@ class Timeline
         ItemsFile::PUBLICATION_DATE,
         ItemsFile::PREDECESSOR_ID,
         ItemsFile::DESCRIPTION,
+        ItemsFile::HISTORIANS_NOTE,
+        ItemsFile::SECTIONS,
     ];
     
     /**

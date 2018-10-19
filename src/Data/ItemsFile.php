@@ -15,8 +15,8 @@ class ItemsFile
     public const PUBLICATION_DATE = 'publicationDate';
     public const PREDECESSOR_ID = 'predecessorId';
     public const DESCRIPTION = 'description';
-//     public const HISTORIANS_NOTE = 'historiansNote';
-//     public const SECTIONS = 'sections';
+    public const HISTORIANS_NOTE = 'historiansNote';
+    public const SECTIONS = 'sections';
 
     /**
      * Designates a child entry.

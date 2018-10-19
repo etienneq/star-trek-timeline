@@ -16,8 +16,8 @@ class StartDateTest extends TestCase
      */
     public function testCompare(string $date1, string $date2, int $expectedResult) {
         $calculator = $this->prophesize(Calculator::class);
-        $item1 = new Item('1', 'title', $date1, $calculator->reveal());
-        $item2 = new Item('2', 'title', $date2, $calculator->reveal());
+        $item1 = new Item('1', $date1, $calculator->reveal());
+        $item2 = new Item('2', $date2, $calculator->reveal());
         
         $comparator = new StartDate();
         

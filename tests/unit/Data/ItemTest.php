@@ -23,26 +23,19 @@ class ItemTest extends TestCase
         
         self::$calculator = new Calculator();
     }
-    
-    public function testConstructWithEmptyTitleShouldThrowException()
-    {
-        $this->expectException(ItemException::class);
-        
-        new Item('id', '', 'startDate', self::$calculator);
-    }
-    
+
     public function testConstructWithEmptyStartDateShouldThrowException()
     {
         $this->expectException(ItemException::class);
         
-        new Item('id', 'title', '', self::$calculator);
+        new Item('id', '', self::$calculator);
     }
     
     public function testConstructWithInvalidStartDateShouldThrowException()
     {
         $this->expectException(ItemException::class);
         
-        new Item('id', 'title', 'invalid startDate', self::$calculator);
+        new Item('id', 'invalid startDate', self::$calculator);
     }
     
     /**
@@ -51,12 +44,10 @@ class ItemTest extends TestCase
     public function testConstructWithValidStartDateShouldInstantiateItemProperly(string $startDate)
     {
         $expectedId = 'id';
-        $expectedTitle = 'title';
-        $item = new Item($expectedId, $expectedTitle, $startDate, self::$calculator);
+        $item = new Item($expectedId, $startDate, self::$calculator);
         
         $this->assertInstanceOf(Item::class, $item);
         $this->assertEquals($expectedId, $item->getId());
-        $this->assertEquals($expectedTitle, $item->getTitle());
         $this->assertEquals($startDate, $item->getStartDate());
     }
     
@@ -77,7 +68,7 @@ class ItemTest extends TestCase
     public function testGetIdShouldReturnId()
     {
         $expectedId = 'id';
-        $item = new Item($expectedId, 'title', '2364', self::$calculator);
+        $item = new Item($expectedId, '2364', self::$calculator);
         
         $id = $item->getId();
         
@@ -86,7 +77,7 @@ class ItemTest extends TestCase
     
     public function testSetGetMetaData()
     {
-        $item = new Item('id', 'title', '2364', self::$calculator);
+        $item = new Item('id', '2364', self::$calculator);
         $expectedPackageId = 'packageId';
         $item->setMetaData(new MetaData($expectedPackageId));
         
@@ -100,24 +91,24 @@ class ItemTest extends TestCase
     {
         $expectedPubDate = '2018-01-20';
         $expectedParentId = 'parentId';
-        $expectedParent = new Item($expectedParentId, 'title', '2364', self::$calculator);
-        $expectedParent->publicationDate = $expectedPubDate;
+        $expectedParent = new Item($expectedParentId, '2364', self::$calculator);
+        $expectedParent->setPublicationDate($expectedPubDate);
         
-        $item = new Item('id', 'title', '2364', self::$calculator);
+        $item = new Item('id', '2364', self::$calculator);
         $item->setParent($expectedParent);
         
         $parent = $item->getParent();
         
         $this->assertInstanceOf(Item::class, $parent);
         $this->assertEquals($expectedParentId, $parent->getId());
-        $this->assertEquals($expectedPubDate, $item->publicationDate);
+        $this->assertEquals($expectedPubDate, $item->getPublicationDate());
     }
     
     public function testSetEndDateWithInvalidDateShouldThrowException()
     {
         $this->expectException(ItemException::class);
         
-        $item = new Item('id', 'title', '2364', self::$calculator);
+        $item = new Item('id', '2364', self::$calculator);
         
         $item->setEndDate('invalid endDate');
     }
@@ -127,7 +118,7 @@ class ItemTest extends TestCase
      */
     public function testSetEndDateWithValidDateShouldSetEndDate(string $date)
     {
-        $item = new Item('id', 'title', '2364', self::$calculator);
+        $item = new Item('id', '2364', self::$calculator);
         $item->setEndDate($date);
         
         $this->assertEquals($date, $item->getEndDate());
@@ -140,7 +131,7 @@ class ItemTest extends TestCase
     {
         $this->expectException($exceptionClass);
         
-        $item = new Item('id', 'title', '2364', self::$calculator);
+        $item = new Item('id', '2364', self::$calculator);
         
         $item->setStartStardate($stardate);
     }
@@ -152,7 +143,7 @@ class ItemTest extends TestCase
     {
         $this->expectException($exceptionClass);
         
-        $item = new Item('id', 'title', '2364', self::$calculator);
+        $item = new Item('id', '2364', self::$calculator);
         
         $item->setEndStardate($stardate);
     }
@@ -174,7 +165,7 @@ class ItemTest extends TestCase
         string $oldStartDate,
         string $expectedStartDate
     ) {
-        $item = new Item('id', 'title', $oldStartDate, self::$calculator);
+        $item = new Item('id', $oldStartDate, self::$calculator);
         
         $item->setStartStardate($stardate);
         
@@ -199,8 +190,10 @@ class ItemTest extends TestCase
         string $oldEndDate,
         string $expectedEndDate
         ) {
-            $item = new Item('id', 'title', '2364', self::$calculator);
-            $item->setEndDate($oldEndDate);
+            $item = new Item('id', '2364', self::$calculator);
+            if (empty($oldEndDate) === false) {
+                $item->setEndDate($oldEndDate);
+            }
 
             $item->setendStardate($stardate);
             
@@ -219,7 +212,7 @@ class ItemTest extends TestCase
     
     public function testGetStartEndStartDateWithoutSettingItShouldReturnNull()
     {
-        $item = new Item('id', 'title', '2364', self::$calculator);
+        $item = new Item('id', '2364', self::$calculator);
         
         $this->assertNull($item->getStartStardate());
         $this->assertNull($item->getEndStardate());
@@ -230,7 +223,7 @@ class ItemTest extends TestCase
      */
     public function testIsStartDateInTngStardateEra(string $startDate, bool $exptectedResult)
     {
-        $item = new Item('id', 'title', $startDate, self::$calculator);
+        $item = new Item('id', $startDate, self::$calculator);
         
         $result = $item->isStartDateInTngStardateEra();
         

@@ -1,4 +1,5 @@
 <?php
+// Follows timeline design of "Voyages of Imaginations"
 
 use EtienneQ\StarTrekTimeline\DateFormat;
 use EtienneQ\StarTrekTimeline\Timeline;
@@ -9,6 +10,10 @@ require_once __DIR__.'/vendor/autoload.php';
 $startTime = microtime(true);
 $items = (new Timeline())->findAll();
 $runTime = microtime(true) - $startTime;
+
+$runTime = round($runTime * 1000, 2);
+$memory = round(memory_get_peak_usage(true) / 1000 / 1000, 2);
+$memoryPeak = round(memory_get_usage(true) / 1000 / 1000, 2);
 
 // Rendering
 ?><html>
@@ -25,10 +30,6 @@ $runTime = microtime(true) - $startTime;
 </head>
 <body>
 <?php
-
-$runTime = round($runTime * 1000, 2);
-$memory = round(memory_get_peak_usage(true) / 1000 / 1000, 2);
-$memoryPeak = round(memory_get_usage(true) / 1000 / 1000, 2);
 
 echo "Run time: {$runTime} ms<br />";
 echo "Memory usage: {$memory} MB (peak: {$memoryPeak} MB)<br /><br />";
@@ -49,7 +50,7 @@ foreach ($items as $item) {
         if (empty($item->description) === false) {
             echo " ({$item->description})";
         }
-        echo " <i>- {$item->getTitle()}</i> (see primary entry in ".DateFormat::getYear($item->getParent()->getStartDate()).")";
+        echo " <i>- {$item->sections}</i> (see primary entry in ".DateFormat::getYear($item->getParent()->getStartDate()).")";
     } else {
         echo " {$item->number}";
         echo " \"{$item->getTitle()}\"";
@@ -84,6 +85,14 @@ foreach ($items as $item) {
     
     if ($item->number !== ItemsFile::NUMBER_CHILD && empty($item->description) === false) {
         echo "<i> - {$item->description}</i>";
+    }
+    
+    if ($item->number !== ItemsFile::NUMBER_CHILD && empty($item->sections) === false) {
+        echo "<i> - {$item->sections}</i>";
+    }
+    
+    if ($item->number !== ItemsFile::NUMBER_CHILD && empty($item->historiansNote) === false) {
+        echo "<i> - {$item->historiansNote}</i>";
     }
     
     echo "</div>\n";

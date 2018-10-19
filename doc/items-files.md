@@ -5,7 +5,7 @@ Items files can be organized in a hierarchical directory structure. Each sub dir
 The first line must be a header line containing the name of all fields.
 
 ```
-"number","title","startDate","endDate","startStardate","endStardate","publicationDate","predecessorId","description"
+"number","title","startDate","endDate","startStardate","endStardate","publicationDate","predecessorId","description","historiansNote","sections"
 ```
 
 * number - episode or book number
@@ -17,18 +17,22 @@ The first line must be a header line containing the name of all fields.
 * publicationDate - format: YYYY-MM-DD
 * predecessorId - used for manuel sort order of current entry (see below)
 * description - some additional information regarding current entry
+* historiansNote
+* sections - chapter title or list of chapters and/or sections if entry is not for the whole story (see below)
 
-title and startDate are mandatory attributes. All other attributes are optional.
+StartDate is a mandatory attribute.
+Either title or sections must be set.
+All other attributes are optional.
 
 The second to nth line contains the timeline entries.
 
-Use a coma as field separator. If necessary fields can be enclosed in double quotes. It's best practice to enclose at least the title field.
-If a field contains a coma ist must be enclosed in double quotes.
+Use a comma as field separator. If necessary fields can be enclosed in double quotes. It's best practice to enclose at least the title and sections fields.
+If a field contains a comma ist must be enclosed in double quotes.
 
 The order in which entries are listed within a single items file is of no importance because all entries will be sorted automatically.
 Only when single chapters/sections should become individual timeline entries the order within the items file is important (see below).
 
-Items files may be edited with a text editor or your favorite spreadsheet application.
+Items files may be edited with a text editor or a spreadsheet application.
 
 ## Format of startDate and endDate
 
@@ -71,11 +75,11 @@ Examplary items file tv/ds9/my-package.csv:
 
 
 ```
-"number","title","startDate","endDate","startStardate","endStardate","publicationDate","predecessorId","description"
-1,"Numbered entry",2365,,,,,,
-,"Unnumbered entry",2364-10,,,,,,
-,"Child 1",,,,,,"tv/ds9/my-package-1",
-,"Child 2",,,,,,"tv/ds9/my-package-UE",
+"number","title","startDate","endDate","startStardate","endStardate","publicationDate","predecessorId","description","historiansNote","sections"
+1,"Numbered entry",2365,,,,,,,,
+,"Unnumbered entry",2364-10,,,,,,,,
+,"Child 1",,,,,,"tv/ds9/my-package-1",,,
+,"Child 2",,,,,,"tv/ds9/my-package-UE",,
 ```
 
 This would become the following timeline:
@@ -88,7 +92,7 @@ This would become the following timeline:
 ## Anthologies
 
 Anthologies consist of multiple independent stories.
-The anthology must be defined as a items file while each story is defined as a single entry in that items file.
+The anthology must be defined as an items file while each story is defined as a single entry in that file.
 
 ## Making chapters/sections individual timeline entries
 
@@ -96,16 +100,16 @@ Sometimes a story doesn't take place in a single period of time, e.g. when time 
 To reflect this and make single sections individual timeline entries use the following format:
 
 ```
-"number","title","startDate","endDate","startStardate","endStardate","publicationDate","predecessorId","description"
-,"An Easy Fast",2373-09-29,,,,YYYY-MM-DD,,"sections 1, 3, 5, 7, 9, 11, 13, 15"
---,"section 2",2324,,,,,,Gold short story
---,"sections 4, 6",2327,,,,,,Gold short story
---,"sections 8, 10",2333,,,,,,Gold short story
---,"sections 12, 14",2344,,,,,,Gold short story
+"number","title","startDate","endDate","startStardate","endStardate","publicationDate","predecessorId","description","historiansNote","sections"
+,"An Easy Fast",2373-09-29,,,,YYYY-MM-DD,,"Gold short story",,"sections 1, 3, 5, 7, 9, 11, 13, 15"
+--,,2324,,,,,,,,"section 2"
+--,,2327,,,,,,,,"sections 4, 6"
+--,,2333,,,,,,,,"sections 8, 10"
+--,,2344,,,,,,,,"sections 12, 14"
 ```
 
 To define that a section belongs to a story the number must be set to '--'. Corresponding sections must follow immediately after it's parent entry.
 
-Sections inherit the publication date from it's parent entry.  
+Sections inherit title, publication date and description from it's parent entry.  
 
 [back to index](../README.md)

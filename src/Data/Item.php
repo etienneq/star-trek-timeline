@@ -17,7 +17,7 @@ class Item
     /**
      * @var string
      */
-    public $publicationDate = '';
+    public $title = '';
     
     /**
      * @var string
@@ -28,6 +28,16 @@ class Item
      * @var string
      */
     public $description = '';
+    
+    /**
+     * @var string
+     */
+    public $historiansNote = '';
+    
+    /**
+     * @var string
+     */
+    public $sections = '';
    
     /**
      * @var string
@@ -43,11 +53,6 @@ class Item
      * @var Item
      */
     protected $parent;
-    
-    /**
-     * @var string
-     */
-    protected $title = '';
     
     /**
      * @var string
@@ -70,22 +75,22 @@ class Item
     protected $endStardate;
     
     /**
+     * @var string
+     */
+    protected $publicationDate = '';
+    
+    /**
      * @var Calculator
      */
     protected $calculator;
     
-    public function __construct(string $id, string $title, string $startDate, Calculator $calculator)
+    public function __construct(string $id, string $startDate, Calculator $calculator)
     {
-        if (empty($title) === true) {
-            throw new ItemException('Title must not be empty.');
-        }
-        
         if (preg_match(DateFormat::PATTERN_DATE, $startDate) !== 1) {
-            throw new ItemException('StartDate is empty or invalid.');
+            throw new ItemException('Start date is empty or invalid.');
         }
         
         $this->id = $id;
-        $this->title = $title;
         $this->startDate = $startDate;
         
         $this->calculator = $calculator;
@@ -109,10 +114,12 @@ class Item
     public function setParent(Item $parent):void
     {
         $this->parent = $parent;
-        $this->publicationDate = $parent->publicationDate;
+        $this->title = $parent->title;
+        $this->publicationDate = $parent->getPublicationDate();
+        $this->description = $parent->description;
     }
     
-    public function getParent():Item
+    public function getParent():?Item
     {
         return $this->parent;
     }
@@ -129,8 +136,8 @@ class Item
     
     public function setEndDate(string $date):void
     {
-        if (empty($date) === false && preg_match(DateFormat::PATTERN_DATE, $date) !== 1) {
-            throw new ItemException('EndDate is invalid.');
+        if (preg_match(DateFormat::PATTERN_DATE, $date) !== 1) {
+            throw new ItemException('End date is invalid.');
         }
         
         $this->endDate = $date;
@@ -144,7 +151,7 @@ class Item
     public function setStartStardate(float $stardate):void
     {
         if ($stardate < 0) {
-            throw new ItemException('Stardate must be greater than 0.');
+            throw new ItemException('Start stardate must be greater than 0.');
         }
         
         $this->startStardate = $stardate;
@@ -159,7 +166,7 @@ class Item
     public function setEndStardate(float $stardate):void
     {
         if ($stardate < 0) {
-            throw new ItemException('Stardate must be greater than 0.');
+            throw new ItemException('End stardate must be greater than 0.');
         }
         
         $this->endStardate = $stardate;
@@ -169,6 +176,20 @@ class Item
     public function getEndStardate():?float
     {
         return $this->endStardate;
+    }
+    
+    public function setPublicationDate(string $date):void
+    {
+        if (preg_match(DateFormat::PATTERN_FULL_DATE, $date) !== 1) {
+            throw new ItemException('Publication date is invalid.');
+        }
+        
+        $this->publicationDate = $date;
+    }
+    
+    public function getPublicationDate():?string
+    {
+        return $this->publicationDate;
     }
     
     public function isStartDateInTngStardateEra():bool
