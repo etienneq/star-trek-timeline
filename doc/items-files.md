@@ -16,8 +16,8 @@ The first line must be a header line containing the name of all fields.
 * endStardate - stardate, TOS or TNG style
 * publicationDate - format: YYYY-MM-DD
 * predecessorId - used for manuel sort order of current entry (see below)
-* description - some additional information regarding current entry
-* historiansNote
+* description - some additional information
+* historiansNote - some additional information regarding the timeline placement of current entry
 * sections - chapter title or list of chapters and/or sections if entry is not for the whole story (see below)
 
 StartDate is a mandatory attribute.
