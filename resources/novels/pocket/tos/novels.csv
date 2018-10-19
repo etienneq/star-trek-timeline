@@ -1,3 +1,3 @@
-"number","title","startDate","endDate","startStardate","endStardate","publicationDate","predecessorId","description","historiansNote","sections"
-,"Spock's World",2275,,,,,,"Hardcover",,
---,,~-10000,,,,,,,,"Vulcan: Three"
+number,title,sections,description,startDate,endDate,startStardate,endStardate,historiansNote,publicationDate,predecessorId
+,Spock's World,,Hardcover,2275,,,,,,
+--,,Vulcan: Three,,~-10000,,,,,,

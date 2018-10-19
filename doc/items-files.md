@@ -5,20 +5,20 @@ Items files can be organized in a hierarchical directory structure. Each sub dir
 The first line must be a header line containing the name of all fields.
 
 ```
-"number","title","startDate","endDate","startStardate","endStardate","publicationDate","predecessorId","description","historiansNote","sections"
+number,title,sections,description,startDate,endDate,startStardate,endStardate,historiansNote,publicationDate,predecessorId
 ```
 
 * number - episode or book number
 * title - title of episode or book
+* description - some additional information
+* sections - chapter title or list of chapters and/or sections if entry is not for the whole story (see below)
 * startDate - gregorian (earth) date when story begins
 * endDate - gregorian (earth) date when story ends, format
 * startStardate - stardate, TOS or TNG style
 * endStardate - stardate, TOS or TNG style
+* historiansNote - some additional information regarding the timeline placement of current entry
 * publicationDate - format: YYYY-MM-DD
 * predecessorId - used for manuel sort order of current entry (see below)
-* description - some additional information
-* historiansNote - some additional information regarding the timeline placement of current entry
-* sections - chapter title or list of chapters and/or sections if entry is not for the whole story (see below)
 
 StartDate is a mandatory attribute.
 Either title or sections must be set.
@@ -75,11 +75,11 @@ Examplary items file tv/ds9/my-package.csv:
 
 
 ```
-"number","title","startDate","endDate","startStardate","endStardate","publicationDate","predecessorId","description","historiansNote","sections"
-1,"Numbered entry",2365,,,,,,,,
-,"Unnumbered entry",2364-10,,,,,,,,
-,"Child 1",,,,,,"tv/ds9/my-package-1",,,
-,"Child 2",,,,,,"tv/ds9/my-package-UE",,
+number,title,sections,description,startDate,endDate,startStardate,endStardate,historiansNote,publicationDate,predecessorId
+1,Numbered entry,,,2365,,,,,,
+,Unnumbered entry,,,2364-10,,,,,,
+,Child 1,,,,,,,,,tv/ds9/my-package-1
+,Child 2,,,,,,,,,tv/ds9/my-package-UE
 ```
 
 This would become the following timeline:
@@ -100,12 +100,12 @@ Sometimes a story doesn't take place in a single period of time, e.g. when time 
 To reflect this and make single sections individual timeline entries use the following format:
 
 ```
-"number","title","startDate","endDate","startStardate","endStardate","publicationDate","predecessorId","description","historiansNote","sections"
-,"An Easy Fast",2373-09-29,,,,YYYY-MM-DD,,"Gold short story",,"sections 1, 3, 5, 7, 9, 11, 13, 15"
---,,2324,,,,,,,,"section 2"
---,,2327,,,,,,,,"sections 4, 6"
---,,2333,,,,,,,,"sections 8, 10"
---,,2344,,,,,,,,"sections 12, 14"
+number,title,sections,description,startDate,endDate,startStardate,endStardate,historiansNote,publicationDate,predecessorId
+,An Easy Fast,"sections 1, 3, 5, 7, 9, 11, 13, 15",Gold short story,2373-09-29,,,,,,
+--,,section 2,,2324,,,,,,
+--,,"sections 4, 6",,2327,,,,,,
+--,,"sections 8, 10",,2333,,,,,,
+--,,"sections 12, 14",,2344,,,,,,
 ```
 
 To define that a section belongs to a story the number must be set to '--'. Corresponding sections must follow immediately after it's parent entry.

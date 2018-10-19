@@ -1,2 +1,2 @@
-"number","title","startDate","endDate","startStardate","endStardate","publicationDate","predecessorId","description","historiansNote","sections"
-,"Requiem",2369,,,,,"tv/ds9/season1-1x18",,,
+number,title,sections,description,startDate,endDate,startStardate,endStardate,historiansNote,publicationDate,predecessorId
+,Requiem,,,2369,,,,,,tv/ds9/season1-1x18

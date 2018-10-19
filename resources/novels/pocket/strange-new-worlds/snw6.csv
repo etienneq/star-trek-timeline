@@ -1,3 +1,3 @@
-"number","title","startDate","endDate","startStardate","endStardate","publicationDate","predecessorId","description","historiansNote","sections"
-,"The Beginning",~-2000,,,,,,"ST short story",,
-,"Our Million-Year Mission",1012260,,17613341.4,,,,"Short story",,
+number,title,sections,description,startDate,endDate,startStardate,endStardate,historiansNote,publicationDate,predecessorId
+,The Beginning,,ST short story,~-2000,,,,,,
+,Our Million-Year Mission,,Short story,1012260,,17613341.4,,,,

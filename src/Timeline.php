@@ -15,24 +15,11 @@ use EtienneQ\StarTrekTimeline\Data\ItemsFile;
 use EtienneQ\StarTrekTimeline\Data\MetaDataFile;
 use EtienneQ\StarTrekTimeline\Data\ItemException;
 use EtienneQ\StarTrekTimeline\Filesystem\RecursiveDirectoryScanner;
+use EtienneQ\StarTrekTimeline\Filesystem\FileException;
 
 class Timeline
 {
     protected const RESOURCES_DIR = __DIR__.'/../resources';
-    
-    protected const DATA_FILE_HEADERS = [
-        ItemsFile::NUMBER,
-        ItemsFile::TITLE,
-        ItemsFile::START_DATE,
-        ItemsFile::END_DATE,
-        ItemsFile::START_STARDATE,
-        ItemsFile::END_STARDATE,
-        ItemsFile::PUBLICATION_DATE,
-        ItemsFile::PREDECESSOR_ID,
-        ItemsFile::DESCRIPTION,
-        ItemsFile::HISTORIANS_NOTE,
-        ItemsFile::SECTIONS,
-    ];
     
     /**
      * @var MetaDataFactory
@@ -108,9 +95,13 @@ class Timeline
             $reader = Reader::createFromPath($file, 'r');
             $reader->setHeaderOffset(0);
             
+            if ($reader->getHeader() !== ItemsFile::DATA_FILE_HEADERS) {
+                throw new FileException("{$file} does not contain the expected header.");
+            }
+            
             $lastParent = null;
             
-            foreach($reader->getRecords(self::DATA_FILE_HEADERS) as $record) {
+            foreach($reader->getRecords() as $record) {
                 $item = $this->itemFactory->createItem($record, $this->metaDataFactory->getMetaData($simpleFileName));
                 
                 if ($item->number  !== ItemsFile::NUMBER_CHILD) {

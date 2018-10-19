@@ -43,12 +43,12 @@ echo "Memory usage: {$memory} MB (peak: {$memoryPeak} MB)<br /><br />";
 	<th>Number</th>
 	<th>Title</th>
 	<th>Sections</th>
+	<th>Description</th>
 	<th>End Date</th>
 	<th>Start Stardate</th>
 	<th>End Stardate</th>
-	<th>Publication Date</th>
-	<th>Description</th>
 	<th>Historian's Note</th>
+	<th>Publication Date</th>
 	<th>Predecessor ID</th>
 	<th>Meta Data</th>
 	<th>Parent</th>
@@ -61,12 +61,12 @@ foreach ($items as $item) {
     echo '<td>'.$item->number.'</td>';
     echo '<td>'.$item->getTitle().'</td>';
     echo '<td>'.$item->sections.'</td>';
+    echo '<td>'.$item->description.'</td>';
     echo '<td>'.$item->getEndDate().'</td>';
     echo '<td>'.$item->getStartStardate().'</td>';
     echo '<td>'.$item->getEndStardate().'</td>';
-    echo '<td>'.$item->getPublicationDate().'</td>';
-    echo '<td>'.$item->description.'</td>';
     echo '<td>'.$item->historiansNote.'</td>';
+    echo '<td>'.$item->getPublicationDate().'</td>';
     echo '<td>'.$item->predecessorId.'</td>';
     echo '<td>'.$item->getMetaData()->symbol.' - '.$item->getMetaData()->title.'</td>';
     if (empty($item->getParent()) === false) {

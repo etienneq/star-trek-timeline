@@ -1,5 +1,5 @@
-"number","title","startDate","endDate","startStardate","endStardate","publicationDate","predecessorId","description","historiansNote","sections"
-,"The Peacemakers",2371,,,,,,"TNG short story",,"sections 2, 4-5, 7"
---,,1889-07-21,,,,,,,,"section 1"
---,,1889-07-24,,,,,,,,"section 3"
---,,1929-06-19,,,,,,,,"section 6"
+number,title,sections,description,startDate,endDate,startStardate,endStardate,historiansNote,publicationDate,predecessorId
+,The Peacemakers,"sections 2, 4-5, 7",TNG short story,2371,,,,,,
+--,,section 1,,1889-07-21,,,,,,
+--,,section 3,,1889-07-24,,,,,,
+--,,section 6,,1929-06-19,,,,,,

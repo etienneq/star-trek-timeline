@@ -1,6 +1,6 @@
-"number","title","startDate","endDate","startStardate","endStardate","publicationDate","predecessorId","description","historiansNote","sections"
-,"An Easy Fast",2373-09-29,,,,,,"Gold short story",,"sections 1, 3, 5, 7, 9, 11, 13, 15"
---,,2324,,,,,,,,"section 2"
---,,2327,,,,,,,,"sections 4, 6"
---,,2333,,,,,,,,"sections 8, 10"
---,,2344,,,,,,,,"sections 12, 14"
+number,title,sections,description,startDate,endDate,startStardate,endStardate,historiansNote,publicationDate,predecessorId
+,An Easy Fast,"sections 1, 3, 5, 7, 9, 11, 13, 15",Gold short story,2373-09-29,,,,,,
+--,,section 2,,2324,,,,,,
+--,,"sections 4, 6",,2327,,,,,,
+--,,"sections 8, 10",,2333,,,,,,
+--,,"sections 12, 14",,2344,,,,,,

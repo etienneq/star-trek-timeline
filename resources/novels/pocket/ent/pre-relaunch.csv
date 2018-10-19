@@ -1,2 +1,2 @@
-"number","title","startDate","endDate","startStardate","endStardate","publicationDate","predecessorId","description","historiansNote","sections"
-,"What Price Honor?",2151-12-31,2152-01-05,,,,"tv/ent/season1-1x20",,,
+number,title,sections,description,startDate,endDate,startStardate,endStardate,historiansNote,publicationDate,predecessorId
+,What Price Honor?,,,2151-12-31,2152-01-05,,,,,tv/ent/season1-1x20
