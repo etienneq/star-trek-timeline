@@ -46,8 +46,8 @@ foreach ($items as $item) {
     
     if ($item->number === ItemsFile::NUMBER_CHILD) {
         echo " \"{$item->getParent()->getTitle()}\"";
-        if (empty($item->details) === false) {
-            echo " ({$item->details})";
+        if (empty($item->description) === false) {
+            echo " ({$item->description})";
         }
         echo " <i>- {$item->getTitle()}</i> (see primary entry in ".DateFormat::getYear($item->getParent()->getStartDate()).")";
     } else {
@@ -82,8 +82,8 @@ foreach ($items as $item) {
         echo (new \DateTime($item->getStartDate().'-01'))->format('F'); //
     }
     
-    if ($item->number !== ItemsFile::NUMBER_CHILD && empty($item->details) === false) {
-        echo "<i> - {$item->details}</i>";
+    if ($item->number !== ItemsFile::NUMBER_CHILD && empty($item->description) === false) {
+        echo "<i> - {$item->description}</i>";
     }
     
     echo "</div>\n";

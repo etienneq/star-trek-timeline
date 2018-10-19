@@ -22,8 +22,8 @@ class ItemFactory
         $item->number = $attributes[ItemsFile::NUMBER] ?? '';
         $item->setEndDate($attributes[ItemsFile::END_DATE] ?? '');
         $item->publicationDate = $attributes[ItemsFile::PUBLICATION_DATE] ?? '';
-        $item->after = $attributes[ItemsFile::PREDECESSOR_ID] ?? '';
-        $item->details = $attributes[ItemsFile::DESCRIPTION] ?? '';
+        $item->predecessorId = $attributes[ItemsFile::PREDECESSOR_ID] ?? '';
+        $item->description = $attributes[ItemsFile::DESCRIPTION] ?? '';
         
         if (empty($attributes[ItemsFile::START_STARDATE]) === false) {
             $item->setStartStardate($attributes[ItemsFile::START_STARDATE]);

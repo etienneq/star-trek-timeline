@@ -13,8 +13,8 @@ class ItemsFile
     public const START_STARDATE = 'startStardate';
     public const END_STARDATE = 'endStardate';
     public const PUBLICATION_DATE = 'publicationDate';
-    public const PREDECESSOR_ID = 'after';
-    public const DESCRIPTION = 'details';
+    public const PREDECESSOR_ID = 'predecessorId';
+    public const DESCRIPTION = 'description';
 //     public const HISTORIANS_NOTE = 'historiansNote';
 //     public const SECTIONS = 'sections';
 

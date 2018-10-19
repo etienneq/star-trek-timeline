@@ -121,7 +121,7 @@ class Timeline
                     $item->setParent($lastParent);
                 }
                 
-                if (empty($item->after) === true) {
+                if (empty($item->predecessorId) === true) {
                     $this->automatedSort->addItem($item);
                 } else {
                     $this->manualSort->addItem($item);

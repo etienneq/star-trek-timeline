@@ -1,4 +1,4 @@
-"number","title","startDate","endDate","startStardate","endStardate","publicationDate","after","details"
+"number","title","startDate","endDate","startStardate","endStardate","publicationDate","predecessorId","description"
 "1x01/02","Broken Bow",2151-04-16,,,,2001-09-26,,
 "1x03","Fight or Flight",2151-05-06,,,,2001-10-03,,
 "1x04","Strange New World",2151,,,,2001-10-10,,

@@ -1,4 +1,4 @@
-"number","title","startDate","endDate","startStardate","endStardate","publicationDate","after","details"
+"number","title","startDate","endDate","startStardate","endStardate","publicationDate","predecessorId","description"
 "6x01","Time's Arrow, Part II",2369,,46001.3,,1992-09-21,,
 "6x02","Realm of Fear",2369,,46041.1,,1992-09-28,,
 "6x03","Man of the People",2369,,46071.6,,1992-10-05,,

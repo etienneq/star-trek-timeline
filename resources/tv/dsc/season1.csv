@@ -1,4 +1,4 @@
-"number","title","startDate","endDate","startStardate","endStardate","publicationDate","after","details"
+"number","title","startDate","endDate","startStardate","endStardate","publicationDate","predecessorId","description"
 "1x01","The Vulcan Hello",2256-05-11,,,,2017-09-24,,
 "1x02","Battle at the Binary Stars",2256-05,,,,2017-09-24,,
 "1x03","Context Is for Kings",2256-12,,,,2017-10-01,,

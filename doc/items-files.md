@@ -5,7 +5,7 @@ Items files can be organized in a hierarchical directory structure. Each sub dir
 The first line must be a header line containing the name of all fields.
 
 ```
-"number","title","startDate","endDate","startStardate","endStardate","publicationDate","after","details"
+"number","title","startDate","endDate","startStardate","endStardate","publicationDate","predecessorId","description"
 ```
 
 * number - episode or book number
@@ -15,8 +15,8 @@ The first line must be a header line containing the name of all fields.
 * startStardate - stardate, TOS or TNG style
 * endStardate - stardate, TOS or TNG style
 * publicationDate - format: YYYY-MM-DD
-* after - used for manuel sort order of current entry (see below)
-* details - some additional information regarding current entry
+* predecessorId - used for manuel sort order of current entry (see below)
+* description - some additional information regarding current entry
 
 title and startDate are mandatory attributes. All other attributes are optional.
 
@@ -57,7 +57,7 @@ If automated sorting doesn't yield the desired results it's possible to define a
 
 ## Manual sort order to overwrite automated sort order
 
-Predecessor relationship is defined in an entry's 'after' fields.
+Predecessor relationship is defined in an entry's 'predecessorId' fields.
 The predecessor is referenced by it's key.
 An entry's key is defined by it's package name and its number (or auto-generated acronym if no number is set).
 
@@ -71,7 +71,7 @@ Examplary items file tv/ds9/my-package.csv:
 
 
 ```
-"number","title","startDate","endDate","startStardate","endStardate","publicationDate","after","details"
+"number","title","startDate","endDate","startStardate","endStardate","publicationDate","predecessorId","description"
 1,"Numbered entry",2365,,,,,,
 ,"Unnumbered entry",2364-10,,,,,,
 ,"Child 1",,,,,,"tv/ds9/my-package-1",
@@ -96,7 +96,7 @@ Sometimes a story doesn't take place in a single period of time, e.g. when time 
 To reflect this and make single sections individual timeline entries use the following format:
 
 ```
-"number","title","startDate","endDate","startStardate","endStardate","publicationDate","after","details"
+"number","title","startDate","endDate","startStardate","endStardate","publicationDate","predecessorId","description"
 ,"An Easy Fast",2373-09-29,,,,YYYY-MM-DD,,"sections 1, 3, 5, 7, 9, 11, 13, 15"
 --,"section 2",2324,,,,,,Gold short story
 --,"sections 4, 6",2327,,,,,,Gold short story

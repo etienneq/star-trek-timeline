@@ -1,4 +1,4 @@
-"number","title","startDate","endDate","startStardate","endStardate","publicationDate","after","details"
+"number","title","startDate","endDate","startStardate","endStardate","publicationDate","predecessorId","description"
 ,"A Choice of Futures",2162-09-25,2163-05-21,,,,,
 ,"Tower of Babel",2163-10-19,2164-11-18,,,,,
 ,"Uncertain Logic",2165-01-06,2165-06-29,,,,,

@@ -22,12 +22,12 @@ class Item
     /**
      * @var string
      */
-    public $after = '';
+    public $predecessorId = '';
     
     /**
      * @var string
      */
-    public $details = '';
+    public $description = '';
    
     /**
      * @var string

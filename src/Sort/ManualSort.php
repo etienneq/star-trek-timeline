@@ -23,9 +23,9 @@ class ManualSort extends AbstractSort
         do {
             $itemsToInsert = array_filter($this->items, [$this, 'filterItemsWithoutReference']); // extract items that are not referenced themselves
             foreach ($itemsToInsert as $key => $item) {
-                $offset = array_search($item->after, array_keys($targetList));
+                $offset = array_search($item->predecessorId, array_keys($targetList));
                 if ($offset === false) {
-                    throw new ItemException("Predecessor item {$item->after} not found for {$key}.");
+                    throw new ItemException("Predecessor item {$item->predecessorId} not found for {$key}.");
                 }
                 
                 $offset++;
@@ -38,6 +38,6 @@ class ManualSort extends AbstractSort
     
     protected function filterItemsWithoutReference(Item $item):bool
     {
-        return isset($this->items[$item->after]) === false;
+        return isset($this->items[$item->predecessorId]) === false;
     }
 }
