@@ -10,8 +10,8 @@ number,title,sections,description,startDate,endDate,startStardate,endStardate,hi
 
 * number - episode or book number
 * title - title of episode or book
-* description - some additional information
 * sections - chapter title or list of chapters and/or sections if entry is not for the whole story (see below)
+* description - some additional information
 * startDate - gregorian (earth) date when story begins
 * endDate - gregorian (earth) date when story ends, format
 * startStardate - stardate, TOS or TNG style
