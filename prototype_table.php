@@ -19,15 +19,6 @@ $memoryPeak = round(memory_get_usage(true) / 1000 / 1000, 2);
 // Rendering
 ?><html>
 <head>
-    <style>
-       .year {
-           background-color: blue;
-           color: white;
-           font-weight: bold;
-       }
-       .item {
-       }
-    </style>
 </head>
 <body>
 <?php
