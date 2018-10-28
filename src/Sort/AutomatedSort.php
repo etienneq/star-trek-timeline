@@ -4,6 +4,7 @@ namespace EtienneQ\StarTrekTimeline\Sort;
 use EtienneQ\StarTrekTimeline\Data\Item;
 use EtienneQ\StarTrekTimeline\Sort\Comparator\ComparatorInterface;
 use EtienneQ\StarTrekTimeline\Sort\Comparator\NotApplicableException;
+use EtienneQ\StarTrekTimeline\Sort\Comparator\StartDateMorePreciseException;
 
 class AutomatedSort extends AbstractSort
 {
@@ -35,12 +36,16 @@ class AutomatedSort extends AbstractSort
     protected function comparatorStack(Item $item1, Item $item2):int
     {
         $result = false;
+        $itemHavingMorePreciseStartDate = null;
         foreach ($this->comparators as $comparator) {
             try {
                 $result = $comparator->compare($item1, $item2);
+            } catch (StartDateMorePreciseException $e) {
+                $itemHavingMorePreciseStartDate = $e->getItem();
+                continue;
             } catch (NotApplicableException $e) {
                 continue;
-            }
+            } 
             
             if ($result !== 0) { // compared but not equal
                 return $result;
@@ -48,6 +53,14 @@ class AutomatedSort extends AbstractSort
         }
         
         if ($result === false) {
+            if ($itemHavingMorePreciseStartDate !== null) {
+                if ($item1->getId() === $itemHavingMorePreciseStartDate->getId()) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+            
             throw new NotApplicableException("No applicable comparator found to compare {$item1->getId()} and {$item2->getId()}.");
         }
         

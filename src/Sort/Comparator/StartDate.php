@@ -11,30 +11,30 @@ class StartDate implements ComparatorInterface
 {
     public function compare(Item $item1, Item $item2):int
     {
-        $datePartsA = [];
-        $datePartsB = [];
+        $dateParts1 = [];
+        $dateParts2 = [];
         
-        preg_match(DateFormat::PATTERN_DATE, $item1->getStartDate(), $datePartsA);
-        preg_match(DateFormat::PATTERN_DATE, $item2->getStartDate(), $datePartsB);
+        preg_match(DateFormat::PATTERN_DATE, $item1->getStartDate(), $dateParts1);
+        preg_match(DateFormat::PATTERN_DATE, $item2->getStartDate(), $dateParts2);
         
         $bothBeforeChrist = false;
         foreach (DateFormat::DATE_POSITIONS as $type => $position) {
             if ($type === DateFormat::POS_BEFORE_CHRIST) {
-                if (empty($datePartsA[$position]) === false && empty($datePartsB[$position]) === true) { // first one is B.C.
+                if (empty($dateParts1[$position]) === false && empty($dateParts2[$position]) === true) { // first one is B.C.
                     return -1;
-                } elseif (empty($datePartsA[$position]) === true && empty($datePartsB[$position]) === false) { // second one is B.C.
+                } elseif (empty($dateParts1[$position]) === true && empty($dateParts2[$position]) === false) { // second one is B.C.
                     return 1;
-                } elseif (empty($datePartsA[$position]) === false && empty($datePartsB[$position]) === false) { // both are B.C.
+                } elseif (empty($dateParts1[$position]) === false && empty($dateParts2[$position]) === false) { // both are B.C.
                     $bothBeforeChrist = true;
                 } else {
                     $bothBeforeChrist = false;
                 }
             } elseif ($type === DateFormat::POS_YEAR) {
                 if (
-                    ($datePartsA[$position] === '0' || empty($datePartsA[$position]) === false) &&
-                    ($datePartsB[$position] === '0' || empty($datePartsB[$position]) === false)
+                    ($dateParts1[$position] === '0' || empty($dateParts1[$position]) === false) &&
+                    ($dateParts2[$position] === '0' || empty($dateParts2[$position]) === false)
                     ) { // both set
-                        $result = $datePartsA[$position] <=> $datePartsB[$position];
+                        $result = $dateParts1[$position] <=> $dateParts2[$position];
                         if ($bothBeforeChrist === true) {
                             $result = $result * -1;
                         }
@@ -43,13 +43,17 @@ class StartDate implements ComparatorInterface
                             return $result;
                         }
                 }
-            }elseif (in_array($type, [DateFormat::POS_MONTH, DateFormat::POS_DAY]) === true) {
-                if (empty($datePartsA[$position]) === false && empty($datePartsB[$position]) === false) { // both set
-                    $result = $datePartsA[$position] <=> $datePartsB[$position];
+            } elseif (in_array($type, [DateFormat::POS_MONTH, DateFormat::POS_DAY]) === true) {
+                if (empty($dateParts1[$position]) === false && empty($dateParts2[$position]) === false) { // both set
+                    $result = $dateParts1[$position] <=> $dateParts2[$position];
                     
                     if ($result !== 0) { // not equal
                         return $result;
                     }
+                } elseif(empty($dateParts1[$position]) === false) {
+                    throw new StartDateMorePreciseException('Date expression of item 1 is more precise than that of item 2', $item1);
+                } else {
+                    throw new StartDateMorePreciseException('Date expression of item 2 is more precise than that of item 1', $item2);
                 }
             } else {
                 continue;
