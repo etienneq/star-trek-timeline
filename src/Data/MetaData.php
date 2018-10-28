@@ -46,7 +46,7 @@ class MetaData
      * Tells wether package is one of different TV series's seasons running in parallel.
      * @return bool
      */
-    public function isInTngEra():bool
+    public function isTngEraTvSeries():bool
     {
         foreach (self::TNG_ERA_PACKAGES as $pattern) {
             if (preg_match($pattern, $this->id) === 1) {

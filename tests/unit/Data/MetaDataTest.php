@@ -20,11 +20,11 @@ class MetaDataTest extends TestCase
     /**
      * @dataProvider dataProviderPackageId
      */
-    public function testIsInTngEraShouldReturnBool(string $id, bool $result)
+    public function testisTngEraTvSeriesShouldReturnBool(string $id, bool $result)
     {
         $metaData = new MetaData($id);
         
-        $this->assertEquals($result, $metaData->isInTngEra());
+        $this->assertEquals($result, $metaData->isTngEraTvSeries());
     }
     
     public function dataProviderPackageId():array
