@@ -110,6 +110,6 @@ number,title,sections,description,startDate,endDate,startStardate,endStardate,hi
 
 To define that a section belongs to a story the number must be set to '--'. Corresponding sections must follow immediately after it's parent entry.
 
-Sections inherit title, publication date and description from it's parent entry.  
+Sections inherit number, title, publication date and description from it's parent entry.  
 
 [back to index](../README.md)

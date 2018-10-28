@@ -114,6 +114,7 @@ class Item
     public function setParent(Item $parent):void
     {
         $this->parent = $parent;
+        $this->number = $parent->number;
         $this->title = $parent->title;
         $this->publicationDate = $parent->getPublicationDate();
         $this->description = $parent->description;
