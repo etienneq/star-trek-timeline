@@ -124,6 +124,11 @@ class Item
         $this->description = $parent->description;
     }
     
+    public function hasParent():bool
+    {
+        return empty($this->parent) === false;
+    }
+    
     public function getParent():?Item
     {
         return $this->parent;
