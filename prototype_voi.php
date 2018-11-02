@@ -42,18 +42,23 @@ foreach ($items as $item) {
     }
     
     echo '<div class="item">';
-    echo "[{$item->getMetaData()->media}] ";
-    echo $item->getMetaData()->symbol;
+    echo "[{$item->getMetaData()->media}] {$item->getMetaData()->symbol}";
     
-    if ($item->number === ItemsFile::NUMBER_CHILD) {
-        echo " \"{$item->getParent()->getTitle()}\"";
-        if (empty($item->description) === false) {
-            echo " ({$item->description})";
-        }
-        echo " <i>- {$item->sections}</i> (see primary entry in ".DateFormat::renderYear($item->getParent()->getStartDate()).")";
-    } else {
+    if (empty($item->number) === false) {
         echo " {$item->number}";
-        echo " \"{$item->getTitle()}\"";
+    }
+    
+    echo " \"{$item->getTitle()}\"";
+    
+    if (empty($item->description) === false) {
+        echo " ({$item->description})";
+    }
+    
+    if (empty($item->sections) === false) {
+        echo " <i>- {$item->sections}</i>";
+        if ($item->hasParent() === true) {
+            echo " (see primary entry in ".DateFormat::renderYear($item->getParent()->getStartDate()).")";
+        }
     }
     
     if (empty($item->getStartStardate()) === false) {
@@ -83,15 +88,7 @@ foreach ($items as $item) {
         echo (new \DateTime($item->getStartDate().'-01'))->format('F'); //
     }
     
-    if ($item->number !== ItemsFile::NUMBER_CHILD && empty($item->description) === false) {
-        echo "<i> - {$item->description}</i>";
-    }
-    
-    if ($item->number !== ItemsFile::NUMBER_CHILD && empty($item->sections) === false) {
-        echo "<i> - {$item->sections}</i>";
-    }
-    
-    if ($item->number !== ItemsFile::NUMBER_CHILD && empty($item->historiansNote) === false) {
+    if (empty($item->historiansNote) === false) {
         echo "<i> - {$item->historiansNote}</i>";
     }
     
