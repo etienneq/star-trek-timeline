@@ -30,6 +30,17 @@ class DateFormat
     
     public static function getYear(string $date):string
     {
+        $dateParts = [];
+        preg_match(DateFormat::PATTERN_DATE, $date, $dateParts);
+        return $dateParts[DateFormat::DATE_POSITIONS[DateFormat::POS_YEAR]];
+        
+    }
+    
+    /**
+     * Renders year for display.
+     */
+    public static function renderYear(string $date):string
+    {
         $matches = [];
         preg_match(self::PATTERN_DATE, $date, $matches);
         

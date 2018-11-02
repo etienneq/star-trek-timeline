@@ -36,7 +36,7 @@ echo "Memory usage: {$memory} MB (peak: {$memoryPeak} MB)<br /><br />";
 
 $previousYear = false;
 foreach ($items as $item) {
-    $year = DateFormat::getYear($item->getStartDate());
+    $year = DateFormat::renderYear($item->getStartDate());
     if ($previousYear !== $year) {
         echo "<div class=\"year\">{$year}</div>\n";
     }
@@ -50,7 +50,7 @@ foreach ($items as $item) {
         if (empty($item->description) === false) {
             echo " ({$item->description})";
         }
-        echo " <i>- {$item->sections}</i> (see primary entry in ".DateFormat::getYear($item->getParent()->getStartDate()).")";
+        echo " <i>- {$item->sections}</i> (see primary entry in ".DateFormat::renderYear($item->getParent()->getStartDate()).")";
     } else {
         echo " {$item->number}";
         echo " \"{$item->getTitle()}\"";

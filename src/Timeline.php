@@ -16,6 +16,7 @@ use EtienneQ\StarTrekTimeline\Data\MetaDataFile;
 use EtienneQ\StarTrekTimeline\Data\ItemException;
 use EtienneQ\StarTrekTimeline\Filesystem\RecursiveDirectoryScanner;
 use EtienneQ\StarTrekTimeline\Filesystem\FileException;
+use EtienneQ\Stardate\Calculator;
 
 class Timeline
 {
@@ -99,10 +100,20 @@ class Timeline
                 throw new FileException("{$file} does not contain the expected header.");
             }
             
+            $metaData = $this->metaDataFactory->getMetaData($simpleFileName);
+            
             $lastParent = null;
             
-            foreach($reader->getRecords() as $record) {
-                $item = $this->itemFactory->createItem($record, $this->metaDataFactory->getMetaData($simpleFileName));
+            // set default: minimum stardate in current season
+            if ($metaData->isTngEraTvSeries() === true) {
+                $firstRecord = $reader->fetchOne();
+                $stardate = (new Calculator())->toStardate(new \DateTime(DateFormat::getYear($firstRecord['startDate']).'-01-01'));
+                $previousItemPosition = new ItemPosition(0, $stardate);
+            }
+            
+            $records = $reader->getRecords();
+            foreach($records as $record) {
+                $item = $this->itemFactory->createItem($record, $metaData);
                 
                 if ($item->number  !== ItemsFile::NUMBER_CHILD) {
                     $lastParent = $item;
@@ -112,6 +123,19 @@ class Timeline
                     }
                     
                     $item->setParent($lastParent);
+                }
+                
+                // Save last known stardate
+                if ($metaData->isTngEraTvSeries() === true && $item->getStartStardate() !== null) {
+                    $previousItemPosition = new ItemPosition($records->key(), $item->getStartStardate());
+                }
+                
+                // Extrapolate stardate
+                // Note: If an future item's stardate is wrong or stardates jump back and forth the calculation will not be correct
+                if ($metaData->isTngEraTvSeries() === true && $item->getStartStardate() === null) {
+                    $nextItemPosition = $this->getNextStartStardate($records, $reader, $item);
+                    $stardate = $this->extrapolateStardate($previousItemPosition, $nextItemPosition, $records->key());
+                    $item->setStartStardate($stardate); 
                 }
                 
                 if (empty($item->predecessorId) === true) {
@@ -124,5 +148,45 @@ class Timeline
         
         $this->entries = $this->automatedSort->sort();
         $this->manualSort->injectInto($this->entries);
+    }
+    
+    protected function getNextStartStardate(\Iterator $iterator, Reader $reader, Item $item):ItemPosition
+    {
+        $currentIndex = $iterator->key();
+        
+        $index = $reader->count();
+        
+        // default: maximum stardate in current season
+        $stardate = (new Calculator())->toStardate(new \DateTime(DateFormat::getYear($item->getStartDate()).'-01-01')) + 999;
+
+        // search for nearest stardate in the future
+        for ($i = $currentIndex; $i < $reader->count(); $i++) {
+            $record = $reader->fetchOne($i);
+            if (empty($record[ItemsFile::START_STARDATE]) === false) {
+                $stardate = $record[ItemsFile::START_STARDATE];
+                $index = $i + 1;
+                break;
+            }
+        }
+        
+        // reset iterator
+        $iterator->rewind();
+        for ($i = 1; $i < $currentIndex; $i++) {
+            $iterator->next();
+        }
+        
+        $itemPosition = new ItemPosition($index, (float)$stardate);
+        return $itemPosition;
+    }
+    
+    protected function extrapolateStardate(ItemPosition $previous, ItemPosition $next, int $currentPos, int $precicion = 2):float
+    {
+        $lowerPos = $previous->getPosition();
+        $lowerStardate = $previous->getStardate();
+        $upperPos = $next->getPosition();
+        $upperStardate = $next->getStardate();
+        
+        $stardate = $lowerStardate + ($upperStardate - $lowerStardate) / ($upperPos - $lowerPos) * ($currentPos - $lowerPos);
+        return round($stardate, $precicion);
     }
 }
