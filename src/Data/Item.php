@@ -86,8 +86,12 @@ class Item
     
     public function __construct(string $id, string $startDate, Calculator $calculator)
     {
+        if (empty($startDate) === true) {
+            throw new ItemException($id, 'Start date is empty.');
+        }
+        
         if (DateFormat::isValidDateExpression($startDate) === false) {
-            throw new ItemException('Start date is invalid.');
+            throw new ItemException($id, 'Start date has invalid format.');
         }
         
         $this->id = $id;
@@ -147,7 +151,7 @@ class Item
     public function setEndDate(string $date):void
     {
         if (DateFormat::isValidDateExpression($date) === false) {
-            throw new ItemException('End date is invalid.');
+            throw new ItemException($this->id, 'End date is invalid.');
         }
         
         $this->endDate = $date;
@@ -166,14 +170,14 @@ class Item
     public function setStartStardate(float $stardate):void
     {
         if ($stardate < 0) {
-            throw new ItemException('Start stardate must be greater than 0.');
+            throw new ItemException($this->id, 'Start stardate must be greater than 0.');
         }
         
         $this->startStardate = $stardate;
         
         $date = $this->calculateDateFromStardate($this->startDate, $stardate);
         if (strpos($date, $this->startDate) === false) {
-            throw new ItemException('Calculated start date contradicts preset start date.');
+            throw new ItemException($this->id, 'Calculated start date contradicts preset start date.');
         } else {        
             $this->startDate = $date;
         }
@@ -187,7 +191,7 @@ class Item
     public function setEndStardate(float $stardate):void
     {
         if ($stardate < 0) {
-            throw new ItemException('End stardate must be greater than 0.');
+            throw new ItemException($this->id, 'End stardate must be greater than 0.');
         }
         
         $this->endStardate = $stardate;
@@ -195,7 +199,7 @@ class Item
         if (empty($this->endDate) === false) {
             $date = $this->calculateDateFromStardate($this->endDate, $stardate);
             if (strpos($date, $this->endDate) === false) {
-                throw new ItemException('Calculated end date contradicts preset end date.');
+                throw new ItemException($this->id, 'Calculated end date contradicts preset end date.');
             } else {
                 $this->endDate = $date;
             }

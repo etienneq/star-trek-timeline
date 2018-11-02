@@ -15,35 +15,42 @@ class ItemFactory
             $attributes[ItemsFile::TITLE] ?? '',
             $attributes[ItemsFile::SECTIONS] ?? '',
             $metaData
-            );
-        $item = new Item(
-            $id,
-            $attributes[ItemsFile::START_DATE] ?? '',
-            new Calculator()
         );
-
-        $item->setMetaData($metaData);
-        $item->number = $attributes[ItemsFile::NUMBER] ?? '';
-        $item->title = $attributes[ItemsFile::TITLE] ?? '';
-        $item->predecessorId = $attributes[ItemsFile::PREDECESSOR_ID] ?? '';
-        $item->description = $attributes[ItemsFile::DESCRIPTION] ?? '';
-        $item->historiansNote = $attributes[ItemsFile::HISTORIANS_NOTE] ?? '';
-        $item->sections = $attributes[ItemsFile::SECTIONS] ?? '';
-        
-        if (empty($attributes[ItemsFile::END_DATE]) === false) {
-            $item->setEndDate($attributes[ItemsFile::END_DATE]);
-        }
-        
-        if (empty($attributes[ItemsFile::START_STARDATE]) === false) {
-            $item->setStartStardate($attributes[ItemsFile::START_STARDATE]);
-        }
-        
-        if (empty($attributes[ItemsFile::END_STARDATE]) === false) {
-            $item->setEndStardate($attributes[ItemsFile::END_STARDATE]);
-        }
-        
-        if (empty($attributes[ItemsFile::PUBLICATION_DATE]) === false) {
-            $item->setPublicationDate($attributes[ItemsFile::PUBLICATION_DATE]);
+    
+        try {
+            $item = new Item(
+                $id,
+                $attributes[ItemsFile::START_DATE] ?? '',
+                new Calculator()
+            );
+    
+            $item->setMetaData($metaData);
+            $item->number = $attributes[ItemsFile::NUMBER] ?? '';
+            $item->title = $attributes[ItemsFile::TITLE] ?? '';
+            $item->predecessorId = $attributes[ItemsFile::PREDECESSOR_ID] ?? '';
+            $item->description = $attributes[ItemsFile::DESCRIPTION] ?? '';
+            $item->historiansNote = $attributes[ItemsFile::HISTORIANS_NOTE] ?? '';
+            $item->sections = $attributes[ItemsFile::SECTIONS] ?? '';
+            
+            if (empty($attributes[ItemsFile::END_DATE]) === false) {
+                $item->setEndDate($attributes[ItemsFile::END_DATE]);
+            }
+            
+            if (empty($attributes[ItemsFile::START_STARDATE]) === false) {
+                $item->setStartStardate($attributes[ItemsFile::START_STARDATE]);
+            }
+            
+            if (empty($attributes[ItemsFile::END_STARDATE]) === false) {
+                $item->setEndStardate($attributes[ItemsFile::END_STARDATE]);
+            }
+            
+            if (empty($attributes[ItemsFile::PUBLICATION_DATE]) === false) {
+                $item->setPublicationDate($attributes[ItemsFile::PUBLICATION_DATE]);
+            }
+        } catch (ItemException $exception) {
+            throw $exception;
+        } catch (\Exception $exception) {
+            throw new ItemException($id, 'Error while creating item', null, $exception);
         }
 
         return $item;
@@ -57,7 +64,12 @@ class ItemFactory
             } elseif (empty($sections) === false) {
                 $acronymSource = $sections;
             } else {
-                throw new ItemException('Either title or sections attribute must be set.');
+                $id = [
+                    'number' => $number,
+                    'title' => $title,
+                    'sections' => $sections,
+                ];
+                throw new ItemException(json_encode($id), 'Can\'t generate item ID. Either title or sections attribute must be set.');
             }
             
             $words = preg_split("/\s+/", trim(preg_replace('/[^a-z0-9]/i', ' ', $acronymSource)));

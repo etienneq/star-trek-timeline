@@ -21,15 +21,20 @@ class AutomatedSort extends AbstractSort
     public function sort():array
     {
         if (empty($this->items) === true || count($this->items) <= 1) {
-            throw new ItemException('At least two items must be added to sort.');
+            return $this->items;
         }
         
         if (empty($this->comparators) === true) {
-            throw new NoComparatorException('Add at least one comparator.');
+            $exception = new NoComparatorException("Can't compare items. Add at least one comparator.");
+            if ($this->strictMode === true) {
+                throw $exception;
+            } else {
+                $this->errors[] = $exception;
+                $this->items;
+            }
         }
         
         uasort($this->items, [$this, 'comparatorStack']);
-        
         return $this->items;
     }
     
@@ -61,7 +66,13 @@ class AutomatedSort extends AbstractSort
                 }
             }
             
-            throw new NotApplicableException("No applicable comparator found to compare {$item1->getId()} and {$item2->getId()}.");
+            $exception = new NotApplicableException("No applicable comparator found to compare {$item1->getId()} and {$item2->getId()}.");
+            if ($this->strictMode === true) {
+                throw $exception;
+            } else {
+                $this->errors[] = $exception;
+                return 0;
+            }
         }
         
         return $result;

@@ -7,13 +7,45 @@ use EtienneQ\StarTrekTimeline\Data\ItemsFile;
 
 require_once __DIR__.'/vendor/autoload.php';
 
+$strictMode = false;
+$displayErrors = false;
+
 $startTime = microtime(true);
-$items = (new Timeline())->findAll();
+$timeline = new Timeline($strictMode);
+$items = $timeline->findAll();
 $runTime = microtime(true) - $startTime;
 
 $runTime = round($runTime * 1000, 2);
 $memory = round(memory_get_peak_usage(true) / 1000 / 1000, 2);
 $memoryPeak = round(memory_get_usage(true) / 1000 / 1000, 2);
+
+if ($strictMode === false && $displayErrors === true) {
+    displayErrors($timeline->getErrors());
+}
+
+function displayErrors(array $errors) {
+    if (empty($errors) === true) {
+        return;
+    }
+    
+    echo "<ul>\n";
+    foreach ($errors as $error) {
+        echo "<li>\n";
+        if ($error instanceof \Throwable) {
+            echo '<b>'.get_class($error)."</b><br />\n";
+            echo $error->getMessage();
+            if (empty($error->getPrevious()) === false) {
+                displayErrors([$error->getPrevious()]);
+            }
+        } elseif (is_array($error) === true) {
+            displayErrors($error);
+        } else {
+            var_dump($error);
+        }
+        echo "</li>\n";
+    }
+    echo "</ul>\n";
+}
 
 // Rendering
 ?><html>

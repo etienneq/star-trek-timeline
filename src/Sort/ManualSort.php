@@ -2,14 +2,10 @@
 namespace EtienneQ\StarTrekTimeline\Sort;
 
 use EtienneQ\StarTrekTimeline\Data\Item;
+use EtienneQ\StarTrekTimeline\Data\ItemException;
 
 class ManualSort extends AbstractSort
 {
-    public function sort():array
-    {
-        
-    }
-    
     /**
      * Injects all items into target list.
      * @param Item[] $targetList
@@ -17,15 +13,22 @@ class ManualSort extends AbstractSort
     public function injectInto(array &$targetList):void
     {
         if (empty($this->items) === true) {
-            throw new ItemException('No items were added to be injected into target list.');
+            return;
         }
         
         do {
             $itemsToInsert = array_filter($this->items, [$this, 'filterItemsWithoutReference']); // extract items that are not referenced themselves
             foreach ($itemsToInsert as $key => $item) {
+                /** @var Item $item */
                 $offset = array_search($item->predecessorId, array_keys($targetList));
                 if ($offset === false) {
-                    throw new ItemException("Predecessor item {$item->predecessorId} not found for {$key}.");
+                    $exception = new ItemException($item->getId(), "Predecessor item {$item->predecessorId}.");
+                    if ($this->strictMode === true) {
+                        throw $exception;
+                    } else {
+                        $this->errors[] = $exception;
+                        continue;
+                    }
                 }
                 
                 $offset++;

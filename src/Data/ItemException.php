@@ -1,6 +1,6 @@
 <?php
 namespace EtienneQ\StarTrekTimeline\Data;
 
-class ItemException extends \RuntimeException
+class ItemException extends RecordException
 {
 }
