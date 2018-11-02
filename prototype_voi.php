@@ -61,10 +61,10 @@ foreach ($items as $item) {
         if (empty($item->getEndStardate()) === false) {
             echo ' to '.number_format($item->getEndStardate(), 1, '.', '');
         }
-    } elseif(preg_match(DateFormat::PATTERN_FULL_DATE, $item->getStartDate()) === 1) {
+    } elseif(DateFormat::isValidFullDate($item->getStartDate()) === true) {
         echo ' - ';
         $startDate = new \DateTime($item->getStartDate());
-        if(preg_match(DateFormat::PATTERN_FULL_DATE, $item->getEndDate()) === 1) {
+        if(DateFormat::isValidFullDate($item->getEndDate()) === true) {
             $endDate = new \DateTime($item->getEndDate());
             if ($endDate->format('Y-m') === $startDate->format('Y-m')) { // same year & month
                 echo $startDate->format('F j').'-'.$endDate->format('j');
@@ -78,7 +78,7 @@ foreach ($items as $item) {
         } else {
             echo $startDate->format('F j, Y');
         }
-    } elseif(preg_match(DateFormat::PATTERN_YEAR_MONTH, $item->getStartDate()) === 1) {
+    } elseif(DateFormat::isValidYearMonth($item->getStartDate()) === true) {
         echo ' - ';
         echo (new \DateTime($item->getStartDate().'-01'))->format('F'); //
     }

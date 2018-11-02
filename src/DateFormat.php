@@ -9,11 +9,6 @@ class DateFormat
      */
     public const PATTERN_DATE = '/^(~)?(-)?([0-9]+)(-([0-9]{2}))?(-([0-9]{2}))?$/';
     
-    public const PATTERN_FULL_DATE = '/^[0-9]+-[0-9]{2}-[0-9]{2}$/'; // YYYY-MM-DD
-    public const PATTERN_YEAR_MONTH = '/^[0-9]+-[0-9]{2}$/'; // YYYY-MM
-    
-    public const FORMAT_FULL_DATE = 'Y-m-d';
-    
     public const DATE_POSITIONS = [
         self::POS_CIRCA => 1,
         self::POS_BEFORE_CHRIST => 2,
@@ -28,11 +23,31 @@ class DateFormat
     public const POS_MONTH = 3;
     public const POS_DAY = 4;
     
+    public const FORMAT_FULL_DATE = 'Y-m-d';
+    
+    protected const PATTERN_FULL_DATE = '/^[0-9]+-[0-9]{2}-[0-9]{2}$/'; // YYYY-MM-DD
+    protected const PATTERN_YEAR_MONTH = '/^[0-9]+-[0-9]{2}$/'; // YYYY-MM
+    
+    public static function isValidDateExpression(string $date):bool
+    {
+        return preg_match(self::PATTERN_DATE, $date) === 1;
+    }
+    
+    public static function isValidFullDate(string $date):bool
+    {
+        return preg_match(self::PATTERN_FULL_DATE, $date) === 1;
+    }
+    
+    public static function isValidYearMonth(string $date):bool
+    {
+        return preg_match(self::PATTERN_YEAR_MONTH, $date) === 1;
+    }
+    
     public static function getYear(string $date):string
     {
         $dateParts = [];
-        preg_match(DateFormat::PATTERN_DATE, $date, $dateParts);
-        return $dateParts[DateFormat::DATE_POSITIONS[DateFormat::POS_YEAR]];
+        preg_match(self::PATTERN_DATE, $date, $dateParts);
+        return $dateParts[self::DATE_POSITIONS[self::POS_BEFORE_CHRIST]].$dateParts[self::DATE_POSITIONS[self::POS_YEAR]];
         
     }
     

@@ -86,8 +86,8 @@ class Item
     
     public function __construct(string $id, string $startDate, Calculator $calculator)
     {
-        if (preg_match(DateFormat::PATTERN_DATE, $startDate) !== 1) {
-            throw new ItemException('Start date is empty or invalid.');
+        if (DateFormat::isValidDateExpression($startDate) === false) {
+            throw new ItemException('Start date is invalid.');
         }
         
         $this->id = $id;
@@ -141,7 +141,7 @@ class Item
     
     public function setEndDate(string $date):void
     {
-        if (preg_match(DateFormat::PATTERN_DATE, $date) !== 1) {
+        if (DateFormat::isValidDateExpression($date) === false) {
             throw new ItemException('End date is invalid.');
         }
         
@@ -204,7 +204,7 @@ class Item
     
     public function setPublicationDate(string $date):void
     {
-        if (preg_match(DateFormat::PATTERN_FULL_DATE, $date) !== 1) {
+        if (DateFormat::isValidFullDate($date) === false) {
             throw new ItemException('Publication date is invalid.');
         }
         
@@ -236,7 +236,7 @@ class Item
     
     protected function calculateStardateFromDate(string $date):?float
     {
-        if ($this->isInTngStardateEra($date) === true && preg_match(DateFormat::PATTERN_FULL_DATE, $date) === 1) {
+        if ($this->isInTngStardateEra($date) === true && DateFormat::isValidFullDate($date) === true) {
             return $this->calculator->toStardate(new \DateTime($date.' 12:00:00'));
         }
         
@@ -245,9 +245,6 @@ class Item
     
     protected function isInTngStardateEra(string $date):bool
     {
-        $dateParts = [];
-        preg_match(DateFormat::PATTERN_DATE, $date, $dateParts);
-        $year = $dateParts[DateFormat::DATE_POSITIONS[DateFormat::POS_BEFORE_CHRIST]].$dateParts[DateFormat::DATE_POSITIONS[DateFormat::POS_YEAR]];
-        return $year >= $this->calculator::MIN_YEAR;
+        return DateFormat::getYear($date) >= $this->calculator::MIN_YEAR;
     }
 }
