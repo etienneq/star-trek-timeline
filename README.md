@@ -27,14 +27,7 @@ composer require etienneq/star-trek-timeline
 
 ## Current status of prototype
 
-At the moment just few data is present:
-* DSC season 1
-* ENT season 1
-* TNG season 6
-* DS9 season 1
-* some novels
-
-But it's enough to demonstrate the intended potential. Take a look [here](timeline_example.md).
+At the moment the data is not complete. But it's enough to demonstrate the intended potential. Take a look [here](timeline_example.md).
 
 I'm planning to launch a website which utilizes this library to make the timeline accessible for all internet users in a dynamic fashion.
 
@@ -50,6 +43,13 @@ There are two types of files: Items files (\*.csv) which contain all the episode
 
 The following sources were used for creating the data files.
 
-* Enterprise: [http://de.memory-alpha.wikia.com/wiki/Star_Trek%3A_Enterprise](http://de.memory-alpha.wikia.com/wiki/Star_Trek%3A_Enterprise)
-* Discovery Season 1: [https://startreklitverse.yolasite.com/discovery-chronology.php](https://startreklitverse.yolasite.com/discovery-chronology.php)
-* Deep Space Nine: [http://de.memory-alpha.wikia.com/wiki/Star_Trek%3A_Deep_Space_Nine](http://de.memory-alpha.wikia.com/wiki/Star_Trek%3A_Deep_Space_Nine)
+### TV series
+
+* Star Trek
+* Star Trek: The Animated Series
+* Star Trek: The Next Generation: [memory-alpha.wikia.com](http://en.memory-alpha.wikia.com/wiki/Star_Trek%3A_The_Next_Generation)
+* Star Trek: Deep Space Nine: [memory-alpha.wikia.com](http://en.memory-alpha.wikia.com/wiki/Star_Trek%3A_Deep_Space_Nine)
+* Star Trek: Voyager
+* Star Trek: Enterprise: [memory-alpha.wikia.com](http://en.memory-alpha.wikia.com/wiki/Star_Trek%3A_Enterprise)
+* Star Trek: Discovery: [https://startreklitverse.yolasite.com/discovery-chronology.php](https://startreklitverse.yolasite.com/discovery-chronology.php)
+* Star Trek movies
