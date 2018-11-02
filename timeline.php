@@ -8,7 +8,7 @@ use EtienneQ\StarTrekTimeline\Data\ItemsFile;
 require_once __DIR__.'/vendor/autoload.php';
 
 $strictMode = false;
-$displayErrors = false;
+$displayErrors = true;
 
 $startTime = microtime(true);
 $timeline = new Timeline($strictMode);
@@ -98,7 +98,8 @@ foreach ($items as $item) {
         if (empty($item->getEndStardate()) === false) {
             echo ' to '.number_format($item->getEndStardate(), 1, '.', '');
         }
-    } elseif(DateFormat::isValidFullDate($item->getStartDate()) === true) {
+    }
+    if(DateFormat::isValidFullDate($item->getStartDate()) === true) {
         echo ' - ';
         $startDate = new \DateTime($item->getStartDate());
         if(DateFormat::isValidFullDate($item->getEndDate()) === true) {
@@ -117,7 +118,7 @@ foreach ($items as $item) {
         }
     } elseif(DateFormat::isValidYearMonth($item->getStartDate()) === true) {
         echo ' - ';
-        echo (new \DateTime($item->getStartDate().'-01'))->format('F'); //
+        echo (new \DateTime($item->getStartDate().'-01'))->format('F');
     }
     
     if (empty($item->historiansNote) === false) {

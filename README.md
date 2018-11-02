@@ -10,8 +10,8 @@ Episodes, novels etc. are organized in CSV files. This files are devided in a hu
 
 This library automatically sorts all entries chronologically as excactly as possible using a number of criteria (given stardate, publication date, episode number etc.). If needed entries can be placed manually at a certain place on the timeline.
 
-An API will be provided to read the timeline in an object-oriented fashion.
-Additionally it will be possible to filter timeline entries by year, series etc.
+An API is provided that returns the timeline in an object-oriented fashion.
+It's planned to add the possibility to filter timeline entries by year, series etc.
 
 ## Prerequisites
 
@@ -27,7 +27,7 @@ composer require etienneq/star-trek-timeline
 
 ## Current status of prototype
 
-At the moment the data is not complete. But it's enough to demonstrate the intended potential. Take a look [here](timeline_example.md).
+At the moment the data is not yet complete. But it's enough to demonstrate the intended potential. Take a look [here](htmlpreview.github.io/?https://github.com/etienneq/star-trek-timeline/blob/master/timeline.html).
 
 I'm planning to launch a website which utilizes this library to make the timeline accessible for all internet users in a dynamic fashion.
 
@@ -41,7 +41,7 @@ There are two types of files: Items files (\*.csv) which contain all the episode
 
 ## Data sources
 
-The following sources were used for creating the data files.
+Besides my own notes the following sources were used for creating the data files.
 
 ### TV series
 
@@ -56,3 +56,8 @@ The following sources were used for creating the data files.
 ### Movies
 
 * TOS and TNG movies: [memory-alpha.wikia.com](http://memory-alpha.wikia.com/wiki/Star_Trek_films)
+
+### Novels
+
+* Pocket Books novel list: [startreklitverse.yolasite.com](https://startreklitverse.yolasite.com/complete-pocket-books-novel-list.php)
+    * Up until June '18 release (DSC "Fear Itself")
