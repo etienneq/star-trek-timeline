@@ -11,10 +11,11 @@ class PublicationDate implements ComparatorInterface
     public function compare(Item $item1, Item $item2):int
     {
         if (
+            ($item1->getMetaData()->isTosEraTvSeries() === false || $item2->getMetaData()->isTosEraTvSeries() === false) &&
             ($item1->getMetaData()->isTngEraTvSeries() === false || $item2->getMetaData()->isTngEraTvSeries() === false) &&
             $item1->getMetaData()->getId() !== $item2->getMetaData()->getId()
         ) {
-            throw new NotApplicableException('At least on item is not from TNG era and both items are not from the same package.');
+            throw new NotApplicableException('Items must be from same era or same package.');
         }
         
         if (empty($item1->getPublicationDate()) === true) {
