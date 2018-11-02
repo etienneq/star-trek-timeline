@@ -10,11 +10,7 @@ class PublicationDate implements ComparatorInterface
 {
     public function compare(Item $item1, Item $item2):int
     {
-        if (
-            ($item1->getMetaData()->isTosEraTvSeries() === false || $item2->getMetaData()->isTosEraTvSeries() === false) &&
-            ($item1->getMetaData()->isTngEraTvSeries() === false || $item2->getMetaData()->isTngEraTvSeries() === false) &&
-            $item1->getMetaData()->getId() !== $item2->getMetaData()->getId()
-        ) {
+        if ($this->areFromSameEra($item1, $item2) === false && $this->areFromSamePackage($item1, $item2) === false) {
             throw new NotApplicableException('Items must be from same era or same package.');
         }
         
@@ -27,5 +23,28 @@ class PublicationDate implements ComparatorInterface
         }
         
         return (new \DateTime($item1->getPublicationDate()))->format('U') <=> (new \DateTime($item2->getPublicationDate()))->format('U');
+    }
+    
+    protected function areFromSameEra(Item $item1, Item $item2):bool
+    {
+        if ($item1->getMetaData()->isEntEraTvSeries() === true && $item2->getMetaData()->isEntEraTvSeries() === true) {
+            return true;
+        }
+        
+        
+        if ($item1->getMetaData()->isTosEraTvSeries() === true && $item2->getMetaData()->isTosEraTvSeries() === true) {
+            return true;
+        }
+        
+        if ($item1->getMetaData()->isTngEraTvSeries() === true && $item2->getMetaData()->isTngEraTvSeries() === true) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    protected function areFromSamePackage(Item $item1, Item $item2):bool
+    {
+        return $item1->getMetaData()->getId() === $item2->getMetaData()->getId();
     }
 }

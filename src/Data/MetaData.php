@@ -6,6 +6,10 @@ namespace EtienneQ\StarTrekTimeline\Data;
  */
 class MetaData
 {
+    protected const ENT_ERA_PACKAGES = [
+        '/^tv\/ent\/season[1-4]$/',
+    ];
+    
     protected const TOS_ERA_PACKAGES = [
         '/^tv\/tas\/season[1-2]$/',
         '/^tv\/tos\/season[1-3]$/',
@@ -45,6 +49,21 @@ class MetaData
     public function getId():string
     {
         return $this->id;
+    }
+    
+    /**
+     * Tells wether package is one of different ENT era TV series's seasons.
+     * @return bool
+     */
+    public function isEntEraTvSeries():bool
+    {
+        foreach (self::ENT_ERA_PACKAGES as $pattern) {
+            if (preg_match($pattern, $this->id) === 1) {
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     /**
