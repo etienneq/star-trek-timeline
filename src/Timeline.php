@@ -97,22 +97,9 @@ class Timeline
             $reader = Reader::createFromPath($file, 'r');
             $reader->setHeaderOffset(0);
             
-            if ($reader->getHeader() !== ItemsFile::DATA_FILE_HEADERS) {
-                $unnecessaryFields = array_diff($reader->getHeader(), ItemsFile::DATA_FILE_HEADERS);
-                $missingFields = array_diff(ItemsFile::DATA_FILE_HEADERS, $reader->getHeader());
-                $message = "{$file} does not contain the expected header.";
-                if (count($unnecessaryFields) > 0 || count($missingFields) > 0) {
-                    if (count($unnecessaryFields) > 0) {
-                        $message .= ' The following fields were found but are not necessary: '.implode(', ', $unnecessaryFields).'.';
-                    } elseif (count($missingFields) > 0) {
-                        $message .= ' The following fields are missing: '.implode(', ', $missingFields).'.';
-                    }
-                } else {
-                    $message .= ' The fields are not in the expected order.'.
-                        ' Expected: '.implode(', ', ItemsFile::DATA_FILE_HEADERS)
-                        . '. Actual: '.implode(', ', $reader->getHeader());
-                }
-                
+            $missingFields = array_diff(ItemsFile::DATA_FILE_HEADERS, $reader->getHeader());
+            if (count($missingFields) > 0) {
+                $message = "{$file} does not contain the expected header. The following fields are missing: ".implode(', ', $missingFields).'.';
                 throw new FileException($message);
             }
             
