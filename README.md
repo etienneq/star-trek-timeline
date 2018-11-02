@@ -46,8 +46,7 @@ The following sources were used for creating the data files.
 ### TV series
 
 * Star Trek: [memory-alpha.wikia.com](http://memory-alpha.wikia.com/wiki/Star_Trek:_The_Original_Series)
-    * Earth dates: [www.johnstonsarchive.net](http://www.johnstonsarchive.net/startrek/st-episodes-1.html)
-* Star Trek: The Animated Series
+* Star Trek: The Animated Series: [memory-alpha.wikia.com](http://memory-alpha.wikia.com/wiki/Star_Trek:_The_Animated_Series)
 * Star Trek: The Next Generation: [memory-alpha.wikia.com](http://en.memory-alpha.wikia.com/wiki/Star_Trek%3A_The_Next_Generation)
 * Star Trek: Deep Space Nine: [memory-alpha.wikia.com](http://en.memory-alpha.wikia.com/wiki/Star_Trek%3A_Deep_Space_Nine)
 * Star Trek: Voyager
