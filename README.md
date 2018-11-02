@@ -49,7 +49,7 @@ The following sources were used for creating the data files.
 * Star Trek: The Animated Series: [memory-alpha.wikia.com](http://memory-alpha.wikia.com/wiki/Star_Trek:_The_Animated_Series)
 * Star Trek: The Next Generation: [memory-alpha.wikia.com](http://en.memory-alpha.wikia.com/wiki/Star_Trek%3A_The_Next_Generation)
 * Star Trek: Deep Space Nine: [memory-alpha.wikia.com](http://en.memory-alpha.wikia.com/wiki/Star_Trek%3A_Deep_Space_Nine)
-* Star Trek: Voyager
+* Star Trek: Voyager: [memory-alpha.wikia.com](http://memory-alpha.wikia.com/wiki/Star_Trek%3A_Voyager)
 * Star Trek: Enterprise: [memory-alpha.wikia.com](http://en.memory-alpha.wikia.com/wiki/Star_Trek%3A_Enterprise)
 * Star Trek: Discovery: [startreklitverse.yolasite.com](https://startreklitverse.yolasite.com/discovery-chronology.php)
 * Star Trek movies
