@@ -92,8 +92,12 @@ class Item
         
         $this->id = $id;
         $this->startDate = $startDate;
-        
         $this->calculator = $calculator;
+        
+        $stardate = $this->calculateStardateFromDate($startDate);
+        if ($stardate !== null) {
+            $this->startStardate = $stardate;
+        }
     }
 
     public function getId():string
@@ -142,6 +146,11 @@ class Item
         }
         
         $this->endDate = $date;
+        
+        $stardate = $this->calculateStardateFromDate($date);
+        if ($stardate !== null) {
+            $this->endStardate = $stardate;
+        }
     }
     
     public function getEndDate():string
@@ -156,7 +165,13 @@ class Item
         }
         
         $this->startStardate = $stardate;
-        $this->startDate = $this->calculateDateFromStardate($this->startDate, $stardate);
+        
+        $date = $this->calculateDateFromStardate($this->startDate, $stardate);
+        if (strpos($date, $this->startDate) === false) {
+            throw new ItemException('Calculated start date contradicts preset start date.');
+        } else {        
+            $this->startDate = $date;
+        }
     }
     
     public function getStartStardate():?float
@@ -171,7 +186,15 @@ class Item
         }
         
         $this->endStardate = $stardate;
-        $this->endDate = $this->calculateDateFromStardate($this->endDate, $stardate);
+        
+        if (empty($this->endDate) === false) {
+            $date = $this->calculateDateFromStardate($this->endDate, $stardate);
+            if (strpos($date, $this->endDate) === false) {
+                throw new ItemException('Calculated end date contradicts preset end date.');
+            } else {
+                $this->endDate = $date;
+            }
+        }
     }
     
     public function getEndStardate():?float
@@ -209,6 +232,15 @@ class Item
         }
         
         return $date;
+    }
+    
+    protected function calculateStardateFromDate(string $date):?float
+    {
+        if ($this->isInTngStardateEra($date) === true && preg_match(DateFormat::PATTERN_FULL_DATE, $date) === 1) {
+            return $this->calculator->toStardate(new \DateTime($date.' 12:00:00'));
+        }
+        
+        return null;
     }
     
     protected function isInTngStardateEra(string $date):bool
