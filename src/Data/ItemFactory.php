@@ -63,7 +63,12 @@ class ItemFactory
             $words = preg_split("/\s+/", trim(preg_replace('/[^a-z0-9]/i', ' ', $acronymSource)));
             $itemHash = '';
             foreach ($words as $word) {
-                $itemHash .= $word[0];
+                // Preserve Roman numerals
+                if (preg_match('/^[IVXLCDM]+$/', $word)) {
+                    $itemHash .= $word;
+                } else {
+                    $itemHash .= $word[0];
+                }
             }
             $itemHash = strtoupper($itemHash);
         } else {

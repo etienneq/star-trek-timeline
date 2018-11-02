@@ -52,4 +52,7 @@ The following sources were used for creating the data files.
 * Star Trek: Voyager: [memory-alpha.wikia.com](http://memory-alpha.wikia.com/wiki/Star_Trek%3A_Voyager)
 * Star Trek: Enterprise: [memory-alpha.wikia.com](http://en.memory-alpha.wikia.com/wiki/Star_Trek%3A_Enterprise)
 * Star Trek: Discovery: [startreklitverse.yolasite.com](https://startreklitverse.yolasite.com/discovery-chronology.php)
-* Star Trek movies
+
+### Movies
+
+* TOS and TNG movies: [memory-alpha.wikia.com](http://memory-alpha.wikia.com/wiki/Star_Trek_films)

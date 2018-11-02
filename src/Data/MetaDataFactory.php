@@ -62,7 +62,7 @@ class MetaDataFactory
             }
         }
         
-        return 0; // Leave original sort order unchanged
+        return $path1 <=> $path2;
     }
     
     protected function loadAttributes(string $packageName):array

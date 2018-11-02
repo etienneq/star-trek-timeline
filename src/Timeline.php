@@ -17,6 +17,7 @@ use EtienneQ\StarTrekTimeline\Data\ItemException;
 use EtienneQ\StarTrekTimeline\Filesystem\RecursiveDirectoryScanner;
 use EtienneQ\StarTrekTimeline\Filesystem\FileException;
 use EtienneQ\Stardate\Calculator;
+use EtienneQ\Stardate\InvalidDateException;
 
 class Timeline
 {
@@ -126,11 +127,13 @@ class Timeline
                 $previousItemPosition = new ItemPosition(0, $stardate);
             }
             
+            $nextItemPosition = null;
+            
             $records = $reader->getRecords();
             foreach($records as $record) {
                 $item = $this->itemFactory->createItem($record, $metaData);
                 
-                if ($item->number  !== ItemsFile::NUMBER_CHILD) {
+                if ($item->number !== ItemsFile::NUMBER_CHILD) {
                     $lastParent = $item;
                 } else {
                     if ($lastParent === null) {
@@ -141,16 +144,21 @@ class Timeline
                 }
                 
                 // Save last known stardate
-                if ($metaData->isTngEraTvSeries() === true && $item->getStartStardate() !== null) {
+                if ($item->hasParent() === false && $metaData->isTngEraTvSeries() === true && $item->getStartStardate() !== null) {
                     $previousItemPosition = new ItemPosition($records->key(), $item->getStartStardate());
                 }
                 
                 // Extrapolate stardate
                 // Note: If an future item's stardate is wrong or stardates jump back and forth the calculation will not be correct
-                if ($metaData->isTngEraTvSeries() === true && $item->getStartStardate() === null) {
-                    $nextItemPosition = $this->getNextStartStardate($records, $reader, $item);
-                    $stardate = $this->extrapolateStardate($previousItemPosition, $nextItemPosition, $records->key());
-                    $item->setStartStardate($stardate); 
+                if ($item->hasParent() === false && $metaData->isTngEraTvSeries() === true && $item->getStartStardate() === null) {
+                    try {
+                        $backupnextItemPosition = $nextItemPosition;
+                        $nextItemPosition = $this->getNextStartStardate($records, $reader, $item);
+                        $stardate = $this->extrapolateStardate($previousItemPosition, $nextItemPosition, $records->key());
+                        $item->setStartStardate($stardate);
+                    } catch (InvalidDateException $exception) {
+                        $nextItemPosition = $backupnextItemPosition;
+                    }
                 }
                 
                 if (empty($item->predecessorId) === true) {
