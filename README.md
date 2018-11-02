@@ -13,6 +13,12 @@ This library automatically sorts all entries chronologically as excactly as poss
 An API is provided that returns the timeline in an object-oriented fashion.
 It's planned to add the possibility to filter timeline entries by year, series etc.
 
+## Current status of prototype
+
+At the moment the data is not yet complete. But it's enough to demonstrate the intended potential. Take a look [here](http://htmlpreview.github.io/?https://github.com/etienneq/star-trek-timeline/blob/master/timeline.html).
+
+I'm planning to launch a website which utilizes this library to make the timeline accessible for all internet users in a dynamic fashion.
+
 ## Prerequisites
 
 Star Trek Timeline requires PHP >= 7.2.
@@ -24,12 +30,6 @@ Use [Composer](https://getcomposer.org/) to install this package:
 ```
 composer require etienneq/star-trek-timeline
 ```
-
-## Current status of prototype
-
-At the moment the data is not yet complete. But it's enough to demonstrate the intended potential. Take a look [here](htmlpreview.github.io/?https://github.com/etienneq/star-trek-timeline/blob/master/timeline.html).
-
-I'm planning to launch a website which utilizes this library to make the timeline accessible for all internet users in a dynamic fashion.
 
 ## Data structure
 
