@@ -129,3 +129,7 @@ foreach ($items as $item) {
     
     $previousYear = $year;
 }
+
+?>
+</body>
+</html>

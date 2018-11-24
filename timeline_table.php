@@ -69,3 +69,6 @@ foreach ($items as $item) {
 }
 ?>
 </table>
+
+</body>
+</html>
